@@ -1,200 +1,1454 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>郝宵荣的个人网页</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f8f8;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-        }
-        header {
-            background-color: #fff;
-            color: #333;
-            padding:0rem;
-            text-align: center;
-            position: fixed;
-            width: 100%;
-            z-index: 100;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-        }
-        nav {
-            width: 200px;
-            background-color: #f0f0f0;
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            overflow-y: auto;
-            padding-top: 80px;
-            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-        }
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        nav ul li {
-            padding: 30px;
-            text-align: center;
-        }
-        nav ul li a {
-            color: #333;
-            text-decoration: none;
-            display: block;
-            transition: background 0.3s;
-        }
-        nav ul li a:hover {
-            background-color: #e0e0e0;
-        }
-        main {
-            margin-left: 220px;
-            padding: 120px 40px 40px 40px;
-            flex-grow: 1;
-        }
-        .section {
-            margin-bottom: 2rem;
-        }
-        .section h2 {
-            color: #333;
-            border-bottom: 2px solid #333;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        .photo {
-            text-align: center;
-        }
-        .photo img {
-            border-radius: 50%;
-            width: 150px;
-            height: 150px;
-            border: 3px solid #333;
-        }
-        .contact, .social-media {
-            list-style-type: none;
-            padding: 0;
-        }
-        .contact li, .social-media li {
-            margin-bottom: 0.5rem;
-        }
-        footer {
-            text-align: center;
-            padding: 0.5rem;
-            background-color: #fff;
-            color: #333;
-            position: fixed;
-            width: 100%;
-            bottom: 0;
-        }
-        .sidebar {
-            position: fixed;
-            right: 0;
-            top: 0;
-            width: 200px;
-            height: 100%;
-            background-color: #f0f0f0;
-            padding-top: 80px;
-            overflow-y: auto;
-            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-        }
-        .sidebar .section {
-            padding: 10px;
-        }
-        .sidebar .section h3 {
-            border-bottom: 1px solid #333;
-            padding-bottom: 0.5rem;
-            margin-bottom: 1rem;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>郝宵荣</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+  
+  <!-- Tailwind 配置 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#165DFF',
+            secondary: '#7B61FF',
+            accent: '#FF7D00',
+            dark: '#1D2129',
+            light: '#F2F3F5'
+          },
+          fontFamily: {
+            inter: ['Inter', 'sans-serif'],
+          },
+        },
+      }
+    }
+  </script>
+  
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .content-auto {
+        content-visibility: auto;
+      }
+      .text-shadow {
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      }
+      .transition-custom {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .hover-scale {
+        @apply transition-all duration-300 hover:scale-105;
+      }
+      .card-shadow {
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      }
+    }
+  </style>
 </head>
-<body>
-    <header>
-        <h1>郝宵荣的个人网页</h1>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="#basic-info">基本信息</a></li>
-            <li><a href="#publications">发表会议和期刊</a></li>
-            <li><a href="#contact">联系方式</a></li>
-            <li><a href="#social-media">社交媒体</a></li>
-        </ul>
-    </nav>
-    <main>
-        <div id="basic-info" class="section">
-            <h2>基本信息</h2>
-            <div class="photo">
-                <img src="your-photo.jpg" alt="郝宵荣">
-            </div>
-            <p>姓名：郝宵荣</p>
-            <p>研究方向：图表示学习、链接预测、异常检测、APT攻击检测</p>
+<body class="font-inter bg-light text-dark">
+  <!-- 导航栏 -->
+  <header id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center bg-white/90 backdrop-blur-sm rounded-b-xl shadow-sm">
+      <div class="flex items-center">
+        <div class="text-primary text-2xl font-bold">
+          <span class="text-primary">个人</span><span class="text-secondary">主页</span>
         </div>
-        <div id="publications" class="section">
-            <h2>发表会议和期刊</h2>
-            <ul>
-                <li>SIGIR</li>
-                <li>WWWJ</li>
-                <li>CCIR</li>
-                <!-- 可以在此添加更多条目 -->
-            </ul>
-        </div>
-        <div id="contact" class="section">
-            <h2>联系方式</h2>
-            <ul class="contact">
-                <li>电话: 18434361032</li>
-                <li>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></li>
-                <!-- 可以在此添加更多联系方式 -->
-            </ul>
-        </div>
-        <div id="social-media" class="section">
-            <h2>社交媒体</h2>
-            <ul class="social-media">
-                <li><a href="https://www.linkedin.com/in/yourprofile">LinkedIn</a></li>
-                <li><a href="https://github.com/yourprofile">GitHub</a></li>
-                <li><a href="https://twitter.com/yourprofile">Twitter</a></li>
-                <!-- 可以在此添加更多社交媒体链接 -->
-            </ul>
-        </div>
-        <!-- 你可以在此添加更多内容，例如博客文章等 -->
-    </main>
-    <div class="sidebar">
-        <div class="section">
-            <h3>今日日期</h3>
-            <p id="current-date"></p>
-        </div>
-        <div class="section">
-            <h3>塔罗牌测算运气</h3>
-            <p>今天的运气：</p>
-            <p id="tarot-reading">好运连连！</p>
-            <button onclick="getTarotReading()">测算运气</button>
-        </div>
-        <div class="section">
-            <h3>记日记</h3>
-            <a href="diary.html" target="_blank">写日记</a>
-        </div>
+      </div>
+      
+      <!-- 桌面导航 -->
+      <nav class="hidden md:flex space-x-8">
+        <a href="#about" class="text-dark hover:text-primary transition-colors font-medium">关于我</a>
+        <a href="#sports" class="text-dark hover:text-primary transition-colors font-medium">学术研究</a>
+        <a href="#boardgames" class="text-dark hover:text-primary transition-colors font-medium">奖励荣誉</a>
+        <a href="#pinball" class="text-dark hover:text-primary transition-colors font-medium">参加会议</a>
+        <a href="#hackathon" class="text-dark hover:text-primary transition-colors font-medium">学术服务</a>
+        <a href="#opinions" class="text-dark hover:text-primary transition-colors font-medium">参与项目</a>
+      </nav>
+      
+      <!-- 语言切换 -->
+      <div class="flex items-center space-x-4">
+        <button id="langToggle" class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium hover:bg-primary/20 transition-colors">
+          <span id="currentLang">中文</span>
+          <i class="fa fa-globe ml-1"></i>
+        </button>
+        
+        <!-- 移动端菜单按钮 -->
+        <button id="menuToggle" class="md:hidden text-dark hover:text-primary transition-colors">
+          <i class="fa fa-bars text-xl"></i>
+        </button>
+      </div>
     </div>
-    <footer>
-        <p>&copy; 2024 郝宵荣. 保留所有权利.</p>
-    </footer>
-    <script>
-        // 设置今日日期
-        document.getElementById('current-date').innerText = new Date().toLocaleDateString();
+    
+    <!-- 移动端导航菜单 -->
+    <div id="mobileMenu" class="hidden md:hidden bg-white/95 backdrop-blur-md shadow-lg absolute w-full">
+      <div class="container mx-auto px-4 py-3 flex flex-col space-y-4">
+        <a href="#about" class="text-dark hover:text-primary transition-colors font-medium py-2 border-b border-gray-100">关于我</a>
+        <a href="#sports" class="text-dark hover:text-primary transition-colors font-medium py-2 border-b border-gray-100">学术研究</a>
+        <a href="#boardgames" class="text-dark hover:text-primary transition-colors font-medium py-2 border-b border-gray-100">奖励荣誉</a>
+        <a href="#pinball" class="text-dark hover:text-primary transition-colors font-medium py-2 border-b border-gray-100">参加会议</a>
+        <a href="#hackathon" class="text-dark hover:text-primary transition-colors font-medium py-2 border-b border-gray-100">学术服务</a>
+        <a href="#opinions" class="text-dark hover:text-primary transition-colors font-medium py-2">参与项目</a>
+      </div>
+    </div>
+  </header>
 
-        // 模拟塔罗牌测算运气的函数
-        function getTarotReading() {
-            const readings = [
-                '好运连连！',
-                '需要小心谨慎。',
-                '今天适合挑战自己。',
-                '运气平平，保持平常心。',
-                '可能会遇到一些小麻烦。'
-            ];
-            const randomIndex = Math.floor(Math.random() * readings.length);
-            document.getElementById('tarot-reading').innerText = readings[randomIndex];
+  <main class="pt-20 pb-16">
+    <!-- 英雄区域 -->
+    <section id="hero" class="relative bg-gradient-to-br from-primary/90 to-secondary/90 text-white py-24 md:py-32 overflow-hidden">
+      <div class="absolute inset-0 bg-[url('https://picsum.photos/id/1060/1920/1080')] bg-cover bg-center opacity-10"></div>
+      <div class="absolute inset-0 bg-[url('https://picsum.photos/id/1071/1920/1080')] bg-cover bg-center opacity-5 mix-blend-overlay"></div>
+      
+      <div class="container mx-auto px-4 relative z-10">
+        <div class="max-w-4xl mx-auto text-center">
+          <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight text-shadow mb-6">
+            <span id="heroTitle">探索我的多元世界</span>
+          </h1>
+          <p class="text-[clamp(1rem,2vw,1.25rem)] text-white/90 mb-8 max-w-2xl mx-auto">
+            <span id="heroSubtitle">体育、桌游、弹珠台与编程的奇妙旅程</span>
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a href="#about" class="bg-white text-primary px-6 py-3 rounded-full font-medium hover:bg-opacity-90 transition-all shadow-lg hover:shadow-xl hover-scale">
+              <i class="fa fa-user-circle mr-2"></i>
+              <span id="heroBtn1">了解更多</span>
+            </a>
+            <a href="#contact" class="bg-transparent border-2 border-white text-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-all hover-scale">
+              <i class="fa fa-envelope mr-2"></i>
+              <span id="heroBtn2">联系我</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 波浪装饰 -->
+      <div class="absolute bottom-0 left-0 w-full">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" class="w-full h-auto">
+          <path fill="#F2F3F5" fill-opacity="1" d="M0,96L60,85.3C120,75,240,53,360,53.3C480,53,600,75,720,80C840,85,960,75,1080,64C1200,53,1320,43,1380,37.3L1440,32L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120L0,120Z"></path>
+        </svg>
+      </div>
+    </section>
+
+    <!-- 关于我 -->
+    <section id="about" class="py-16 md:py-24 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">
+            <span id="aboutTitle">关于我</span>
+          </h2>
+          <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-12 items-center">
+          <div class="relative">
+            <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl hover-scale">
+              <img src="https://picsum.photos/id/1012/600/800" alt="个人照片" class="w-full h-auto object-cover">
+            </div>
+            <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-primary/20 rounded-full -z-10"></div>
+            <div class="absolute -top-6 -left-6 w-32 h-32 bg-secondary/20 rounded-full -z-10"></div>
+          </div>
+          
+          <div class="space-y-6">
+            <div class="bg-light p-6 rounded-xl shadow-sm">
+              <h3 class="text-xl font-bold text-primary mb-3">
+                <span id="aboutSubtitle1">个人信息</span>
+              </h3>
+              <ul class="space-y-2">
+                <li class="flex items-start">
+                  <i class="fa fa-user-circle text-primary mt-1 mr-3"></i>
+                  <span id="aboutInfo1">姓名：<strong>张明</strong></span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fa fa-graduation-cap text-primary mt-1 mr-3"></i>
+                  <span id="aboutInfo2">身份：某大学计算机系博士生</span>
+                </li>
+                <li class="flex items-start">
+                  <i class="fa fa-building text-primary mt-1 mr-3"></i>
+                  <span id="aboutInfo3">所属机构：清华大学</span>
+                </li>
+              </ul>
+            </div>
+            
+            <div class="bg-light p-6 rounded-xl shadow-sm">
+              <h3 class="text-xl font-bold text-primary mb-3">
+                <span id="aboutSubtitle2">兴趣爱好</span>
+              </h3>
+              <div class="flex flex-wrap gap-3">
+                <span class="bg-primary/10 text-primary px-4 py-1 rounded-full text-sm">体育</span>
+                <span class="bg-secondary/10 text-secondary px-4 py-1 rounded-full text-sm">桌游</span>
+                <span class="bg-accent/10 text-accent px-4 py-1 rounded-full text-sm">弹珠台</span>
+                <span class="bg-dark/10 text-dark px-4 py-1 rounded-full text-sm">编程</span>
+                <span class="bg-green-500/10 text-green-500 px-4 py-1 rounded-full text-sm">攀岩</span>
+                <span class="bg-red-500/10 text-red-500 px-4 py-1 rounded-full text-sm">极限飞盘</span>
+              </div>
+            </div>
+            
+            <div class="bg-light p-6 rounded-xl shadow-sm">
+              <h3 class="text-xl font-bold text-primary mb-3">
+                <span id="aboutSubtitle3">个人简介</span>
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                <span id="aboutDesc">我是一个对生活充满热情的人，兴趣广泛，热爱探索新事物。在学术上，我专注于人工智能领域的研究；在生活中，我是体育赛事的忠实观众，桌游聚会的组织者，弹珠台的爱好者。我相信平衡的生活是创造力的源泉，希望通过这个网站与更多志同道合的朋友交流。</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 体育热爱 -->
+    <section id="sports" class="py-16 md:py-24 bg-light">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">
+            <span id="sportsTitle">体育热爱</span>
+          </h2>
+          <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+        </div>
+        
+        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
+          <div class="md:flex">
+            <div class="md:w-1/2">
+              <img src="https://picsum.photos/id/1058/800/600" alt="体育热爱" class="w-full h-full object-cover">
+            </div>
+            <div class="md:w-1/2 p-8 md:p-12">
+              <h3 class="text-2xl font-bold text-primary mb-6">
+                <span id="sportsSubtitle">我的体育之旅</span>
+              </h3>
+              <p class="text-gray-700 mb-6 leading-relaxed">
+                <span id="sportsDesc1">我在上海长大，父亲是体育迷，受其影响，我也成了上海篮球队的忠实粉丝。高中时，某次看到湖人队教练在赛后新闻发布会上的精彩表现，又迷上了湖人队。</span>
+              </p>
+              
+              <div class="space-y-4 mb-8">
+                <div class="flex items-start">
+                  <div class="bg-primary/10 p-3 rounded-full mr-4">
+                    <i class="fa fa-basketball-ball text-primary"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-dark mb-1">
+                      <span id="sportsEvent1">难忘时刻</span>
+                    </h4>
+                    <ul class="text-gray-700 space-y-1">
+                      <li class="flex items-center">
+                        <i class="fa fa-circle text-xs text-primary mr-2"></i>
+                        <span id="sportsMoment1">NBA总决赛中，詹姆斯的致胜扣篮，太经典了</span>
+                      </li>
+                      <li class="flex items-center">
+                        <i class="fa fa-circle text-xs text-primary mr-2"></i>
+                        <span id="sportsMoment2">库里在2021年连轰5记三分球，精彩对决</span>
+                      </li>
+                      <li class="flex items-center">
+                        <i class="fa fa-circle text-xs text-primary mr-2"></i>
+                        <span id="sportsMoment3">科比在2016年投进关键球，助力球队夺冠</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                
+                <div class="flex items-start">
+                  <div class="bg-secondary/10 p-3 rounded-full mr-4">
+                    <i class="fa fa-heart text-secondary"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-dark mb-1">
+                      <span id="sportsLove">我的热爱</span>
+                    </h4>
+                    <p class="text-gray-700">
+                      <span id="sportsLoveDesc">我对梦幻体育、体育赔率挺痴迷，也关注TNT的Inside the NBA特别节目。不看体育时，我会去攀岩馆（抱石或顶绳攀登）、玩极限飞盘，或者在所在城市跑步。</span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <a href="#" class="inline-flex items-center text-primary font-medium hover:underline">
+                <span id="sportsBtn">查看更多体育时刻</span>
+                <i class="fa fa-arrow-right ml-2"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 桌游爱好 -->
+    <section id="boardgames" class="py-16 md:py-24 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">
+            <span id="boardgameTitle">桌游爱好</span>
+          </h2>
+          <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="bg-light rounded-2xl shadow-lg overflow-hidden hover-scale">
+            <div class="p-8">
+              <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                <i class="fa fa-chess-board mr-3"></i>
+                <span id="boardgameSubtitle1">桌游之夜</span>
+              </h3>
+              <p class="text-gray-700 mb-4 leading-relaxed">
+                <span id="boardgameDesc1">我长期组织/参与定期的桌游之夜，偏爱欧洲策略类桌游。这是我的桌游页面链接，欢迎访问！</span>
+              </p>
+              <a href="#" class="inline-block bg-primary text-white px-5 py-2 rounded-lg font-medium hover:bg-primary/90 transition-colors">
+                <i class="fa fa-link mr-2"></i>
+                <span id="boardgameBtn1">查看桌游收藏</span>
+              </a>
+            </div>
+            <div class="h-64 overflow-hidden">
+              <img src="https://picsum.photos/id/1067/800/600" alt="桌游之夜" class="w-full h-full object-cover">
+            </div>
+          </div>
+          
+          <div class="bg-light rounded-2xl shadow-lg overflow-hidden hover-scale">
+            <div class="p-8">
+              <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
+                <i class="fa fa-users mr-3"></i>
+                <span id="boardgameSubtitle2">桌游展会</span>
+              </h3>
+              <p class="text-gray-700 mb-4 leading-relaxed">
+                <span id="boardgameDesc2">我参加过2023年北京国际桌游展会，在那交流桌游设计、测试游戏、参加锦标赛，玩得超嗨，桌游迷别错过！</span>
+              </p>
+              <a href="#" class="inline-block bg-secondary text-white px-5 py-2 rounded-lg font-medium hover:bg-secondary/90 transition-colors">
+                <i class="fa fa-calendar mr-2"></i>
+                <span id="boardgameBtn2">下一次展会</span>
+              </a>
+            </div>
+            <div class="h-64 overflow-hidden">
+              <img src="https://picsum.photos/id/1070/800/600" alt="桌游展会" class="w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+        
+        <div class="mt-12 bg-light rounded-2xl p-8 shadow-lg">
+          <h3 class="text-xl font-bold text-primary mb-4">
+            <span id="boardgameSubtitle3">疫情期间的系列讨论</span>
+          </h3>
+          <p class="text-gray-700 mb-6 leading-relaxed">
+            <span id="boardgameDesc3">疫情期间，我做了一个5部分的系列讨论，讲桌游设计和桌游社群里的常见陷阱。讨论系列在YouTube，配套博客文章在我的个人博客。</span>
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div class="bg-white p-4 rounded-xl shadow-sm text-center hover-scale">
+              <div class="text-3xl font-bold text-primary mb-2">1</div>
+              <p class="text-gray-700 text-sm">
+                <span id="boardgameTopic1">桌游设计基础</span>
+              </p>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm text-center hover-scale">
+              <div class="text-3xl font-bold text-primary mb-2">2</div>
+              <p class="text-gray-700 text-sm">
+                <span id="boardgameTopic2">社群建设挑战</span>
+              </p>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm text-center hover-scale">
+              <div class="text-3xl font-bold text-primary mb-2">3</div>
+              <p class="text-gray-700 text-sm">
+                <span id="boardgameTopic3">平衡与乐趣</span>
+              </p>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm text-center hover-scale">
+              <div class="text-3xl font-bold text-primary mb-2">4</div>
+              <p class="text-gray-700 text-sm">
+                <span id="boardgameTopic4">玩家体验设计</span>
+              </p>
+            </div>
+            <div class="bg-white p-4 rounded-xl shadow-sm text-center hover-scale">
+              <div class="text-3xl font-bold text-primary mb-2">5</div>
+              <p class="text-gray-700 text-sm">
+                <span id="boardgameTopic5">未来趋势展望</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 弹珠台 -->
+    <section id="pinball" class="py-16 md:py-24 bg-light">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">
+            <span id="pinballTitle">弹珠台</span>
+          </h2>
+          <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+          <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover-scale">
+            <div class="h-48 overflow-hidden">
+              <img src="https://picsum.photos/id/1071/600/400" alt="弹珠台" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-primary mb-3">
+                <span id="pinballSubtitle1">我的启蒙</span>
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                <span id="pinballDesc1">2019年在微软实习时，我的经理李明教了我弹珠台策略，我瞬间入迷。现在常去弹珠台博物馆（无限畅玩太香了）或弹珠台主题酒吧。</span>
+              </p>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover-scale">
+            <div class="h-48 overflow-hidden">
+              <img src="https://picsum.photos/id/1072/600/400" alt="弹珠台" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-primary mb-3">
+                <span id="pinballSubtitle2">热门地点</span>
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                <span id="pinballDesc2">可通过Pinball Map查找附近的弹珠台场所。我最爱的（也是最擅长的）机器是《星际迷航》和《亚当斯一家》。</span>
+              </p>
+              <a href="https://pinballmap.com/" target="_blank" class="inline-block mt-4 text-primary font-medium hover:underline">
+                <i class="fa fa-map-marker-alt mr-2"></i>
+                <span id="pinballBtn">查找弹珠台</span>
+              </a>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover-scale">
+            <div class="h-48 overflow-hidden">
+              <img src="https://picsum.photos/id/1073/600/400" alt="弹珠台" class="w-full h-full object-cover">
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-primary mb-3">
+                <span id="pinballSubtitle3">我的技能</span>
+              </h3>
+              <p class="text-gray-700 leading-relaxed">
+                <span id="pinballDesc3">经过多年练习，我已经掌握了多种弹珠台技巧，包括精准弹射、连击策略和多球控制。最高纪录是在《怪物弹珠》中获得250万分。</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 黑客松经历 -->
+    <section id="hackathon" class="py-16 md:py-24 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">
+            <span id="hackathonTitle">黑客松经历</span>
+          </h2>
+          <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- 项目卡片 1 -->
+          <div class="bg-light rounded-2xl shadow-lg overflow-hidden hover-scale">
+            <div class="relative h-48">
+              <img src="https://picsum.photos/id/1074/600/400" alt="AI体育数据分析平台" class="w-full h-full object-cover">
+              <div class="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full text-sm font-medium">
+                <span id="hackathonRank1">一等奖</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-primary mb-2">
+                <span id="hackathonProject1">AI体育数据分析平台</span>
+              </h3>
+              <p class="text-gray-700 mb-4 leading-relaxed">
+                <span id="hackathonDesc1">基于计算机视觉和机器学习的体育数据分析平台，可实时分析运动员动作和比赛数据。</span>
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-500">
+                  <i class="fa fa-calendar mr-1"></i>
+                  <span id="hackathonDate1">2024年 北京</span>
+                </span>
+                <a href="#" class="text-primary font-medium hover:underline">
+                  <i class="fa fa-link mr-1"></i>
+                  <span id="hackathonBtn">详情</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 项目卡片 2 -->
+          <div class="bg-light rounded-2xl shadow-lg overflow-hidden hover-scale">
+            <div class="relative h-48">
+              <img src="https://picsum.photos/id/1075/600/400" alt="桌游设计辅助工具" class="w-full h-full object-cover">
+              <div class="absolute top-4 right-4 bg-secondary text-white px-3 py-1 rounded-full text-sm font-medium">
+                <span id="hackathonRank2">最佳创新奖</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-primary mb-2">
+                <span id="hackathonProject2">桌游设计辅助工具</span>
+              </h3>
+              <p class="text-gray-700 mb-4 leading-relaxed">
+                <span id="hackathonDesc2">使用AI技术辅助桌游设计师创建平衡且有趣的游戏机制和规则。</span>
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-500">
+                  <i class="fa fa-calendar mr-1"></i>
+                  <span id="hackathonDate2">2023年 上海</span>
+                </span>
+                <a href="#" class="text-primary font-medium hover:underline">
+                  <i class="fa fa-link mr-1"></i>
+                  <span id="hackathonBtn">详情</span>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 项目卡片 3 -->
+          <div class="bg-light rounded-2xl shadow-lg overflow-hidden hover-scale">
+            <div class="relative h-48">
+              <img src="https://picsum.photos/id/1076/600/400" alt="弹珠台模拟器" class="w-full h-full object-cover">
+              <div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
+                <span id="hackathonRank3">最佳技术应用奖</span>
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-bold text-primary mb-2">
+                <span id="hackathonProject3">弹珠台模拟器</span>
+              </h3>
+              <p class="text-gray-700 mb-4 leading-relaxed">
+                <span id="hackathonDesc3">基于物理引擎的弹珠台模拟器，支持自定义台面设计和游戏规则。</span>
+              </p>
+              <div class="flex justify-between items-center">
+                <span class="text-sm text-gray-500">
+                  <i class="fa fa-calendar mr-1"></i>
+                  <span id="hackathonDate3">2022年 深圳</span>
+                </span>
+                <a href="#" class="text-primary font-medium hover:underline">
+                  <i class="fa fa-link mr-1"></i>
+                  <span id="hackathonBtn">详情</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 观点/评分 -->
+    <section id="opinions" class="py-16 md:py-24 bg-light">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">
+            <span id="opinionTitle">观点/评分</span>
+          </h2>
+          <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+        </div>
+        
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="bg-white rounded-2xl shadow-lg p-8 hover-scale">
+            <div class="flex items-center mb-6">
+              <div class="bg-primary/10 p-3 rounded-full mr-4">
+                <i class="fa fa-comment text-primary"></i>
+              </div>
+              <h3 class="text-xl font-bold text-primary">
+                <span id="opinionSubtitle1">热辣观点</span>
+              </h3>
+            </div>
+            <div class="space-y-4">
+              <div class="bg-light p-4 rounded-xl">
+                <div class="flex justify-between items-center mb-2">
+                  <h4 class="font-bold text-dark">
+                    <span id="opinionTopic1">关于桌游设计</span>
+                  </h4>
+                  <div class="text-yellow-400">
+                    <i class="fa fa-fire"></i>
+                    <i class="fa fa-fire"></i>
+                    <i class="fa fa-fire"></i>
+                  </div>
+                </div>
+                <p class="text-gray-700 text-sm">
+                  <span id="opinionDesc1">现代桌游设计过于注重复杂机制，而忽视了核心玩家体验。简单而深刻的游戏往往更能持久。</span>
+                </p>
+              </div>
+              
+              <div class="bg-light p-4 rounded-xl">
+                <div class="flex justify-between items-center mb-2">
+                  <h4 class="font-bold text-dark">
+                    <span id="opinionTopic2">关于体育数据分析</span>
+                  </h4>
+                  <div class="text-yellow-400">
+                    <i class="fa fa-fire"></i>
+                    <i class="fa fa-fire"></i>
+                  </div>
+                </div>
+                <p class="text-gray-700 text-sm">
+                  <span id="opinionDesc2">AI在体育中的应用应该更注重增强教练和运动员的决策能力，而不是取代他们的判断。</span>
+                </p>
+              </div>
+              
+              <div class="bg-light p-4 rounded-xl">
+                <div class="flex justify-between items-center mb-2">
+                  <h4 class="font-bold text-dark">
+                    <span id="opinionTopic3">关于弹珠台</span>
+                  </h4>
+                  <div class="text-yellow-400">
+                    <i class="fa fa-fire"></i>
+                    <i class="fa fa-fire"></i>
+                    <i class="fa fa-fire"></i>
+                    <i class="fa fa-fire"></i>
+                  </div>
+                </div>
+                <p class="text-gray-700 text-sm">
+                  <span id="opinionDesc3">现代弹珠台过于依赖电子屏幕和复杂规则，怀念经典机械弹珠台的纯粹乐趣。</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-2xl shadow-lg p-8 hover-scale">
+            <div class="flex items-center mb-6">
+              <div class="bg-secondary/10 p-3 rounded-full mr-4">
+                <i class="fa fa-star text-secondary"></i>
+              </div>
+              <h3 class="text-xl font-bold text-primary">
+                <span id="opinionSubtitle2">评分推荐</span>
+              </h3>
+            </div>
+            <div class="space-y-6">
+              <div class="flex">
+                <div class="w-24 h-24 rounded-lg overflow-hidden mr-4">
+                  <img src="https://picsum.photos/id/1077/200/200" alt="桌游推荐" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-dark mb-1">
+                    <span id="recommendGame1">《铁路环游》</span>
+                  </h4>
+                  <div class="flex items-center mb-2">
+                    <div class="text-yellow-400">
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star-half-alt"></i>
+                    </div>
+                    <span class="text-gray-500 text-sm ml-2">4.5/5</span>
+                  </div>
+                  <p class="text-gray-700 text-sm">
+                    <span id="recommendDesc1">经典欧洲策略桌游，简单易上手但充满策略深度，适合2-5人。</span>
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex">
+                <div class="w-24 h-24 rounded-lg overflow-hidden mr-4">
+                  <img src="https://picsum.photos/id/1078/200/200" alt="弹珠台推荐" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-dark mb-1">
+                    <span id="recommendPinball1">《星际迷航》弹珠台</span>
+                  </h4>
+                  <div class="flex items-center mb-2">
+                    <div class="text-yellow-400">
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                    </div>
+                    <span class="text-gray-500 text-sm ml-2">5/5</span>
+                  </div>
+                  <p class="text-gray-700 text-sm">
+                    <span id="recommendDesc2">经典主题，流畅的游戏体验，多球模式和星际迷航元素的完美结合。</span>
+                  </p>
+                </div>
+              </div>
+              
+              <div class="flex">
+                <div class="w-24 h-24 rounded-lg overflow-hidden mr-4">
+                  <img src="https://picsum.photos/id/1079/200/200" alt="体育推荐" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1">
+                  <h4 class="font-bold text-dark mb-1">
+                    <span id="recommendSports1">《最后一投》纪录片</span>
+                  </h4>
+                  <div class="flex items-center mb-2">
+                    <div class="text-yellow-400">
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star"></i>
+                      <i class="fa fa-star-half-alt"></i>
+                    </div>
+                    <span class="text-gray-500 text-sm ml-2">4.7/5</span>
+                  </div>
+                  <p class="text-gray-700 text-sm">
+                    <span id="recommendDesc3">关于公牛王朝和乔丹的纪录片，深入了解体育精神和团队合作的典范。</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 联系我 -->
+    <section id="contact" class="py-16 md:py-24 bg-white">
+      <div class="container mx-auto px-4">
+        <div class="text-center mb-16">
+          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">
+            <span id="contactTitle">联系我</span>
+          </h2>
+          <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
+        </div>
+        
+        <div class="max-w-4xl mx-auto">
+          <div class="bg-light rounded-2xl shadow-lg overflow-hidden">
+            <div class="md:flex">
+              <div class="md:w-2/5 bg-gradient-to-br from-primary to-secondary p-8 text-white">
+                <h3 class="text-2xl font-bold mb-6">
+                  <span id="contactSubtitle">联系方式</span>
+                </h3>
+                <div class="space-y-6">
+                  <div class="flex items-start">
+                    <div class="bg-white/20 p-3 rounded-full mr-4">
+                      <i class="fa fa-envelope text-white"></i>
+                    </div>
+                    <div>
+                      <h4 class="font-medium mb-1">
+                        <span id="contactEmailTitle">邮箱</span>
+                      </h4>
+                      <p class="text-white/80">zhangming@example.com</p>
+                    </div>
+                  </div>
+                  
+                  <div class="flex items-start">
+                    <div class="bg-white/20 p-3 rounded-full mr-4">
+                      <i class="fa fa-phone text-white"></i>
+                    </div>
+                    <div>
+                      <h4 class="font-medium mb-1">
+                        <span id="contactPhoneTitle">电话</span>
+                      </h4>
+                      <p class="text-white/80">+86 138 **** 1234</p>
+                    </div>
+                  </div>
+                  
+                  <div class="flex items-start">
+                    <div class="bg-white/20 p-3 rounded-full mr-4">
+                      <i class="fa fa-map-marker-alt text-white"></i>
+                    </div>
+                    <div>
+                      <h4 class="font-medium mb-1">
+                        <span id="contactLocationTitle">位置</span>
+                      </h4>
+                      <p class="text-white/80">北京市海淀区清华大学</p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="mt-10">
+                  <h4 class="font-medium mb-3">
+                    <span id="contactSocialTitle">社交媒体</span>
+                  </h4>
+                  <div class="flex space-x-4">
+                    <a href="#" class="bg-white/20 hover:bg-white/30 p-3 rounded-full transition-colors">
+                      <i class="fa fa-weixin text-white"></i>
+                    </a>
+                    <a href="#" class="bg-white/20 hover:bg-white/30 p-3 rounded-full transition-colors">
+                      <i class="fa fa-weibo text-white"></i>
+                    </a>
+                    <a href="#" class="bg-white/20 hover:bg-white/30 p-3 rounded-full transition-colors">
+                      <i class="fa fa-github text-white"></i>
+                    </a>
+                    <a href="#" class="bg-white/20 hover:bg-white/30 p-3 rounded-full transition-colors">
+                      <i class="fa fa-linkedin text-white"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="md:w-3/5 p-8">
+                <h3 class="text-2xl font-bold text-primary mb-6">
+                  <span id="contactFormTitle">发送消息</span>
+                </h3>
+                <form id="contactForm">
+                  <div class="grid md:grid-cols-2 gap-4 mb-4">
+                    <div>
+                      <label for="name" class="block text-gray-700 mb-2">
+                        <span id="contactName">姓名</span>
+                      </label>
+                      <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="您的姓名">
+                    </div>
+                    <div>
+                      <label for="email" class="block text-gray-700 mb-2">
+                        <span id="contactEmail">邮箱</span>
+                      </label>
+                      <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="您的邮箱">
+                    </div>
+                  </div>
+                  
+                  <div class="mb-4">
+                    <label for="subject" class="block text-gray-700 mb-2">
+                      <span id="contactSubject">主题</span>
+                    </label>
+                    <input type="text" id="subject" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="消息主题">
+                  </div>
+                  
+                  <div class="mb-6">
+                    <label for="message" class="block text-gray-700 mb-2">
+                      <span id="contactMessage">消息</span>
+                    </label>
+                    <textarea id="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请输入您的消息..."></textarea>
+                  </div>
+                  
+                  <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors">
+                    <i class="fa fa-paper-plane mr-2"></i>
+                    <span id="contactSend">发送消息</span>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="bg-dark text-white py-12">
+    <div class="container mx-auto px-4">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4">
+            <span class="text-primary">个人</span><span class="text-secondary">主页</span>
+          </h3>
+          <p class="text-gray-400 mb-4">
+            <span id="footerDesc">探索我的多元世界：体育、桌游、弹珠台与编程的奇妙旅程。</span>
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-weixin"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-weibo"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-github"></i>
+            </a>
+            <a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <i class="fa fa-linkedin"></i>
+            </a>
+          </div>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-medium mb-4">
+            <span id="footerQuickLinks">快速链接</span>
+          </h4>
+          <ul class="space-y-2">
+            <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">
+              <span id="footerLink1">关于我</span>
+            </a></li>
+            <li><a href="#sports" class="text-gray-400 hover:text-white transition-colors">
+              <span id="footerLink2">体育热爱</span>
+            </a></li>
+            <li><a href="#boardgames" class="text-gray-400 hover:text-white transition-colors">
+              <span id="footerLink3">桌游爱好</span>
+            </a></li>
+            <li><a href="#pinball" class="text-gray-400 hover:text-white transition-colors">
+              <span id="footerLink4">弹珠台</span>
+            </a></li>
+            <li><a href="#hackathon" class="text-gray-400 hover:text-white transition-colors">
+              <span id="footerLink5">黑客松</span>
+            </a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-medium mb-4">
+            <span id="footerResources">资源</span>
+          </h4>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <span id="footerResource1">我的博客</span>
+            </a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <span id="footerResource2">项目展示</span>
+            </a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <span id="footerResource3">桌游设计</span>
+            </a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <span id="footerResource4">体育分析</span>
+            </a></li>
+            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">
+              <span id="footerResource5">弹珠台攻略</span>
+            </a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="text-lg font-medium mb-4">
+            <span id="footerSubscribe">订阅更新</span>
+          </h4>
+          <p class="text-gray-400 mb-4">
+            <span id="footerSubscribeDesc">订阅我的新闻通讯，获取最新的项目更新和活动信息。</span>
+          </p>
+          <form class="flex">
+            <input type="email" placeholder="您的邮箱" class="flex-1 px-4 py-2 rounded-l-lg focus:outline-none">
+            <button type="submit" class="bg-primary text-white px-4 py-2 rounded-r-lg hover:bg-primary/90 transition-colors">
+              <i class="fa fa-paper-plane"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-400 text-sm">
+          <span id="footerCopyright">&copy; 2025 张明. 保留所有权利.</span>
+        </p>
+        <div class="flex space-x-6 mt-4 md:mt-0">
+          <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">
+            <span id="footerPrivacy">隐私政策</span>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">
+            <span id="footerTerms">使用条款</span>
+          </a>
+          <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">
+            <span id="footerCookies">Cookie政策</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 返回顶部按钮 -->
+  <button id="backToTop" class="fixed bottom-6 right-6 bg-primary text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all z-50">
+    <i class="fa fa-arrow-up"></i>
+  </button>
+
+  <!-- JavaScript -->
+  <script>
+    // 页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', function() {
+      // 导航栏滚动效果
+      const navbar = document.getElementById('navbar');
+      const backToTop = document.getElementById('backToTop');
+      
+      window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+          navbar.classList.add('bg-white', 'shadow-md');
+          navbar.classList.remove('bg-white/90');
+          
+          backToTop.classList.remove('opacity-0', 'invisible');
+          backToTop.classList.add('opacity-100', 'visible');
+        } else {
+          navbar.classList.remove('bg-white', 'shadow-md');
+          navbar.classList.add('bg-white/90');
+          
+          backToTop.classList.add('opacity-0', 'invisible');
+          backToTop.classList.remove('opacity-100', 'visible');
         }
-    </script>
+      });
+      
+      // 移动端菜单切换
+      const menuToggle = document.getElementById('menuToggle');
+      const mobileMenu = document.getElementById('mobileMenu');
+      
+      menuToggle.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
+      });
+      
+      // 平滑滚动
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 80,
+              behavior: 'smooth'
+            });
+            
+            // 关闭移动菜单
+            if (!mobileMenu.classList.contains('hidden')) {
+              mobileMenu.classList.add('hidden');
+            }
+          }
+        });
+      });
+      
+      // 返回顶部按钮
+      backToTop.addEventListener('click', function() {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+      
+      // 表单提交
+      const contactForm = document.getElementById('contactForm');
+      
+      contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // 这里可以添加表单验证和提交逻辑
+        alert('感谢您的留言！我会尽快回复您。');
+        contactForm.reset();
+      });
+      
+      // 语言切换功能
+      const langToggle = document.getElementById('langToggle');
+      const currentLang = document.getElementById('currentLang');
+      let isChinese = true;
+      
+      // 中英文内容映射
+      const translations = {
+        // 导航
+        'currentLang': {
+          'zh': '中文',
+          'en': 'English'
+        },
+        // 英雄区域
+        'heroTitle': {
+          'zh': '探索我的多元世界',
+          'en': 'Explore My Diverse World'
+        },
+        'heroSubtitle': {
+          'zh': '体育、桌游、弹珠台与编程的奇妙旅程',
+          'en': 'A Journey Through Sports, Board Games, Pinball & Programming'
+        },
+        'heroBtn1': {
+          'zh': '了解更多',
+          'en': 'Learn More'
+        },
+        'heroBtn2': {
+          'zh': '联系我',
+          'en': 'Contact Me'
+        },
+        // 关于我
+        'aboutTitle': {
+          'zh': '关于我',
+          'en': 'About Me'
+        },
+        'aboutSubtitle1': {
+          'zh': '个人信息',
+          'en': 'Personal Info'
+        },
+        'aboutInfo1': {
+          'zh': '姓名：<strong>张明</strong>',
+          'en': 'Name: <strong>Zhang Ming</strong>'
+        },
+        'aboutInfo2': {
+          'zh': '身份：某大学计算机系博士生',
+          'en': 'Title: PhD Candidate in Computer Science'
+        },
+        'aboutInfo3': {
+          'zh': '所属机构：清华大学',
+          'en': 'Affiliation: Tsinghua University'
+        },
+        'aboutSubtitle2': {
+          'zh': '兴趣爱好',
+          'en': 'Interests'
+        },
+        'aboutSubtitle3': {
+          'zh': '个人简介',
+          'en': 'Introduction'
+        },
+        'aboutDesc': {
+          'zh': '我是一个对生活充满热情的人，兴趣广泛，热爱探索新事物。在学术上，我专注于人工智能领域的研究；在生活中，我是体育赛事的忠实观众，桌游聚会的组织者，弹珠台的爱好者。我相信平衡的生活是创造力的源泉，希望通过这个网站与更多志同道合的朋友交流。',
+          'en': 'I\'m a passionate individual with diverse interests, always eager to explore new things. Academically, I focus on AI research. In daily life, I\'m a sports enthusiast, board game organizer, and pinball lover. I believe a balanced life fuels creativity, and I hope to connect with like - minded people through this website.'
+        },
+        // 体育热爱
+        'sportsTitle': {
+          'zh': '体育热爱',
+          'en': 'Sports Passion'
+        },
+        'sportsSubtitle': {
+          'zh': '我的体育之旅',
+          'en': 'My Sports Journey'
+        },
+        'sportsDesc1': {
+          'zh': '我在上海长大，父亲是体育迷，受其影响，我也成了上海篮球队的忠实粉丝。高中时，某次看到湖人队教练在赛后新闻发布会上的精彩表现，又迷上了湖人队。',
+          'en': 'Growing up in Shanghai with a sports - loving father, I became a devoted fan of the Shanghai Basketball Team. In high school, I was captivated by the Lakers\' coach\'s post - game press conference performance and fell in love with the Lakers.'
+        },
+        'sportsEvent1': {
+          'zh': '难忘时刻',
+          'en': 'Unforgettable Moments'
+        },
+        'sportsMoment1': {
+          'zh': 'NBA总决赛中，詹姆斯的致胜扣篮，太经典了',
+          'en': 'LeBron\'s game - winning dunk in the NBA Finals was legendary'
+        },
+        'sportsMoment2': {
+          'zh': '库里在2021年连轰5记三分球，精彩对决',
+          'en': 'Curry\'s 5 consecutive three - pointers in 2021 made for an epic showdown'
+        },
+        'sportsMoment3': {
+          'zh': '科比在2016年投进关键球，助力球队夺冠',
+          'en': 'Kobe\'s clutch shot in 2016 helped the team win the championship'
+        },
+        'sportsLove': {
+          'zh': '我的热爱',
+          'en': 'My Passions'
+        },
+        'sportsLoveDesc': {
+          'zh': '我对梦幻体育、体育赔率挺痴迷，也关注TNT的Inside the NBA特别节目。不看体育时，我会去攀岩馆（抱石或顶绳攀登）、玩极限飞盘，或者在所在城市跑步。',
+          'en': 'I\'m obsessed with fantasy sports and sports odds. I also follow TNT\'s Inside the NBA show. When not watching sports, I go climbing (bouldering or top - roping), play ultimate frisbee, or run in my city.'
+        },
+        'sportsBtn': {
+          'zh': '查看更多体育时刻',
+          'en': 'View More Sports Moments'
+        },
+        // 桌游爱好
+        'boardgameTitle': {
+          'zh': '桌游爱好',
+          'en': 'Board Game Hobby'
+        },
+        'boardgameSubtitle1': {
+          'zh': '桌游之夜',
+          'en': 'Board Game Nights'
+        },
+        'boardgameDesc1': {
+          'zh': '我长期组织/参与定期的桌游之夜，偏爱欧洲策略类桌游。这是我的桌游页面链接，欢迎访问！',
+          'en': 'I\'ve been organizing/attending regular board game nights for years, with a preference for European strategy games. Here\'s the link to my board game collection!'
+        },
+        'boardgameBtn1': {
+          'zh': '查看桌游收藏',
+          'en': 'View Board Game Collection'
+        },
+        'boardgameSubtitle2': {
+          'zh': '桌游展会',
+          'en': 'Board Game Conventions'
+        },
+        'boardgameDesc2': {
+          'zh': '我参加过2023年北京国际桌游展会，在那交流桌游设计、测试游戏、参加锦标赛，玩得超嗨，桌游迷别错过！',
+          'en': 'I attended the 2023 Beijing International Board Game Convention, where I discussed game design, playtested new games, and competed in tournaments. A must - visit for board game enthusiasts!'
+        },
+        'boardgameBtn2': {
+          'zh': '下一次展会',
+          'en': 'Next Convention'
+        },
+        'boardgameSubtitle3': {
+          'zh': '疫情期间的系列讨论',
+          'en': 'Pandemic Discussion Series'
+        },
+        'boardgameDesc3': {
+          'zh': '疫情期间，我做了一个5部分的系列讨论，讲桌游设计和桌游社群里的常见陷阱。讨论系列在YouTube，配套博客文章在我的个人博客。',
+          'en': 'During the pandemic, I hosted a 5 - part discussion series about common pitfalls in board game design and communities. The series is on YouTube, with companion blog posts on my website.'
+        },
+        'boardgameTopic1': {
+          'zh': '桌游设计基础',
+          'en': 'Board Game Design Basics'
+        },
+        'boardgameTopic2': {
+          'zh': '社群建设挑战',
+          'en': 'Community Building Challenges'
+        },
+        'boardgameTopic3': {
+          'zh': '平衡与乐趣',
+          'en': 'Balance and Fun'
+        },
+        'boardgameTopic4': {
+          'zh': '玩家体验设计',
+          'en': 'Player Experience Design'
+        },
+        'boardgameTopic5': {
+          'zh': '未来趋势展望',
+          'en': 'Future Trends'
+        },
+        // 弹珠台
+        'pinballTitle': {
+          'zh': '弹珠台',
+          'en': 'Pinball'
+        },
+        'pinballSubtitle1': {
+          'zh': '我的启蒙',
+          'en': 'My Introduction'
+        },
+        'pinballDesc1': {
+          'zh': '2019年在微软实习时，我的经理李明教了我弹珠台策略，我瞬间入迷。现在常去弹珠台博物馆（无限畅玩太香了）或弹珠台主题酒吧。',
+          'en': 'During my internship at Microsoft in 2019, my manager Li Ming taught me pinball strategies, and I was instantly hooked. Now I frequent pinball museums (unlimited play is amazing) and pinball - themed bars.'
+        },
+        'pinballSubtitle2': {
+          'zh': '热门地点',
+          'en': 'Popular Spots'
+        },
+        'pinballDesc2': {
+          'zh': '可通过Pinball Map查找附近的弹珠台场所。我最爱的（也是最擅长的）机器是《星际迷航》和《亚当斯一家》。',
+          'en': 'Find local pinball locations via Pinball Map. My favorite (and best - played) machines are Star Trek and The Addams Family.'
+        },
+        'pinballBtn': {
+          'zh': '查找弹珠台',
+          'en': 'Find Pinball Locations'
+        },
+        'pinballSubtitle3': {
+          'zh': '我的技能',
+          'en': 'My Skills'
+        },
+        'pinballDesc3': {
+          'zh': '经过多年练习，我已经掌握了多种弹珠台技巧，包括精准弹射、连击策略和多球控制。最高纪录是在《怪物弹珠》中获得250万分。',
+          'en': 'After years of practice, I\'ve mastered various pinball techniques, including precision shots, combo strategies, and multi - ball control. My highest score is 2.5 million points on Monster Pinball.'
+        },
+        // 黑客松经历
+        'hackathonTitle': {
+          'zh': '黑客松经历',
+          'en': 'Hackathon Experiences'
+        },
+        'hackathonProject1': {
+          'zh': 'AI体育数据分析平台',
+          'en': 'AI Sports Data Analysis Platform'
+        },
+        'hackathonDesc1': {
+          'zh': '基于计算机视觉和机器学习的体育数据分析平台，可实时分析运动员动作和比赛数据。',
+          'en': 'A sports data analysis platform using computer vision and machine learning to analyze athlete movements and game statistics in real - time.'
+        },
+        'hackathonRank1': {
+          'zh': '一等奖',
+          'en': 'First Prize'
+        },
+        'hackathonDate1': {
+          'zh': '2024年 北京',
+          'en': '2024, Beijing'
+        },
+        'hackathonProject2': {
+          'zh': '桌游设计辅助工具',
+          'en': 'Board Game Design Assistant'
+        },
+        'hackathonDesc2': {
+          'zh': '使用AI技术辅助桌游设计师创建平衡且有趣的游戏机制和规则。',
+          'en': 'An AI - powered tool to assist board game designers in creating balanced and engaging game mechanics and rules.'
+        },
+        'hackathonRank2': {
+          'zh': '最佳创新奖',
+          'en': 'Best Innovation Award'
+        },
+        'hackathonDate2': {
+          'zh': '2023年 上海',
+          'en': '2023, Shanghai'
+        },
+        'hackathonProject3': {
+          'zh': '弹珠台模拟器',
+          'en': 'Pinball Simulator'
+        },
+        'hackathonDesc3': {
+          'zh': '基于物理引擎的弹珠台模拟器，支持自定义台面设计和游戏规则。',
+          'en': 'A physics - based pinball simulator supporting custom table designs and game rules.'
+        },
+        'hackathonRank3': {
+          'zh': '最佳技术应用奖',
+          'en': 'Best Technical Application'
+        },
+        'hackathonDate3': {
+          'zh': '2022年 深圳',
+          'en': '2022, Shenzhen'
+        },
+        'hackathonBtn': {
+          'zh': '详情',
+          'en': 'Details'
+        },
+        // 观点/评分
+        'opinionTitle': {
+          'zh': '观点/评分',
+          'en': 'Opinions/Ratings'
+        },
+        'opinionSubtitle1': {
+          'zh': '热辣观点',
+          'en': 'Hot Takes'
+        },
+        'opinionTopic1': {
+          'zh': '关于桌游设计',
+          'en': 'On Board Game Design'
+        },
+        'opinionDesc1': {
+          'zh': '现代桌游设计过于注重复杂机制，而忽视了核心玩家体验。简单而深刻的游戏往往更能持久。',
+          'en': 'Modern board game design often focuses too much on complex mechanics at the expense of core player experience. Simple yet profound games tend to be more enduring.'
+        },
+        'opinionTopic2': {
+          'zh': '关于体育数据分析',
+          'en': 'On Sports Data Analysis'
+        },
+        'opinionDesc2': {
+          'zh': 'AI在体育中的应用应该更注重增强教练和运动员的决策能力，而不是取代他们的判断。',
+          'en': 'AI applications in sports should focus on augmenting coaches\' and athletes\' decision - making abilities rather than replacing their judgment.'
+        },
+        'opinionTopic3': {
+          'zh': '关于弹珠台',
+          'en': 'On Pinball'
+        },
+        'opinionDesc3': {
+          'zh': '现代弹珠台过于依赖电子屏幕和复杂规则，怀念经典机械弹珠台的纯粹乐趣。',
+          'en': 'Modern pinball machines rely too heavily on electronic screens and complex rules. I miss the pure fun of classic mechanical pinball.'
+        },
+        'opinionSubtitle2': {
+          'zh': '评分推荐',
+          'en': 'Recommendations'
+        },
+        'recommendGame1': {
+          'zh': '《铁路环游》',
+          'en': 'Ticket to Ride'
+        },
+        'recommendDesc1': {
+          'zh': '经典欧洲策略桌游，简单易上手但充满策略深度，适合2-5人。',
+          'en': 'A classic European strategy game, easy to learn but deep in strategy, suitable for 2 - 5 players.'
+        },
+        'recommendPinball1': {
+          'zh': '《星际迷航》弹珠台',
+          'en': 'Star Trek Pinball'
+        },
+        'recommendDesc2': {
+          'zh': '经典主题，流畅的游戏体验，多球模式和星际迷航元素的完美结合。',
+          'en': 'A classic theme with smooth gameplay, perfect combination of multi - ball modes and Star Trek elements.'
+        },
+        'recommendSports1': {
+          'zh': '《最后一投》纪录片',
+          'en': 'The Last Dance Documentary'
+        },
+        'recommendDesc3': {
+          'zh': '关于公牛王朝和乔丹的纪录片，深入了解体育精神和团队合作的典范。',
+          'en': 'A documentary about the Bulls dynasty and Michael Jordan, offering insights into sportsmanship and teamwork.'
+        },
+        // 联系我
+        'contactTitle': {
+          'zh': '联系我',
+          'en': 'Contact Me'
+        },
+        'contactSubtitle': {
+          'zh': '联系方式',
+          'en': 'Contact Information'
+        },
+        'contactEmailTitle': {
+          'zh': '邮箱',
+          'en': 'Email'
+        },
+        'contactPhoneTitle': {
+          'zh': '电话',
+          'en': 'Phone'
+        },
+        'contactLocationTitle': {
+          'zh': '位置',
+          'en': 'Location'
+        },
+        'contactSocialTitle': {
+          'zh': '社交媒体',
+          'en': 'Social Media'
+        },
+        'contactFormTitle': {
+          'zh': '发送消息',
+          'en': 'Send a Message'
+        },
+        'contactName': {
+          'zh': '姓名',
+          'en': 'Name'
+        },
+        'contactEmail': {
+          'zh': '邮箱',
+          'en': 'Email'
+        },
+        'contactSubject': {
+          'zh': '主题',
+          'en': 'Subject'
+        },
+        'contactMessage': {
+          'zh': '消息',
+          'zh': '消息',
+          'en': 'Message'
+        },
+        'contactSend': {
+          'zh': '发送消息',
+          'en': 'Send Message'
+        },
+        // 页脚
+        'footerDesc': {
+          'zh': '探索我的多元世界：体育、桌游、弹珠台与编程的奇妙旅程。',
+          'en': 'Explore my diverse world: a fascinating journey through sports, board games, pinball, and programming.'
+        },
+        'footerQuickLinks': {
+          'zh': '快速链接',
+          'en': 'Quick Links'
+        },
+        'footerLink1': {
+          'zh': '关于我',
+          'en': 'About Me'
+        },
+        'footerLink2': {
+          'zh': '体育热爱',
+          'en': 'Sports Passion'
+        },
+        'footerLink3': {
+          'zh': '桌游爱好',
+          'en': 'Board Games'
+        },
+        'footerLink4': {
+          'zh': '弹珠台',
+          'en': 'Pinball'
+        },
+        'footerLink5': {
+          'zh': '黑客松',
+          'en': 'Hackathons'
+        },
+        'footerResources': {
+          'zh': '资源',
+          'en': 'Resources'
+        },
+        'footerResource1': {
+          'zh': '我的博客',
+          'en': 'My Blog'
+        },
+        'footerResource2': {
+          'zh': '项目展示',
+          'en': 'Projects'
+        },
+        'footerResource3': {
+          'zh': '桌游设计',
+          'en': 'Board Game Design'
+        },
+        'footerResource4': {
+          'zh': '体育分析',
+          'en': 'Sports Analysis'
+        },
+        'footerResource5': {
+          'zh': '弹珠台攻略',
+          'en': 'Pinball Guides'
+        },
+        'footerSubscribe': {
+          'zh': '订阅更新',
+          'en': 'Subscribe'
+        },
+        'footerSubscribeDesc': {
+          'zh': '订阅我的新闻通讯，获取最新的项目更新和活动信息。',
+          'en': 'Subscribe to my newsletter for the latest project updates and event information.'
+        },
+        'footerCopyright': {
+          'zh': '&copy; 2025 张明. 保留所有权利.',
+          'en': '&copy; 2025 Zhang Ming. All rights reserved.'
+        },
+        'footerPrivacy': {
+          'zh': '隐私政策',
+          'en': 'Privacy Policy'
+        },
+        'footerTerms': {
+          'zh': '使用条款',
+          'en': 'Terms of Service'
+        },
+        'footerCookies': {
+          'zh': 'Cookie政策',
+          'en': 'Cookie Policy'
+        }
+      };
+      
+      // 语言切换功能
+      langToggle.addEventListener('click', function() {
+        isChinese = !isChinese;
+        
+        // 更新所有可翻译元素
+        Object.keys(translations).forEach(key => {
+          const element = document.getElementById(key);
+          if (element) {
+            element.textContent = translations[key][isChinese ? 'zh' : 'en'];
+          }
+        });
+        
+        // 更新当前语言显示
+        currentLang.textContent = isChinese ? '中文' : 'English';
+        
+        // 如果移动菜单是打开的，关闭它
+        if (!mobileMenu.classList.contains('hidden')) {
+          mobileMenu.classList.add('hidden');
+        }
+      });
+    });
+  </script>
 </body>
 </html>
