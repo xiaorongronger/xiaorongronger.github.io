@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>郝宵荣的个人网页</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+        header {
+            background-color: #fff;
+            color: #333;
+            padding:0rem;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+        }
+        nav {
+            width: 200px;
+            background-color: #f0f0f0;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            overflow-y: auto;
+            padding-top: 80px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        nav ul li {
+            padding: 30px;
+            text-align: center;
+        }
+        nav ul li a {
+            color: #333;
+            text-decoration: none;
+            display: block;
+            transition: background 0.3s;
+        }
+        nav ul li a:hover {
+            background-color: #e0e0e0;
+        }
+        main {
+            margin-left: 220px;
+            padding: 120px 40px 40px 40px;
+            flex-grow: 1;
+        }
+        .section {
+            margin-bottom: 2rem;
+        }
+        .section h2 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .photo {
+            text-align: center;
+        }
+        .photo img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            border: 3px solid #333;
+        }
+        .contact, .social-media {
+            list-style-type: none;
+            padding: 0;
+        }
+        .contact li, .social-media li {
+            margin-bottom: 0.5rem;
+        }
+        footer {
+            text-align: center;
+            padding: 0.5rem;
+            background-color: #fff;
+            color: #333;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .sidebar {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 200px;
+            height: 100%;
+            background-color: #f0f0f0;
+            padding-top: 80px;
+            overflow-y: auto;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar .section {
+            padding: 10px;
+        }
+        .sidebar .section h3 {
+            border-bottom: 1px solid #333;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>郝宵荣的个人网页</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#basic-info">基本信息</a></li>
+            <li><a href="#publications">发表会议和期刊</a></li>
+            <li><a href="#contact">联系方式</a></li>
+            <li><a href="#social-media">社交媒体</a></li>
+        </ul>
+    </nav>
+    <main>
+        <div id="basic-info" class="section">
+            <h2>基本信息</h2>
+            <div class="photo">
+                <img src="your-photo.jpg" alt="郝宵荣">
+            </div>
+            <p>姓名：郝宵荣</p>
+            <p>研究方向：图表示学习、链接预测、异常检测、APT攻击检测</p>
+        </div>
+        <div id="publications" class="section">
+            <h2>发表会议和期刊</h2>
+            <ul>
+                <li>SIGIR</li>
+                <li>WWWJ</li>
+                <li>CCIR</li>
+                <!-- 可以在此添加更多条目 -->
+            </ul>
+        </div>
+        <div id="contact" class="section">
+            <h2>联系方式</h2>
+            <ul class="contact">
+                <li>电话: 18434361032</li>
+                <li>Email: <a href="mailto:your.email@example.com">your.email@example.com</a></li>
+                <!-- 可以在此添加更多联系方式 -->
+            </ul>
+        </div>
+        <div id="social-media" class="section">
+            <h2>社交媒体</h2>
+            <ul class="social-media">
+                <li><a href="https://www.linkedin.com/in/yourprofile">LinkedIn</a></li>
+                <li><a href="https://github.com/yourprofile">GitHub</a></li>
+                <li><a href="https://twitter.com/yourprofile">Twitter</a></li>
+                <!-- 可以在此添加更多社交媒体链接 -->
+            </ul>
+        </div>
+        <!-- 你可以在此添加更多内容，例如博客文章等 -->
+    </main>
+    <div class="sidebar">
+        <div class="section">
+            <h3>今日日期</h3>
+            <p id="current-date"></p>
+        </div>
+        <div class="section">
+            <h3>塔罗牌测算运气</h3>
+            <p>今天的运气：</p>
+            <p id="tarot-reading">好运连连！</p>
+            <button onclick="getTarotReading()">测算运气</button>
+        </div>
+        <div class="section">
+            <h3>记日记</h3>
+            <a href="diary.html" target="_blank">写日记</a>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 郝宵荣. 保留所有权利.</p>
+    </footer>
+    <script>
+        // 设置今日日期
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString();
+
+        // 模拟塔罗牌测算运气的函数
+        function getTarotReading() {
+            const readings = [
+                '好运连连！',
+                '需要小心谨慎。',
+                '今天适合挑战自己。',
+                '运气平平，保持平常心。',
+                '可能会遇到一些小麻烦。'
+            ];
+            const randomIndex = Math.floor(Math.random() * readings.length);
+            document.getElementById('tarot-reading').innerText = readings[randomIndex];
+        }
+    </script>
+</body>
+</html>
