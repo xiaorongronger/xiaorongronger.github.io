@@ -1,1454 +1,960 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>郝宵荣</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
-  
-  <!-- Tailwind 配置 -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#165DFF',
-            secondary: '#7B61FF',
-            accent: '#FF7D00',
-            dark: '#1D2129',
-            light: '#F2F3F5'
-          },
-          fontFamily: {
-            inter: ['Inter', 'sans-serif'],
-          },
-        },
-      }
-    }
-  </script>
-  
-  <style type="text/tailwindcss">
-    @layer utilities {
-      .content-auto {
-        content-visibility: auto;
-      }
-      .text-shadow {
-        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      }
-      .transition-custom {
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
-      .hover-scale {
-        @apply transition-all duration-300 hover:scale-105;
-      }
-      .card-shadow {
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-      }
-    }
-  </style>
-</head>
-<body class="font-inter bg-light text-dark">
-  <!-- 导航栏 -->
-  <header id="navbar" class="fixed w-full top-0 z-50 transition-all duration-300">
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center bg-white/90 backdrop-blur-sm rounded-b-xl shadow-sm">
-      <div class="flex items-center">
-        <div class="text-primary text-2xl font-bold">
-          <span class="text-primary">个人</span><span class="text-secondary">主页</span>
-        </div>
-      </div>
-      
-      <!-- 桌面导航 -->
-      <nav class="hidden md:flex space-x-8">
-        <a href="#about" class="text-dark hover:text-primary transition-colors font-medium">关于我</a>
-        <a href="#sports" class="text-dark hover:text-primary transition-colors font-medium">学术研究</a>
-        <a href="#boardgames" class="text-dark hover:text-primary transition-colors font-medium">奖励荣誉</a>
-        <a href="#pinball" class="text-dark hover:text-primary transition-colors font-medium">参加会议</a>
-        <a href="#hackathon" class="text-dark hover:text-primary transition-colors font-medium">学术服务</a>
-        <a href="#opinions" class="text-dark hover:text-primary transition-colors font-medium">参与项目</a>
-      </nav>
-      
-      <!-- 语言切换 -->
-      <div class="flex items-center space-x-4">
-        <button id="langToggle" class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium hover:bg-primary/20 transition-colors">
-          <span id="currentLang">中文</span>
-          <i class="fa fa-globe ml-1"></i>
-        </button>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>郝宵荣 - 个人主页</title>
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+        }
         
-        <!-- 移动端菜单按钮 -->
-        <button id="menuToggle" class="md:hidden text-dark hover:text-primary transition-colors">
-          <i class="fa fa-bars text-xl"></i>
-        </button>
-      </div>
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* 左侧导航栏 */
+        .sidebar {
+            width: 280px;
+            background-color: #1a56db;
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            transition: width 0.3s;
+            z-index: 100;
+        }
+        
+        .sidebar.collapsed {
+            width: 70px;
+        }
+        
+        .profile-header {
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid #3b82f6;
+        }
+        
+        /* 修改后的个人照片样式 */
+        .profile-picture {
+            width: 165px;  /* 增加宽度 */
+            height: 240px; /* 保持高度不变，形成4:3的长方形 */
+            margin-bottom: 1rem;
+            object-fit: cover;  /* 保持图片比例，裁剪超出部分 */
+            border: 4px solid #3b82f6;
+            border-radius: 8px;  /* 圆角矩形 */
+        }
+        
+        .profile-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .profile-title {
+            font-size: 1rem;
+            color: #bfdbfe;
+            margin-bottom: 1rem;
+        }
+        
+        .nav-toggle {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #3b82f6;
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-toggle:hover {
+            background-color: #2563eb;
+        }
+        
+        .nav-menu {
+            padding: 1rem 0;
+        }
+        
+        .nav-item {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background-color: #3b82f6;
+        }
+        
+        .nav-item i {
+            width: 24px;
+            text-align: center;
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .nav-item span {
+            white-space: nowrap;
+        }
+        
+        /* 主内容区 */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem 3rem;
+            transition: margin 0.3s;
+        }
+        
+        .main-content.collapsed {
+            margin-left: 70px;
+        }
+        
+        .section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            color: #1a56db;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        /* 个人信息 */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #4b5563;
+            min-width: 100px;
+        }
+        
+        .info-value {
+            color: #6b7280;
+        }
+        /* 教育背景 */
+        .education-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .education-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .education-title {
+            font-weight: 600;
+            color: #1a56db;
+            margin-bottom: 0.5rem;
+        }
+
+        .education-period {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+
+        .education-description {
+            color: #4b5563;
+        }
+
+        /* 研究方向 */
+        .research-directions {
+            margin-bottom: 1.5rem;
+        }
+
+        .research-direction {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background-color: #f9fafb;
+            border-radius: 4px;
+            transition: transform 0.3s;
+        }
+
+        .research-direction:hover {
+            transform: translateY(-3px);
+        }
+
+        .research-direction h3 {
+            color: #1a56db;
+            margin-bottom: 0.5rem;
+        }
+        /* 科研成果 */
+        .publication {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .publication:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .publication-title {
+            font-weight: 600;
+            color: #1a56db;
+            margin-bottom: 0.5rem;
+        }
+        
+        .publication-venue {
+            font-style: italic;
+            color: #6b7280;
+            margin-bottom: 0.3rem;
+        }
+        
+        /* 项目经历 */
+        .project {
+            margin-bottom: 1.5rem;
+        }
+        
+        .project-title {
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .project-title i {
+            color: #1a56db;
+            margin-right: 0.5rem;
+        }
+        
+        .project-period {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-bottom: 0.5rem;
+        }
+        
+        .project-description {
+            margin-left: 1.5rem;
+            color: #4b5563;
+        }
+        
+        /* 奖励荣誉 */
+        .award {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+        
+        .award-year {
+            min-width: 80px;
+            color: #6b7280;
+        }
+        
+        .award-name {
+            color: #1f2937;
+        }
+        
+        /* 技能列表 */
+        .skills-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 0.8rem;
+        }
+        
+        .skill-item {
+            background-color: #f3f4f6;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+            
+            .profile-header {
+                padding: 1.5rem 0.5rem;
+            }
+            
+            .profile-name {
+                font-size: 1.2rem;
+            }
+            
+            .profile-title, .nav-item span {
+                display: none;
+            }
+            
+            .main-content {
+                padding: 1.5rem 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 左侧导航栏 -->
+        <div class="sidebar" id="sidebar">
+            <div class="profile-header">
+                <img src="./images/hxr.jpg" alt="个人照片" class="profile-picture">
+                <h1 class="profile-name">郝宵荣</h1>
+<!--                <p class="profile-title"></p>-->
+            </div>
+            
+            <div class="nav-menu">
+                <div class="nav-item active" data-target="about">
+                    <i class="fas fa-user"></i>
+                    <span>个人信息</span>
+                </div>
+                <div class="nav-item" data-target="education">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>教育背景</span>
+                </div>
+                <div class="nav-item" data-target="direction">
+                    <i class="fas fa-flag"></i>
+                    <span>研究方向</span>
+                </div>
+                <div class="nav-item" data-target="research">
+                    <i class="fas fa-flask"></i>
+                    <span>科研成果</span>
+                </div>
+                <div class="nav-item" data-target="projects">
+                    <i class="fas fa-briefcase"></i>
+                    <span>项目经历</span>
+                </div>
+                <div class="nav-item" data-target="awards">
+                    <i class="fas fa-trophy"></i>
+                    <span>奖励荣誉</span>
+                </div>
+                <div class="nav-item" data-target="skills">
+                    <i class="fas fa-chart-line"></i>
+                    <span>专业技能</span>
+                </div>
+                <div class="nav-item" data-target="phd">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>学术服务</span>
+                </div>
+                <div class="nav-item" data-target="self">
+                    <i class="fas fa-user-check"></i>
+                    <span>万花筒</span>
+                </div>
+            </div>
+            
+            <button class="nav-toggle" id="navToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        
+        <!-- 主内容区 -->
+        <div class="main-content" id="mainContent">
+            <!-- 个人信息部分 -->
+            <section id="about" class="section">
+                <h2 class="section-title">个人信息</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">姓名：</div>
+                        <div class="info-value">郝宵荣</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">性别：</div>
+                        <div class="info-value">女</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">出生年月：</div>
+                        <div class="info-value">1995.6</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">政治面貌：</div>
+                        <div class="info-value">积极分子</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">民族：</div>
+                        <div class="info-value">汉族</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">学历：</div>
+                        <div class="info-value">博士</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">联系方式：</div>
+                        <div class="info-value">18434361032</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">邮箱：</div>
+                        <div class="info-value">hxr@seu.edu.cn</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">会员：</div>
+                        <div class="info-value">IEEE 学生会员， IES 会员</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">籍贯：</div>
+                        <div class="info-value">山西省晋中市榆次区</div>
+                    </div>
+                </div>
+            </section>
+            <!-- 教育背景部分 -->
+            <section id="education" class="section">
+                <h2 class="section-title">教育背景</h2>
+
+                <div class="education-item">
+                    <div class="education-title">东南大学 - 电子信息</div>
+                    <div class="education-period">2021年9月 - 至今 | 博士研究生</div>
+
+                    <div class="education-title">太原理工大学 - 数据科学与技术</div>
+                    <div class="education-period"> 2018年9月- 2021年7月 | 硕士研究生</div>
+
+                    <div class="education-title">中北大学 - 物联网工程</div>
+                    <div class="education-period">2014年6月 - 2018年6月 | 本科</div>
+
+<!--                    <div class="education-description">-->
+<!--                        <p>研究方向：动态网络链接预测</p>-->
+<!--                        <p>主要课程：机器学习、深度学习、数据挖掘、高等统计学、图神经网络等</p>-->
+<!--                        <p>学术成果：已发表3篇SCI/EI收录论文，参与2项国家级科研项目</p>-->
+<!--                    </div>-->
+                </div>
+
+<!--                <div class="education-item">-->
+<!--                    <div class="education-title">太原理工大学 - 数据科学与技术</div>-->
+<!--                    <div class="education-period"> 2018年9月- 2021年7月 | 硕士研究生</div>-->
+<!--                    <div class="education-description">-->
+<!--                        <p>研究方向：动态网络链接预测</p>-->
+<!--                        <p>主要课程：机器学习、深度学习、数据挖掘、高等统计学、图神经网络等</p>-->
+<!--                        <p>学术成果：已发表3篇SCI/EI收录论文，参与2项国家级科研项目</p>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="education-item">-->
+<!--                    <div class="education-title">中北大学 - 物联网工程</div>-->
+<!--                    <div class="education-period">2014年6月 - 2018年6月 | 本科</div>-->
+<!--                    <div class="education-description">-->
+<!--                        <p>专业GPA：3.88/5.0，专业排名：1/120</p>-->
+<!--                        <p>主要课程：计算机网络、嵌入式系统、传感器技术、云计算与大数据等</p>-->
+<!--                        <p>学术成果：获得国家奖学金1次，省级优秀毕业生，发表学术论文1篇</p>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </section>
+
+            <!-- 研究方向部分 -->
+            <section id="direction" class="section">
+                <h2 class="section-title">研究方向</h2>
+
+                <div class="research-directions">
+                    <div class="research-direction">
+                        <h3>网络异常行为分析、图形异常检测、入侵检测以及人工智能在网络防御中的应用</h3>
+<!--                        <p>研究动态网络环境下的链接预测问题，提出基于节点表征演化和局部结构特征的预测模型，解决传统方法难以捕捉网络动态变化的问题。</p>-->
+                    </div>
+
+<!--                    <div class="research-direction">-->
+<!--                        <h3>图神经网络及其应用</h3>-->
+<!--                        <p>研究图神经网络在社交网络分析、生物信息学、推荐系统等领域的应用，开发高效的图嵌入算法和图表示学习方法。</p>-->
+<!--                    </div>-->
+
+<!--                    <div class="research-direction">-->
+<!--                        <h3>时序数据建模与预测</h3>-->
+<!--                        <p>研究基于深度学习的时序数据建模方法，结合注意力机制和记忆网络，提高对时间序列数据的预测准确性和解释性。</p>-->
+<!--                    </div>-->
+
+<!--                    <div class="research-direction">-->
+<!--                        <h3>数据科学与社会计算</h3>-->
+<!--                        <p>研究如何利用数据科学方法解决社会问题，如人才流动分析、公共卫生事件预测、舆情分析等，探索数据驱动的社会治理模式。</p>-->
+<!--                    </div>-->
+                </div>
+            </section>
+            <!-- 科研成果部分 -->
+            <section id="research" class="section">
+                <h2 class="section-title">科研成果</h2>
+                <p><strong>学术论文</strong></p>
+                <p>[1] <strong>Xiaorong Hao</strong>, Bo Liu, Xiangguo Sun, Jiuxin Cao, Ding Zhou, Xinwen Fu. "Using Graph with Inter-connection Intervals Embedding to Discover Potential Threats in the Network"[J], IEEE Transactions on Industrial Informatics. 已录用. <strong> SCI，一作，JCR：Q1， Top, CCF C, IF = 9.9 </strong></p>
+                <p>[2] <strong>Xiaorong Hao</strong>, Bo Liu, Xinyan Yang, Xiangguo Sun, Qing Meng, Jiuxin Cao. "Multi-stage dynamic disinformation detection with graph entropy guidance"[J], World Wide Web Journal. 2024，27(8) . <strong> SCI，一作，JCR：Q2，CCF B, IF = 3.4 </strong></p>
+                <p>[3] <strong>Xiaorong Hao</strong>, Tao Lian, Li Wang. "Dynamic Link Prediction by Integrating Node Vector Evolution and Local Neighborhood Representation"[C], SIGIR '20: Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval. <strong> 一作，CCF A, short paper </strong></p>
+                <p>[3] <strong>Xiaorong Hao</strong>, ..., first round revision</p>
+                <p>[4] <strong>郝宵荣</strong>, 刘波, 周鼎, 曹玖新, 张进. "面向未知网络威胁的网络要地自适应防御模型"[J]. 通信学报,2025,46(3):45-61. <strong> EI, 一作，CCF推荐中文T1类，IF：2.39 </strong></p>
+                <p>[5] <strong>郝宵荣</strong>, 王莉, 廉涛. "基于节点表示和子图结构的动态网络链接预测"[J]. 模式识别与人工智能,2021,34(2):117-126. <strong> EI, 一作，CCF推荐中文T2类，IF：1.30 </strong></p>
+                <p>[6] <strong>郝宵荣</strong>, 王莉. "动态网络链接预测研究"[J]. 太原理工大学学报,2020,51(4):502-507.<strong> 北大核心, 一作，IF：1.19 </strong> </p>
+                <p><strong>专利</strong></p>
+                <p>[1] 周鼎, <strong>郝宵荣</strong>, 韩晓鹏, 曹植纲, 贺磊, 刘波, 鄢昕, 张盛翔. 横向移动检测方法、存储介质及电子设备:CN202311778789.9[P]. 2024-02-27.</p>
+                <p>[2] 刘波, 杨欣妍, <strong>郝宵荣</strong>, 曹玖新. 基于动态信息传播演化模式的虚假信息检测方法及系统:CN202210601021.3[P]. 2023-03-28.</p>
+                <p>[3] 周鼎, 贺磊, 韩晓鹏, 曹植纲, 刘波, 曹玖新, <strong>郝宵荣</strong>, 仇智寅. 系统安全性评估方法、装置、设备、存储介质和程序产品:CN202310933342.8[P]. 2023-10-10.</p>
+                <p>[4] ZHOU, Ding周鼎 HE, Lei贺磊 HAN, Xiaopeng韩晓鹏 CAO, Zhigang曹植纲 LIU, Bo刘波 CAO, Jiuxin曹玖新 HAO, <strong>Xiaorong郝宵荣</strong> QIU, Zhiyin仇智寅. SYSTEM SECURITY ASSESSMENT METHOD AND APPARATUS, AND DEVICE, STORAGE MEDIUM AND PROGRAM PRODUCT:CNCN2024/100427[P]. 2025-01-30.</p>
+                <p>[5] 曹玖新, 仇智寅, 刘波, <strong>郝宵荣</strong>. 一种基于置信度与异构度的执行体调度方法:CN202211359120.1[P]. 2023-01-31.</p>
+                <p>[6] 曹玖新, 仇智寅, 刘波, 周鼎, 贺磊, <strong>郝宵荣</strong>. 流量数据的风险检测方法、装置及电子设备:CN202311106996.X[P]. 2023-12-08.</p>
+                <p>[7] 韩晓鹏, 贺磊, 周鼎, 曹植纲, 高冬展, <strong>郝宵荣</strong>. 一种网络威胁检测系统、方法、设备及存储介质:CN202310723891.2[P]. 2023-08-22.</p>
+                <p>[8] 贺磊, 韩晓鹏, 周鼎, 曹植纲, 高冬展, <strong>郝宵荣</strong>. 新型电力系统态势的安全风险评估方法、装置及存储介质:CN202311850564.X[P]. 2024-03-29.</p>
+                <!--                <div class="publication">-->
+<!--                    <div class="publication-title">Using Graph with Inter-connection Intervals Embedding to Discover Potential Threats in the Network</div>-->
+<!--                    <div class="publication-venue"></div>-->
+<!--                    <div class="publication-author">第一作者</div>-->
+<!--                </div>-->
+
+<!--                <div class="publication">-->
+<!--                    <div class="publication-title">Dynamic Link Prediction by Integrating Node Vector Evolution and Local Neighborhood Representation</div>-->
+<!--                    <div class="publication-venue">国际顶会SIGIR2020短文收录</div>-->
+<!--                    <div class="publication-author">第一作者</div>-->
+<!--                </div>-->
+<!--                -->
+
+<!--                <div class="publication">-->
+<!--                    <div class="publication-title">动态网络链接预测：基于节点表征和链接子图结构</div>-->
+<!--                    <div class="publication-venue">全国信息检索会议CCIR2020论文收录，推荐到《模式识别与人工智能》期刊</div>-->
+<!--                    <div class="publication-author">第一作者</div>-->
+<!--                </div>-->
+<!--                <div class="publication">-->
+<!--                    <div class="publication-title">动态网络链接预测研究</div>-->
+<!--                    <div class="publication-venue">《太原理工大学学报》</div>-->
+<!--                    <div class="publication-author">第一作者</div>-->
+<!--                </div>-->
+<!--                -->
+<!--                &lt;!&ndash; 新增的科研成果 &ndash;&gt;-->
+<!--                <div class="publication">-->
+<!--                    <div class="publication-title">一种基于深度学习的动态网络链接预测方法</div>-->
+<!--                    <div class="publication-venue">《计算机研究与发展》</div>-->
+<!--                    <div class="publication-author">第一作者</div>-->
+<!--                </div>-->
+<!--                -->
+<!--                <div class="publication">-->
+<!--                    <div class="publication-title">基于时间序列分析的社交网络链接预测模型</div>-->
+<!--                    <div class="publication-venue">全国人工智能学术会议</div>-->
+<!--                    <div class="publication-author">第二作者</div>-->
+<!--                </div>-->
+<!--                -->
+<!--                <div class="publication">-->
+<!--                    <div class="publication-title">基于节点嵌入和图神经网络的动态网络建模方法</div>-->
+<!--                    <div class="publication-venue">国际数据挖掘会议</div>-->
+<!--                    <div class="publication-author">通讯作者</div>-->
+<!--                </div>-->
+            </section>
+            
+            <!-- 项目经历部分 -->
+            <section id="projects" class="section">
+                <h2 class="section-title">项目经历</h2>
+                
+                <div class="project">
+                    <div class="project-title"><i class="fas fa-graduation-cap"></i> 博士研究生期间项目</div>
+                        <div class="project">
+                            <p>国家重点研发计划项目，云边协同的工业智能控制器安全防护技术，项目批准号：2022YFB3104301，2022 年 11 月 ~ 2025 年 10 月，主要参与人</p>
+                            <p>国家自然科学基金项目，网络舆论演化趋势感知的多角色Agent柔性引导机制研究， 项目批准号：62472092， 2025 年 1 月 ~ 2028 年 12 月，主要参与人</p>
+                            <p>横向课题，智能广义鲁棒控制基础理论， 2021 年 1 月 2023 年 12 月，主要参与人</p>
+                            <p>横向课题，内生安全基础理论与工具链研究, 2024 年 1 月 2026 年 12 月，主要参与人</p>
+<!--                            <p>山西省研究生教育创新项目，动力学未知的多智能体系统的最优编队控制，项目批准号：2019BY034，主要参与人</p>-->
+                        </div>
+<!--                    <div class="project">-->
+<!--                        <h3 class="project-title">智慧校园管理系统</h3>-->
+<!--                        <div class="project-period">项目时间：202X年-X月至202X年-X月</div>-->
+<!--                        <div class="project-description">-->
+<!--                            该系统主要实现了两项内容，一是校园活动管理，二是校园事务处理。负责软件编程设计的整个流程，熟悉了软件编程的完整流程，提升了编程能力。-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    -->
+<!--                    <div class="project">-->
+<!--                        <h3 class="project-title">就业数据信息挖掘</h3>-->
+<!--                        <div class="project-period">项目时间：202X年-X月至202X年-X月</div>-->
+<!--                        <div class="project-description">-->
+<!--                            完成就业数据信息的挖掘，提供数据挖掘信息给指导学生工作的老师。负责数据的处理、统计、建模，分析山西省理工类学生人才外流的影响因素，提升了分析数据、处理数据等能力。-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                -->
+<!--                <div class="project">-->
+<!--                    <div class="project-title"><i class="fas fa-graduation-cap"></i> 本科期间项目</div>-->
+<!--                    -->
+<!--                    <div class="project">-->
+<!--                        <h3 class="project-title">基于VTK的医学影像处理及三维重建系统开发</h3>-->
+<!--                        <div class="project-period">项目时间：202X年-X月至202X年-X月</div>-->
+<!--                        <div class="project-description">-->
+<!--                            主要研究医学图像处理及三维重建系统开发的实现，负责整个系统的编程设计。-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    -->
+<!--                    <div class="project">-->
+<!--                        <h3 class="project-title">智能家庭监控系统</h3>-->
+<!--                        <div class="project-period">项目时间：202X年-X月至202X年-X月</div>-->
+<!--                        <div class="project-description">-->
+<!--                            主要完成了一个智能家庭监控系统，实现物联网实验箱中传感器的响应状态，负责实现APP端。-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    -->
+<!--                    <div class="project">-->
+<!--                        <h3 class="project-title">学生备忘录App</h3>-->
+<!--                        <div class="project-period">项目时间：202X年-X月至202X年-X月</div>-->
+<!--                        <div class="project-description">-->
+<!--                            设计并实现了一个学生专用的备忘录应用，支持课程提醒、作业管理和考试安排等功能。负责前端界面设计与后端数据存储模块的开发，熟悉了移动应用开发的完整流程。-->
+<!--                        </div>-->
+<!--                    </div>-->
+                </div>
+            </section>
+
+            <!-- 奖励荣誉部分 -->
+            <section id="awards" class="section">
+                <h2 class="section-title">奖励荣誉</h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- 研究生阶段 -->
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-graduation-cap text-blue-600 text-xl mr-2"></i>
+                            <h3 class="font-semibold text-lg text-blue-800">研究生期间</h3>
+                        </div>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-trophy text-yellow-500 mt-1 mr-2"></i>
+                                <span>东南大学2021-2022三好研究生</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-trophy text-yellow-500 mt-1 mr-2"></i>
+                                <span>开源安全奖励计划校赛一等奖</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-award text-yellow-600 mt-1 mr-2"></i>
+                                <span>第十九届研究生电子设计竞赛东南大学校级选拔赛第三等奖</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-award text-yellow-600 mt-1 mr-2"></i>
+                                <span>第16届全国计算机支持的协同工作与社会计算学术会议ChineseCSCW杯数据竞赛三等奖</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-medal text-gray-600 mt-1 mr-2"></i>
+                                <span>太原理工大学新生入学奖学金</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-medal text-gray-600 mt-1 mr-2"></i>
+                                <span>研究生学业奖学金二等奖学金</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- 本科阶段 -->
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
+                        <div class="flex items-center mb-3">
+                            <i class="fas fa-university text-green-600 text-xl mr-2"></i>
+                            <h3 class="font-semibold text-lg text-green-800">本科期间</h3>
+                        </div>
+                        <ul class="space-y-2">
+                            <li class="flex items-start">
+                                <i class="fas fa-trophy text-yellow-500 mt-1 mr-2"></i>
+                                <span>蓝桥杯程序设计竞赛（C/C++）省赛二等奖</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-award text-yellow-600 mt-1 mr-2"></i>
+                                <span>蓝桥杯程序设计竞赛（Java）省赛三等奖</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-award text-yellow-600 mt-1 mr-2"></i>
+                                <span>山西省程序设计大赛排名 64/932 女生组排名第 6</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-award text-yellow-600 mt-1 mr-2"></i>
+                                <span>“小码哥杯”全国 Java 程序设计比赛校赛二等奖</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-award text-yellow-600 mt-1 mr-2"></i>
+                                <span>校国防知识竞赛二等奖，单项奖学金</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-star text-yellow-400 mt-1 mr-2"></i>
+                                <span>国家励志奖学金*2，综合素质一等奖学金，综合素质二等奖学金</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-star text-yellow-400 mt-1 mr-2"></i>
+                                <span>中北大学计算机与控制工程学院校友奖学金，中北大学校友学业优秀奖学金</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-users text-blue-500 mt-1 mr-2"></i>
+                                <span>中北大学院级优秀团员，中北大学校级优秀团员</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+                
+<!--                <div class="award">-->
+<!--                    <div class="award-year">2022年</div>-->
+<!--                    <div class="award-name">优秀研究生标兵</div>-->
+<!--                </div>-->
+<!--                -->
+<!--                <div class="award">-->
+<!--                    <div class="award-year">2021年</div>-->
+<!--                    <div class="award-name">山西省优秀毕业生</div>-->
+<!--                </div>-->
+<!--                -->
+<!--                <div class="award">-->
+<!--                    <div class="award-year">2020年</div>-->
+<!--                    <div class="award-name">全国大学生数学建模竞赛二等奖</div>-->
+<!--                </div>-->
+<!--                -->
+<!--                <div class="award">-->
+<!--                    <div class="award-year">2019年</div>-->
+<!--                    <div class="award-name">校级优秀学生干部</div>-->
+<!--                </div>-->
+<!--            </section>-->
+            
+            <!-- 专业技能部分 -->
+            <section id="skills" class="section">
+                <h2 class="section-title">专业技能</h2>
+                
+                <div class="skills-list">
+                    <div class="skill-item">
+                        <i class="fas fa-code mr-2"></i> 编程语言：Python, Java, C++, C, SQL
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-database mr-2"></i> 数据库：MySQL, MongoDB
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-chart-line mr-2"></i> 人工智能模型及算法：机器学习（SVM、RF、GBDT...），深度学习（GNN、RNN、GAN...)，强化学习（DQN，Double/Dueling DQN。。。），
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-project-diagram mr-2"></i> 数据处理：Pandas, NumPy, Matplotlib，Gephi
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-cloud mr-2"></i> 网络与云计算：Docker, mininet,ONOS,NFV
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-mobile-alt mr-2"></i> 移动开发：Android, Flutter
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-users mr-2"></i> 英语能力：CET-6，口试 B
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-file-alt mr-2"></i> 写作能力：发表多篇学术论文，参与撰写多个项目
+                    </div>
+                </div>
+            </section>
+            
+            <!-- 学术服务部分 -->
+            <section id="phd" class="section">
+                <h2 class="section-title">学术服务</h2>
+                
+                <ul class="list-disc pl-5 my-3">
+                    <li>参与多个知名会议（包括infocom（CCFA会））和期刊论文（一区期刊IOTs、KBS）的审稿工作</li>
+                    <li>担任面向对象的程序设计方法、计算机网络课程的助教</li>
+                    <li>参与第三届网络空间内生安全发展大会分论坛总对接人，第四届网络空间内生安全发展大会分论坛对接人，负责分论坛方案汇编、材料收集、信息统计、会务协调等任务</li>
+                    <li>参与第五届、第六届“强网”拟态防御国际精英挑战赛工作人员，分别担任裁判、运维人员</li>
+                </ul>
+                
+<!--                <p>我希望能够在导师的指导下，深入研究这些领域的前沿问题，开发创新的算法和模型，为解决实际应用中的复杂问题做出贡献。我相信我的学术背景和研究经验使我具备了攻读博士学位的能力和潜力。</p>-->
+            </section>
+            <!-- 部分成果展示 -->
+            <!-- 万花筒部分 -->
+            <section id="self" class="section">
+                <h2 class="section-title">万花筒</h2>
+                <!-- 图片画廊 -->
+                <div class="mb-8">
+                    <h3 class="text-xl font-semibold mb-4 text-gray-800">我的相册</h3>
+                    <div class="grid grid-cols-3 gap-4">
+                        <!-- 使用 max-h-[自定义值] 或标准高度类 -->
+                        <img src="./images/内生安全大会.png" alt="照片1" style="width:25%; height:30%; object-fit:cover; border-radius:0.5rem;">
+                        <img src="./images/旱地冰壶.png" alt="照片3" style="width:25%; height:30%; object-fit:cover; border-radius:0.5rem;">
+                        <img src="./images/吹笛子.png" alt="照片2" style="width:9%; height:1%; object-fit:cover; border-radius:0.5rem;">
+                    </div>
+<!--                        <div class="gallery-item overflow-hidden rounded-lg shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-lg">-->
+<!--                            <img src="https://picsum.photos/seed/photo2/400/300" alt="照片2" class="w-full h-48 object-cover">-->
+<!--                            <div class="p-3 bg-white">-->
+<!--                                <p class="text-sm font-medium">实验室工作</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="gallery-item overflow-hidden rounded-lg shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-lg">-->
+<!--                            <img src="https://picsum.photos/seed/photo3/400/300" alt="照片3" class="w-full h-48 object-cover">-->
+<!--                            <div class="p-3 bg-white">-->
+<!--                                <p class="text-sm font-medium">校园生活</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="gallery-item overflow-hidden rounded-lg shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-lg">-->
+<!--                            <img src="https://picsum.photos/seed/photo4/400/300" alt="照片4" class="w-full h-48 object-cover">-->
+<!--                            <div class="p-3 bg-white">-->
+<!--                                <p class="text-sm font-medium">户外调研</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="gallery-item overflow-hidden rounded-lg shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-lg">-->
+<!--                            <img src="https://picsum.photos/seed/photo5/400/300" alt="照片5" class="w-full h-48 object-cover">-->
+<!--                            <div class="p-3 bg-white">-->
+<!--                                <p class="text-sm font-medium">团队活动</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="gallery-item overflow-hidden rounded-lg shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-lg">-->
+<!--                            <img src="https://picsum.photos/seed/photo6/400/300" alt="照片6" class="w-full h-48 object-cover">-->
+<!--                            <div class="p-3 bg-white">-->
+<!--                                <p class="text-sm font-medium">学术讲座</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="gallery-item overflow-hidden rounded-lg shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-lg">-->
+<!--                            <img src="https://picsum.photos/seed/photo7/400/300" alt="照片7" class="w-full h-48 object-cover">-->
+<!--                            <div class="p-3 bg-white">-->
+<!--                                <p class="text-sm font-medium">项目展示</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="gallery-item overflow-hidden rounded-lg shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-lg">-->
+<!--                            <img src="https://picsum.photos/seed/photo8/400/300" alt="照片8" class="w-full h-48 object-cover">-->
+<!--                            <div class="p-3 bg-white">-->
+<!--                                <p class="text-sm font-medium">城市采风</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+                    </div>
+                </div>
+
+                <!-- 视频展示 -->
+<!--                <div>-->
+<!--                    <h3 class="text-xl font-semibold mb-4 text-gray-800">视频分享</h3>-->
+
+<!--                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">-->
+<!--                        &lt;!&ndash; 视频1 &ndash;&gt;-->
+<!--                        <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-xl">-->
+<!--                            <div class="relative aspect-video">-->
+<!--                                <img src="https://picsum.photos/seed/video1/800/450" alt="视频封面1" class="w-full h-full object-cover">-->
+<!--                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">-->
+<!--                                    <button class="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white shadow-lg transform transition duration-300 hover:bg-blue-700 hover:scale-110">-->
+<!--                                        <i class="fas fa-play text-xl"></i>-->
+<!--                                    </button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="p-4">-->
+<!--                                <h4 class="font-medium text-gray-900 mb-1">科研项目演示</h4>-->
+<!--                                <p class="text-sm text-gray-600">动态网络链接预测模型演示</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        &lt;!&ndash; 视频2 &ndash;&gt;-->
+<!--                        <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-xl">-->
+<!--                            <div class="relative aspect-video">-->
+<!--                                <img src="https://picsum.photos/seed/video2/800/450" alt="视频封面2" class="w-full h-full object-cover">-->
+<!--                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">-->
+<!--                                    <button class="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white shadow-lg transform transition duration-300 hover:bg-blue-700 hover:scale-110">-->
+<!--                                        <i class="fas fa-play text-xl"></i>-->
+<!--                                    </button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="p-4">-->
+<!--                                <h4 class="font-medium text-gray-900 mb-1">学术会议报告</h4>-->
+<!--                                <p class="text-sm text-gray-600">基于深度学习的社交网络分析</p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+            </section>
+            <!-- 自我评价部分 -->
+<!--            <section id="self" class="section">-->
+<!--                <h2 class="section-title">自我评价</h2>-->
+<!--                -->
+<!--                <p>在学术研究方面，我具备扎实的数据科学基础和丰富的研究经验，尤其在动态网络链接预测领域取得了一定的成果。我善于独立思考，具备良好的问题解决能力和创新思维。在多个科研项目中，我负责了从问题分析、算法设计到实验验证的全过程，积累了系统的科研方法和实践经验。</p>-->
+<!--                -->
+<!--                <p>在专业技能方面，我熟练掌握多种编程语言和工具，能够独立完成数据处理、模型构建和实验分析等工作。我注重技术的学习和更新，不断探索新的研究方法和技术手段，以适应快速发展的学术和产业需求。</p>-->
+<!--                -->
+<!--                <p>在团队协作方面，我具有良好的沟通能力和团队合作精神，能够与不同背景的研究人员有效合作。在科研项目中，我与导师和同学保持密切沟通，积极参与讨论和交流，共同推动项目的进展。</p>-->
+<!--                -->
+<!--                <p>未来，我将继续保持对科研的热情和好奇心，不断挑战自我，努力在数据科学领域取得更深入的研究成果。</p>-->
+<!--            </section>-->
+        </div>
     </div>
     
-    <!-- 移动端导航菜单 -->
-    <div id="mobileMenu" class="hidden md:hidden bg-white/95 backdrop-blur-md shadow-lg absolute w-full">
-      <div class="container mx-auto px-4 py-3 flex flex-col space-y-4">
-        <a href="#about" class="text-dark hover:text-primary transition-colors font-medium py-2 border-b border-gray-100">关于我</a>
-        <a href="#sports" class="text-dark hover:text-primary transition-colors font-medium py-2 border-b border-gray-100">学术研究</a>
-        <a href="#boardgames" class="text-dark hover:text-primary transition-colors font-medium py-2 border-b border-gray-100">奖励荣誉</a>
-        <a href="#pinball" class="text-dark hover:text-primary transition-colors font-medium py-2 border-b border-gray-100">参加会议</a>
-        <a href="#hackathon" class="text-dark hover:text-primary transition-colors font-medium py-2 border-b border-gray-100">学术服务</a>
-        <a href="#opinions" class="text-dark hover:text-primary transition-colors font-medium py-2">参与项目</a>
-      </div>
-    </div>
-  </header>
-
-  <main class="pt-20 pb-16">
-    <!-- 英雄区域 -->
-    <section id="hero" class="relative bg-gradient-to-br from-primary/90 to-secondary/90 text-white py-24 md:py-32 overflow-hidden">
-      <div class="absolute inset-0 bg-[url('https://picsum.photos/id/1060/1920/1080')] bg-cover bg-center opacity-10"></div>
-      <div class="absolute inset-0 bg-[url('https://picsum.photos/id/1071/1920/1080')] bg-cover bg-center opacity-5 mix-blend-overlay"></div>
-      
-      <div class="container mx-auto px-4 relative z-10">
-        <div class="max-w-4xl mx-auto text-center">
-          <h1 class="text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight text-shadow mb-6">
-            <span id="heroTitle">探索我的多元世界</span>
-          </h1>
-          <p class="text-[clamp(1rem,2vw,1.25rem)] text-white/90 mb-8 max-w-2xl mx-auto">
-            <span id="heroSubtitle">体育、桌游、弹珠台与编程的奇妙旅程</span>
-          </p>
-          <div class="flex flex-wrap justify-center gap-4">
-            <a href="#about" class="bg-white text-primary px-6 py-3 rounded-full font-medium hover:bg-opacity-90 transition-all shadow-lg hover:shadow-xl hover-scale">
-              <i class="fa fa-user-circle mr-2"></i>
-              <span id="heroBtn1">了解更多</span>
-            </a>
-            <a href="#contact" class="bg-transparent border-2 border-white text-white px-6 py-3 rounded-full font-medium hover:bg-white/10 transition-all hover-scale">
-              <i class="fa fa-envelope mr-2"></i>
-              <span id="heroBtn2">联系我</span>
-            </a>
-          </div>
-        </div>
-      </div>
-      
-      <!-- 波浪装饰 -->
-      <div class="absolute bottom-0 left-0 w-full">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 120" class="w-full h-auto">
-          <path fill="#F2F3F5" fill-opacity="1" d="M0,96L60,85.3C120,75,240,53,360,53.3C480,53,600,75,720,80C840,85,960,75,1080,64C1200,53,1320,43,1380,37.3L1440,32L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120L0,120Z"></path>
-        </svg>
-      </div>
-    </section>
-
-    <!-- 关于我 -->
-    <section id="about" class="py-16 md:py-24 bg-white">
-      <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">
-            <span id="aboutTitle">关于我</span>
-          </h2>
-          <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
-        </div>
-        
-        <div class="grid md:grid-cols-2 gap-12 items-center">
-          <div class="relative">
-            <div class="relative z-10 rounded-2xl overflow-hidden shadow-2xl hover-scale">
-              <img src="https://picsum.photos/id/1012/600/800" alt="个人照片" class="w-full h-auto object-cover">
-            </div>
-            <div class="absolute -bottom-6 -right-6 w-48 h-48 bg-primary/20 rounded-full -z-10"></div>
-            <div class="absolute -top-6 -left-6 w-32 h-32 bg-secondary/20 rounded-full -z-10"></div>
-          </div>
-          
-          <div class="space-y-6">
-            <div class="bg-light p-6 rounded-xl shadow-sm">
-              <h3 class="text-xl font-bold text-primary mb-3">
-                <span id="aboutSubtitle1">个人信息</span>
-              </h3>
-              <ul class="space-y-2">
-                <li class="flex items-start">
-                  <i class="fa fa-user-circle text-primary mt-1 mr-3"></i>
-                  <span id="aboutInfo1">姓名：<strong>张明</strong></span>
-                </li>
-                <li class="flex items-start">
-                  <i class="fa fa-graduation-cap text-primary mt-1 mr-3"></i>
-                  <span id="aboutInfo2">身份：某大学计算机系博士生</span>
-                </li>
-                <li class="flex items-start">
-                  <i class="fa fa-building text-primary mt-1 mr-3"></i>
-                  <span id="aboutInfo3">所属机构：清华大学</span>
-                </li>
-              </ul>
-            </div>
+    <script>
+        // 导航栏切换功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.nav-item');
+            const sections = document.querySelectorAll('.section');
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('mainContent');
+            const navToggle = document.getElementById('navToggle');
             
-            <div class="bg-light p-6 rounded-xl shadow-sm">
-              <h3 class="text-xl font-bold text-primary mb-3">
-                <span id="aboutSubtitle2">兴趣爱好</span>
-              </h3>
-              <div class="flex flex-wrap gap-3">
-                <span class="bg-primary/10 text-primary px-4 py-1 rounded-full text-sm">体育</span>
-                <span class="bg-secondary/10 text-secondary px-4 py-1 rounded-full text-sm">桌游</span>
-                <span class="bg-accent/10 text-accent px-4 py-1 rounded-full text-sm">弹珠台</span>
-                <span class="bg-dark/10 text-dark px-4 py-1 rounded-full text-sm">编程</span>
-                <span class="bg-green-500/10 text-green-500 px-4 py-1 rounded-full text-sm">攀岩</span>
-                <span class="bg-red-500/10 text-red-500 px-4 py-1 rounded-full text-sm">极限飞盘</span>
-              </div>
-            </div>
-            
-            <div class="bg-light p-6 rounded-xl shadow-sm">
-              <h3 class="text-xl font-bold text-primary mb-3">
-                <span id="aboutSubtitle3">个人简介</span>
-              </h3>
-              <p class="text-gray-700 leading-relaxed">
-                <span id="aboutDesc">我是一个对生活充满热情的人，兴趣广泛，热爱探索新事物。在学术上，我专注于人工智能领域的研究；在生活中，我是体育赛事的忠实观众，桌游聚会的组织者，弹珠台的爱好者。我相信平衡的生活是创造力的源泉，希望通过这个网站与更多志同道合的朋友交流。</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 体育热爱 -->
-    <section id="sports" class="py-16 md:py-24 bg-light">
-      <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">
-            <span id="sportsTitle">体育热爱</span>
-          </h2>
-          <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
-        </div>
-        
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-          <div class="md:flex">
-            <div class="md:w-1/2">
-              <img src="https://picsum.photos/id/1058/800/600" alt="体育热爱" class="w-full h-full object-cover">
-            </div>
-            <div class="md:w-1/2 p-8 md:p-12">
-              <h3 class="text-2xl font-bold text-primary mb-6">
-                <span id="sportsSubtitle">我的体育之旅</span>
-              </h3>
-              <p class="text-gray-700 mb-6 leading-relaxed">
-                <span id="sportsDesc1">我在上海长大，父亲是体育迷，受其影响，我也成了上海篮球队的忠实粉丝。高中时，某次看到湖人队教练在赛后新闻发布会上的精彩表现，又迷上了湖人队。</span>
-              </p>
-              
-              <div class="space-y-4 mb-8">
-                <div class="flex items-start">
-                  <div class="bg-primary/10 p-3 rounded-full mr-4">
-                    <i class="fa fa-basketball-ball text-primary"></i>
-                  </div>
-                  <div>
-                    <h4 class="font-bold text-dark mb-1">
-                      <span id="sportsEvent1">难忘时刻</span>
-                    </h4>
-                    <ul class="text-gray-700 space-y-1">
-                      <li class="flex items-center">
-                        <i class="fa fa-circle text-xs text-primary mr-2"></i>
-                        <span id="sportsMoment1">NBA总决赛中，詹姆斯的致胜扣篮，太经典了</span>
-                      </li>
-                      <li class="flex items-center">
-                        <i class="fa fa-circle text-xs text-primary mr-2"></i>
-                        <span id="sportsMoment2">库里在2021年连轰5记三分球，精彩对决</span>
-                      </li>
-                      <li class="flex items-center">
-                        <i class="fa fa-circle text-xs text-primary mr-2"></i>
-                        <span id="sportsMoment3">科比在2016年投进关键球，助力球队夺冠</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                
-                <div class="flex items-start">
-                  <div class="bg-secondary/10 p-3 rounded-full mr-4">
-                    <i class="fa fa-heart text-secondary"></i>
-                  </div>
-                  <div>
-                    <h4 class="font-bold text-dark mb-1">
-                      <span id="sportsLove">我的热爱</span>
-                    </h4>
-                    <p class="text-gray-700">
-                      <span id="sportsLoveDesc">我对梦幻体育、体育赔率挺痴迷，也关注TNT的Inside the NBA特别节目。不看体育时，我会去攀岩馆（抱石或顶绳攀登）、玩极限飞盘，或者在所在城市跑步。</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <a href="#" class="inline-flex items-center text-primary font-medium hover:underline">
-                <span id="sportsBtn">查看更多体育时刻</span>
-                <i class="fa fa-arrow-right ml-2"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 桌游爱好 -->
-    <section id="boardgames" class="py-16 md:py-24 bg-white">
-      <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">
-            <span id="boardgameTitle">桌游爱好</span>
-          </h2>
-          <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
-        </div>
-        
-        <div class="grid md:grid-cols-2 gap-8">
-          <div class="bg-light rounded-2xl shadow-lg overflow-hidden hover-scale">
-            <div class="p-8">
-              <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
-                <i class="fa fa-chess-board mr-3"></i>
-                <span id="boardgameSubtitle1">桌游之夜</span>
-              </h3>
-              <p class="text-gray-700 mb-4 leading-relaxed">
-                <span id="boardgameDesc1">我长期组织/参与定期的桌游之夜，偏爱欧洲策略类桌游。这是我的桌游页面链接，欢迎访问！</span>
-              </p>
-              <a href="#" class="inline-block bg-primary text-white px-5 py-2 rounded-lg font-medium hover:bg-primary/90 transition-colors">
-                <i class="fa fa-link mr-2"></i>
-                <span id="boardgameBtn1">查看桌游收藏</span>
-              </a>
-            </div>
-            <div class="h-64 overflow-hidden">
-              <img src="https://picsum.photos/id/1067/800/600" alt="桌游之夜" class="w-full h-full object-cover">
-            </div>
-          </div>
-          
-          <div class="bg-light rounded-2xl shadow-lg overflow-hidden hover-scale">
-            <div class="p-8">
-              <h3 class="text-xl font-bold text-primary mb-4 flex items-center">
-                <i class="fa fa-users mr-3"></i>
-                <span id="boardgameSubtitle2">桌游展会</span>
-              </h3>
-              <p class="text-gray-700 mb-4 leading-relaxed">
-                <span id="boardgameDesc2">我参加过2023年北京国际桌游展会，在那交流桌游设计、测试游戏、参加锦标赛，玩得超嗨，桌游迷别错过！</span>
-              </p>
-              <a href="#" class="inline-block bg-secondary text-white px-5 py-2 rounded-lg font-medium hover:bg-secondary/90 transition-colors">
-                <i class="fa fa-calendar mr-2"></i>
-                <span id="boardgameBtn2">下一次展会</span>
-              </a>
-            </div>
-            <div class="h-64 overflow-hidden">
-              <img src="https://picsum.photos/id/1070/800/600" alt="桌游展会" class="w-full h-full object-cover">
-            </div>
-          </div>
-        </div>
-        
-        <div class="mt-12 bg-light rounded-2xl p-8 shadow-lg">
-          <h3 class="text-xl font-bold text-primary mb-4">
-            <span id="boardgameSubtitle3">疫情期间的系列讨论</span>
-          </h3>
-          <p class="text-gray-700 mb-6 leading-relaxed">
-            <span id="boardgameDesc3">疫情期间，我做了一个5部分的系列讨论，讲桌游设计和桌游社群里的常见陷阱。讨论系列在YouTube，配套博客文章在我的个人博客。</span>
-          </p>
-          <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-            <div class="bg-white p-4 rounded-xl shadow-sm text-center hover-scale">
-              <div class="text-3xl font-bold text-primary mb-2">1</div>
-              <p class="text-gray-700 text-sm">
-                <span id="boardgameTopic1">桌游设计基础</span>
-              </p>
-            </div>
-            <div class="bg-white p-4 rounded-xl shadow-sm text-center hover-scale">
-              <div class="text-3xl font-bold text-primary mb-2">2</div>
-              <p class="text-gray-700 text-sm">
-                <span id="boardgameTopic2">社群建设挑战</span>
-              </p>
-            </div>
-            <div class="bg-white p-4 rounded-xl shadow-sm text-center hover-scale">
-              <div class="text-3xl font-bold text-primary mb-2">3</div>
-              <p class="text-gray-700 text-sm">
-                <span id="boardgameTopic3">平衡与乐趣</span>
-              </p>
-            </div>
-            <div class="bg-white p-4 rounded-xl shadow-sm text-center hover-scale">
-              <div class="text-3xl font-bold text-primary mb-2">4</div>
-              <p class="text-gray-700 text-sm">
-                <span id="boardgameTopic4">玩家体验设计</span>
-              </p>
-            </div>
-            <div class="bg-white p-4 rounded-xl shadow-sm text-center hover-scale">
-              <div class="text-3xl font-bold text-primary mb-2">5</div>
-              <p class="text-gray-700 text-sm">
-                <span id="boardgameTopic5">未来趋势展望</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 弹珠台 -->
-    <section id="pinball" class="py-16 md:py-24 bg-light">
-      <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">
-            <span id="pinballTitle">弹珠台</span>
-          </h2>
-          <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
-        </div>
-        
-        <div class="grid md:grid-cols-3 gap-8">
-          <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover-scale">
-            <div class="h-48 overflow-hidden">
-              <img src="https://picsum.photos/id/1071/600/400" alt="弹珠台" class="w-full h-full object-cover">
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-primary mb-3">
-                <span id="pinballSubtitle1">我的启蒙</span>
-              </h3>
-              <p class="text-gray-700 leading-relaxed">
-                <span id="pinballDesc1">2019年在微软实习时，我的经理李明教了我弹珠台策略，我瞬间入迷。现在常去弹珠台博物馆（无限畅玩太香了）或弹珠台主题酒吧。</span>
-              </p>
-            </div>
-          </div>
-          
-          <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover-scale">
-            <div class="h-48 overflow-hidden">
-              <img src="https://picsum.photos/id/1072/600/400" alt="弹珠台" class="w-full h-full object-cover">
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-primary mb-3">
-                <span id="pinballSubtitle2">热门地点</span>
-              </h3>
-              <p class="text-gray-700 leading-relaxed">
-                <span id="pinballDesc2">可通过Pinball Map查找附近的弹珠台场所。我最爱的（也是最擅长的）机器是《星际迷航》和《亚当斯一家》。</span>
-              </p>
-              <a href="https://pinballmap.com/" target="_blank" class="inline-block mt-4 text-primary font-medium hover:underline">
-                <i class="fa fa-map-marker-alt mr-2"></i>
-                <span id="pinballBtn">查找弹珠台</span>
-              </a>
-            </div>
-          </div>
-          
-          <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover-scale">
-            <div class="h-48 overflow-hidden">
-              <img src="https://picsum.photos/id/1073/600/400" alt="弹珠台" class="w-full h-full object-cover">
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-primary mb-3">
-                <span id="pinballSubtitle3">我的技能</span>
-              </h3>
-              <p class="text-gray-700 leading-relaxed">
-                <span id="pinballDesc3">经过多年练习，我已经掌握了多种弹珠台技巧，包括精准弹射、连击策略和多球控制。最高纪录是在《怪物弹珠》中获得250万分。</span>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 黑客松经历 -->
-    <section id="hackathon" class="py-16 md:py-24 bg-white">
-      <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">
-            <span id="hackathonTitle">黑客松经历</span>
-          </h2>
-          <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
-        </div>
-        
-        <div class="grid md:grid-cols-3 gap-8">
-          <!-- 项目卡片 1 -->
-          <div class="bg-light rounded-2xl shadow-lg overflow-hidden hover-scale">
-            <div class="relative h-48">
-              <img src="https://picsum.photos/id/1074/600/400" alt="AI体育数据分析平台" class="w-full h-full object-cover">
-              <div class="absolute top-4 right-4 bg-accent text-white px-3 py-1 rounded-full text-sm font-medium">
-                <span id="hackathonRank1">一等奖</span>
-              </div>
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-primary mb-2">
-                <span id="hackathonProject1">AI体育数据分析平台</span>
-              </h3>
-              <p class="text-gray-700 mb-4 leading-relaxed">
-                <span id="hackathonDesc1">基于计算机视觉和机器学习的体育数据分析平台，可实时分析运动员动作和比赛数据。</span>
-              </p>
-              <div class="flex justify-between items-center">
-                <span class="text-sm text-gray-500">
-                  <i class="fa fa-calendar mr-1"></i>
-                  <span id="hackathonDate1">2024年 北京</span>
-                </span>
-                <a href="#" class="text-primary font-medium hover:underline">
-                  <i class="fa fa-link mr-1"></i>
-                  <span id="hackathonBtn">详情</span>
-                </a>
-              </div>
-            </div>
-          </div>
-          
-          <!-- 项目卡片 2 -->
-          <div class="bg-light rounded-2xl shadow-lg overflow-hidden hover-scale">
-            <div class="relative h-48">
-              <img src="https://picsum.photos/id/1075/600/400" alt="桌游设计辅助工具" class="w-full h-full object-cover">
-              <div class="absolute top-4 right-4 bg-secondary text-white px-3 py-1 rounded-full text-sm font-medium">
-                <span id="hackathonRank2">最佳创新奖</span>
-              </div>
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-primary mb-2">
-                <span id="hackathonProject2">桌游设计辅助工具</span>
-              </h3>
-              <p class="text-gray-700 mb-4 leading-relaxed">
-                <span id="hackathonDesc2">使用AI技术辅助桌游设计师创建平衡且有趣的游戏机制和规则。</span>
-              </p>
-              <div class="flex justify-between items-center">
-                <span class="text-sm text-gray-500">
-                  <i class="fa fa-calendar mr-1"></i>
-                  <span id="hackathonDate2">2023年 上海</span>
-                </span>
-                <a href="#" class="text-primary font-medium hover:underline">
-                  <i class="fa fa-link mr-1"></i>
-                  <span id="hackathonBtn">详情</span>
-                </a>
-              </div>
-            </div>
-          </div>
-          
-          <!-- 项目卡片 3 -->
-          <div class="bg-light rounded-2xl shadow-lg overflow-hidden hover-scale">
-            <div class="relative h-48">
-              <img src="https://picsum.photos/id/1076/600/400" alt="弹珠台模拟器" class="w-full h-full object-cover">
-              <div class="absolute top-4 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">
-                <span id="hackathonRank3">最佳技术应用奖</span>
-              </div>
-            </div>
-            <div class="p-6">
-              <h3 class="text-xl font-bold text-primary mb-2">
-                <span id="hackathonProject3">弹珠台模拟器</span>
-              </h3>
-              <p class="text-gray-700 mb-4 leading-relaxed">
-                <span id="hackathonDesc3">基于物理引擎的弹珠台模拟器，支持自定义台面设计和游戏规则。</span>
-              </p>
-              <div class="flex justify-between items-center">
-                <span class="text-sm text-gray-500">
-                  <i class="fa fa-calendar mr-1"></i>
-                  <span id="hackathonDate3">2022年 深圳</span>
-                </span>
-                <a href="#" class="text-primary font-medium hover:underline">
-                  <i class="fa fa-link mr-1"></i>
-                  <span id="hackathonBtn">详情</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 观点/评分 -->
-    <section id="opinions" class="py-16 md:py-24 bg-light">
-      <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">
-            <span id="opinionTitle">观点/评分</span>
-          </h2>
-          <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
-        </div>
-        
-        <div class="grid md:grid-cols-2 gap-8">
-          <div class="bg-white rounded-2xl shadow-lg p-8 hover-scale">
-            <div class="flex items-center mb-6">
-              <div class="bg-primary/10 p-3 rounded-full mr-4">
-                <i class="fa fa-comment text-primary"></i>
-              </div>
-              <h3 class="text-xl font-bold text-primary">
-                <span id="opinionSubtitle1">热辣观点</span>
-              </h3>
-            </div>
-            <div class="space-y-4">
-              <div class="bg-light p-4 rounded-xl">
-                <div class="flex justify-between items-center mb-2">
-                  <h4 class="font-bold text-dark">
-                    <span id="opinionTopic1">关于桌游设计</span>
-                  </h4>
-                  <div class="text-yellow-400">
-                    <i class="fa fa-fire"></i>
-                    <i class="fa fa-fire"></i>
-                    <i class="fa fa-fire"></i>
-                  </div>
-                </div>
-                <p class="text-gray-700 text-sm">
-                  <span id="opinionDesc1">现代桌游设计过于注重复杂机制，而忽视了核心玩家体验。简单而深刻的游戏往往更能持久。</span>
-                </p>
-              </div>
-              
-              <div class="bg-light p-4 rounded-xl">
-                <div class="flex justify-between items-center mb-2">
-                  <h4 class="font-bold text-dark">
-                    <span id="opinionTopic2">关于体育数据分析</span>
-                  </h4>
-                  <div class="text-yellow-400">
-                    <i class="fa fa-fire"></i>
-                    <i class="fa fa-fire"></i>
-                  </div>
-                </div>
-                <p class="text-gray-700 text-sm">
-                  <span id="opinionDesc2">AI在体育中的应用应该更注重增强教练和运动员的决策能力，而不是取代他们的判断。</span>
-                </p>
-              </div>
-              
-              <div class="bg-light p-4 rounded-xl">
-                <div class="flex justify-between items-center mb-2">
-                  <h4 class="font-bold text-dark">
-                    <span id="opinionTopic3">关于弹珠台</span>
-                  </h4>
-                  <div class="text-yellow-400">
-                    <i class="fa fa-fire"></i>
-                    <i class="fa fa-fire"></i>
-                    <i class="fa fa-fire"></i>
-                    <i class="fa fa-fire"></i>
-                  </div>
-                </div>
-                <p class="text-gray-700 text-sm">
-                  <span id="opinionDesc3">现代弹珠台过于依赖电子屏幕和复杂规则，怀念经典机械弹珠台的纯粹乐趣。</span>
-                </p>
-              </div>
-            </div>
-          </div>
-          
-          <div class="bg-white rounded-2xl shadow-lg p-8 hover-scale">
-            <div class="flex items-center mb-6">
-              <div class="bg-secondary/10 p-3 rounded-full mr-4">
-                <i class="fa fa-star text-secondary"></i>
-              </div>
-              <h3 class="text-xl font-bold text-primary">
-                <span id="opinionSubtitle2">评分推荐</span>
-              </h3>
-            </div>
-            <div class="space-y-6">
-              <div class="flex">
-                <div class="w-24 h-24 rounded-lg overflow-hidden mr-4">
-                  <img src="https://picsum.photos/id/1077/200/200" alt="桌游推荐" class="w-full h-full object-cover">
-                </div>
-                <div class="flex-1">
-                  <h4 class="font-bold text-dark mb-1">
-                    <span id="recommendGame1">《铁路环游》</span>
-                  </h4>
-                  <div class="flex items-center mb-2">
-                    <div class="text-yellow-400">
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star-half-alt"></i>
-                    </div>
-                    <span class="text-gray-500 text-sm ml-2">4.5/5</span>
-                  </div>
-                  <p class="text-gray-700 text-sm">
-                    <span id="recommendDesc1">经典欧洲策略桌游，简单易上手但充满策略深度，适合2-5人。</span>
-                  </p>
-                </div>
-              </div>
-              
-              <div class="flex">
-                <div class="w-24 h-24 rounded-lg overflow-hidden mr-4">
-                  <img src="https://picsum.photos/id/1078/200/200" alt="弹珠台推荐" class="w-full h-full object-cover">
-                </div>
-                <div class="flex-1">
-                  <h4 class="font-bold text-dark mb-1">
-                    <span id="recommendPinball1">《星际迷航》弹珠台</span>
-                  </h4>
-                  <div class="flex items-center mb-2">
-                    <div class="text-yellow-400">
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                    </div>
-                    <span class="text-gray-500 text-sm ml-2">5/5</span>
-                  </div>
-                  <p class="text-gray-700 text-sm">
-                    <span id="recommendDesc2">经典主题，流畅的游戏体验，多球模式和星际迷航元素的完美结合。</span>
-                  </p>
-                </div>
-              </div>
-              
-              <div class="flex">
-                <div class="w-24 h-24 rounded-lg overflow-hidden mr-4">
-                  <img src="https://picsum.photos/id/1079/200/200" alt="体育推荐" class="w-full h-full object-cover">
-                </div>
-                <div class="flex-1">
-                  <h4 class="font-bold text-dark mb-1">
-                    <span id="recommendSports1">《最后一投》纪录片</span>
-                  </h4>
-                  <div class="flex items-center mb-2">
-                    <div class="text-yellow-400">
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star-half-alt"></i>
-                    </div>
-                    <span class="text-gray-500 text-sm ml-2">4.7/5</span>
-                  </div>
-                  <p class="text-gray-700 text-sm">
-                    <span id="recommendDesc3">关于公牛王朝和乔丹的纪录片，深入了解体育精神和团队合作的典范。</span>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 联系我 -->
-    <section id="contact" class="py-16 md:py-24 bg-white">
-      <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-          <h2 class="text-[clamp(1.75rem,3vw,2.5rem)] font-bold text-dark mb-4">
-            <span id="contactTitle">联系我</span>
-          </h2>
-          <div class="w-20 h-1 bg-primary mx-auto rounded-full"></div>
-        </div>
-        
-        <div class="max-w-4xl mx-auto">
-          <div class="bg-light rounded-2xl shadow-lg overflow-hidden">
-            <div class="md:flex">
-              <div class="md:w-2/5 bg-gradient-to-br from-primary to-secondary p-8 text-white">
-                <h3 class="text-2xl font-bold mb-6">
-                  <span id="contactSubtitle">联系方式</span>
-                </h3>
-                <div class="space-y-6">
-                  <div class="flex items-start">
-                    <div class="bg-white/20 p-3 rounded-full mr-4">
-                      <i class="fa fa-envelope text-white"></i>
-                    </div>
-                    <div>
-                      <h4 class="font-medium mb-1">
-                        <span id="contactEmailTitle">邮箱</span>
-                      </h4>
-                      <p class="text-white/80">zhangming@example.com</p>
-                    </div>
-                  </div>
-                  
-                  <div class="flex items-start">
-                    <div class="bg-white/20 p-3 rounded-full mr-4">
-                      <i class="fa fa-phone text-white"></i>
-                    </div>
-                    <div>
-                      <h4 class="font-medium mb-1">
-                        <span id="contactPhoneTitle">电话</span>
-                      </h4>
-                      <p class="text-white/80">+86 138 **** 1234</p>
-                    </div>
-                  </div>
-                  
-                  <div class="flex items-start">
-                    <div class="bg-white/20 p-3 rounded-full mr-4">
-                      <i class="fa fa-map-marker-alt text-white"></i>
-                    </div>
-                    <div>
-                      <h4 class="font-medium mb-1">
-                        <span id="contactLocationTitle">位置</span>
-                      </h4>
-                      <p class="text-white/80">北京市海淀区清华大学</p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="mt-10">
-                  <h4 class="font-medium mb-3">
-                    <span id="contactSocialTitle">社交媒体</span>
-                  </h4>
-                  <div class="flex space-x-4">
-                    <a href="#" class="bg-white/20 hover:bg-white/30 p-3 rounded-full transition-colors">
-                      <i class="fa fa-weixin text-white"></i>
-                    </a>
-                    <a href="#" class="bg-white/20 hover:bg-white/30 p-3 rounded-full transition-colors">
-                      <i class="fa fa-weibo text-white"></i>
-                    </a>
-                    <a href="#" class="bg-white/20 hover:bg-white/30 p-3 rounded-full transition-colors">
-                      <i class="fa fa-github text-white"></i>
-                    </a>
-                    <a href="#" class="bg-white/20 hover:bg-white/30 p-3 rounded-full transition-colors">
-                      <i class="fa fa-linkedin text-white"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              
-              <div class="md:w-3/5 p-8">
-                <h3 class="text-2xl font-bold text-primary mb-6">
-                  <span id="contactFormTitle">发送消息</span>
-                </h3>
-                <form id="contactForm">
-                  <div class="grid md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <label for="name" class="block text-gray-700 mb-2">
-                        <span id="contactName">姓名</span>
-                      </label>
-                      <input type="text" id="name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="您的姓名">
-                    </div>
-                    <div>
-                      <label for="email" class="block text-gray-700 mb-2">
-                        <span id="contactEmail">邮箱</span>
-                      </label>
-                      <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="您的邮箱">
-                    </div>
-                  </div>
-                  
-                  <div class="mb-4">
-                    <label for="subject" class="block text-gray-700 mb-2">
-                      <span id="contactSubject">主题</span>
-                    </label>
-                    <input type="text" id="subject" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="消息主题">
-                  </div>
-                  
-                  <div class="mb-6">
-                    <label for="message" class="block text-gray-700 mb-2">
-                      <span id="contactMessage">消息</span>
-                    </label>
-                    <textarea id="message" rows="5" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary" placeholder="请输入您的消息..."></textarea>
-                  </div>
-                  
-                  <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors">
-                    <i class="fa fa-paper-plane mr-2"></i>
-                    <span id="contactSend">发送消息</span>
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- 页脚 -->
-  <footer class="bg-dark text-white py-12">
-    <div class="container mx-auto px-4">
-      <div class="grid md:grid-cols-4 gap-8">
-        <div>
-          <h3 class="text-xl font-bold mb-4">
-            <span class="text-primary">个人</span><span class="text-secondary">主页</span>
-          </h3>
-          <p class="text-gray-400 mb-4">
-            <span id="footerDesc">探索我的多元世界：体育、桌游、弹珠台与编程的奇妙旅程。</span>
-          </p>
-          <div class="flex space-x-4">
-            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <i class="fa fa-weixin"></i>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <i class="fa fa-weibo"></i>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <i class="fa fa-github"></i>
-            </a>
-            <a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <i class="fa fa-linkedin"></i>
-            </a>
-          </div>
-        </div>
-        
-        <div>
-          <h4 class="text-lg font-medium mb-4">
-            <span id="footerQuickLinks">快速链接</span>
-          </h4>
-          <ul class="space-y-2">
-            <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">
-              <span id="footerLink1">关于我</span>
-            </a></li>
-            <li><a href="#sports" class="text-gray-400 hover:text-white transition-colors">
-              <span id="footerLink2">体育热爱</span>
-            </a></li>
-            <li><a href="#boardgames" class="text-gray-400 hover:text-white transition-colors">
-              <span id="footerLink3">桌游爱好</span>
-            </a></li>
-            <li><a href="#pinball" class="text-gray-400 hover:text-white transition-colors">
-              <span id="footerLink4">弹珠台</span>
-            </a></li>
-            <li><a href="#hackathon" class="text-gray-400 hover:text-white transition-colors">
-              <span id="footerLink5">黑客松</span>
-            </a></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h4 class="text-lg font-medium mb-4">
-            <span id="footerResources">资源</span>
-          </h4>
-          <ul class="space-y-2">
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <span id="footerResource1">我的博客</span>
-            </a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <span id="footerResource2">项目展示</span>
-            </a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <span id="footerResource3">桌游设计</span>
-            </a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <span id="footerResource4">体育分析</span>
-            </a></li>
-            <li><a href="#" class="text-gray-400 hover:text-white transition-colors">
-              <span id="footerResource5">弹珠台攻略</span>
-            </a></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h4 class="text-lg font-medium mb-4">
-            <span id="footerSubscribe">订阅更新</span>
-          </h4>
-          <p class="text-gray-400 mb-4">
-            <span id="footerSubscribeDesc">订阅我的新闻通讯，获取最新的项目更新和活动信息。</span>
-          </p>
-          <form class="flex">
-            <input type="email" placeholder="您的邮箱" class="flex-1 px-4 py-2 rounded-l-lg focus:outline-none">
-            <button type="submit" class="bg-primary text-white px-4 py-2 rounded-r-lg hover:bg-primary/90 transition-colors">
-              <i class="fa fa-paper-plane"></i>
-            </button>
-          </form>
-        </div>
-      </div>
-      
-      <div class="border-t border-gray-800 mt-10 pt-6 flex flex-col md:flex-row justify-between items-center">
-        <p class="text-gray-400 text-sm">
-          <span id="footerCopyright">&copy; 2025 张明. 保留所有权利.</span>
-        </p>
-        <div class="flex space-x-6 mt-4 md:mt-0">
-          <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">
-            <span id="footerPrivacy">隐私政策</span>
-          </a>
-          <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">
-            <span id="footerTerms">使用条款</span>
-          </a>
-          <a href="#" class="text-gray-400 hover:text-white text-sm transition-colors">
-            <span id="footerCookies">Cookie政策</span>
-          </a>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <!-- 返回顶部按钮 -->
-  <button id="backToTop" class="fixed bottom-6 right-6 bg-primary text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all z-50">
-    <i class="fa fa-arrow-up"></i>
-  </button>
-
-  <!-- JavaScript -->
-  <script>
-    // 页面加载完成后执行
-    document.addEventListener('DOMContentLoaded', function() {
-      // 导航栏滚动效果
-      const navbar = document.getElementById('navbar');
-      const backToTop = document.getElementById('backToTop');
-      
-      window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-          navbar.classList.add('bg-white', 'shadow-md');
-          navbar.classList.remove('bg-white/90');
-          
-          backToTop.classList.remove('opacity-0', 'invisible');
-          backToTop.classList.add('opacity-100', 'visible');
-        } else {
-          navbar.classList.remove('bg-white', 'shadow-md');
-          navbar.classList.add('bg-white/90');
-          
-          backToTop.classList.add('opacity-0', 'invisible');
-          backToTop.classList.remove('opacity-100', 'visible');
-        }
-      });
-      
-      // 移动端菜单切换
-      const menuToggle = document.getElementById('menuToggle');
-      const mobileMenu = document.getElementById('mobileMenu');
-      
-      menuToggle.addEventListener('click', function() {
-        mobileMenu.classList.toggle('hidden');
-      });
-      
-      // 平滑滚动
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-          e.preventDefault();
-          
-          const targetId = this.getAttribute('href');
-          const targetElement = document.querySelector(targetId);
-          
-          if (targetElement) {
-            window.scrollTo({
-              top: targetElement.offsetTop - 80,
-              behavior: 'smooth'
+            // 导航栏切换
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 移除所有活动状态
+                    navItems.forEach(i => i.classList.remove('active'));
+                    // 添加当前活动状态
+                    this.classList.add('active');
+                    
+                    // 隐藏所有部分
+                    sections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // 显示对应部分
+                    const target = this.getAttribute('data-target');
+                    const targetSection = document.getElementById(target);
+                    if (targetSection) {
+                        targetSection.style.display = 'block';
+                    }
+                });
             });
             
-            // 关闭移动菜单
-            if (!mobileMenu.classList.contains('hidden')) {
-              mobileMenu.classList.add('hidden');
-            }
-          }
+            // 侧边栏折叠/展开
+            navToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('collapsed');
+                mainContent.classList.toggle('collapsed');
+            });
+            
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 20,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
         });
-      });
-      
-      // 返回顶部按钮
-      backToTop.addEventListener('click', function() {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      });
-      
-      // 表单提交
-      const contactForm = document.getElementById('contactForm');
-      
-      contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // 这里可以添加表单验证和提交逻辑
-        alert('感谢您的留言！我会尽快回复您。');
-        contactForm.reset();
-      });
-      
-      // 语言切换功能
-      const langToggle = document.getElementById('langToggle');
-      const currentLang = document.getElementById('currentLang');
-      let isChinese = true;
-      
-      // 中英文内容映射
-      const translations = {
-        // 导航
-        'currentLang': {
-          'zh': '中文',
-          'en': 'English'
-        },
-        // 英雄区域
-        'heroTitle': {
-          'zh': '探索我的多元世界',
-          'en': 'Explore My Diverse World'
-        },
-        'heroSubtitle': {
-          'zh': '体育、桌游、弹珠台与编程的奇妙旅程',
-          'en': 'A Journey Through Sports, Board Games, Pinball & Programming'
-        },
-        'heroBtn1': {
-          'zh': '了解更多',
-          'en': 'Learn More'
-        },
-        'heroBtn2': {
-          'zh': '联系我',
-          'en': 'Contact Me'
-        },
-        // 关于我
-        'aboutTitle': {
-          'zh': '关于我',
-          'en': 'About Me'
-        },
-        'aboutSubtitle1': {
-          'zh': '个人信息',
-          'en': 'Personal Info'
-        },
-        'aboutInfo1': {
-          'zh': '姓名：<strong>张明</strong>',
-          'en': 'Name: <strong>Zhang Ming</strong>'
-        },
-        'aboutInfo2': {
-          'zh': '身份：某大学计算机系博士生',
-          'en': 'Title: PhD Candidate in Computer Science'
-        },
-        'aboutInfo3': {
-          'zh': '所属机构：清华大学',
-          'en': 'Affiliation: Tsinghua University'
-        },
-        'aboutSubtitle2': {
-          'zh': '兴趣爱好',
-          'en': 'Interests'
-        },
-        'aboutSubtitle3': {
-          'zh': '个人简介',
-          'en': 'Introduction'
-        },
-        'aboutDesc': {
-          'zh': '我是一个对生活充满热情的人，兴趣广泛，热爱探索新事物。在学术上，我专注于人工智能领域的研究；在生活中，我是体育赛事的忠实观众，桌游聚会的组织者，弹珠台的爱好者。我相信平衡的生活是创造力的源泉，希望通过这个网站与更多志同道合的朋友交流。',
-          'en': 'I\'m a passionate individual with diverse interests, always eager to explore new things. Academically, I focus on AI research. In daily life, I\'m a sports enthusiast, board game organizer, and pinball lover. I believe a balanced life fuels creativity, and I hope to connect with like - minded people through this website.'
-        },
-        // 体育热爱
-        'sportsTitle': {
-          'zh': '体育热爱',
-          'en': 'Sports Passion'
-        },
-        'sportsSubtitle': {
-          'zh': '我的体育之旅',
-          'en': 'My Sports Journey'
-        },
-        'sportsDesc1': {
-          'zh': '我在上海长大，父亲是体育迷，受其影响，我也成了上海篮球队的忠实粉丝。高中时，某次看到湖人队教练在赛后新闻发布会上的精彩表现，又迷上了湖人队。',
-          'en': 'Growing up in Shanghai with a sports - loving father, I became a devoted fan of the Shanghai Basketball Team. In high school, I was captivated by the Lakers\' coach\'s post - game press conference performance and fell in love with the Lakers.'
-        },
-        'sportsEvent1': {
-          'zh': '难忘时刻',
-          'en': 'Unforgettable Moments'
-        },
-        'sportsMoment1': {
-          'zh': 'NBA总决赛中，詹姆斯的致胜扣篮，太经典了',
-          'en': 'LeBron\'s game - winning dunk in the NBA Finals was legendary'
-        },
-        'sportsMoment2': {
-          'zh': '库里在2021年连轰5记三分球，精彩对决',
-          'en': 'Curry\'s 5 consecutive three - pointers in 2021 made for an epic showdown'
-        },
-        'sportsMoment3': {
-          'zh': '科比在2016年投进关键球，助力球队夺冠',
-          'en': 'Kobe\'s clutch shot in 2016 helped the team win the championship'
-        },
-        'sportsLove': {
-          'zh': '我的热爱',
-          'en': 'My Passions'
-        },
-        'sportsLoveDesc': {
-          'zh': '我对梦幻体育、体育赔率挺痴迷，也关注TNT的Inside the NBA特别节目。不看体育时，我会去攀岩馆（抱石或顶绳攀登）、玩极限飞盘，或者在所在城市跑步。',
-          'en': 'I\'m obsessed with fantasy sports and sports odds. I also follow TNT\'s Inside the NBA show. When not watching sports, I go climbing (bouldering or top - roping), play ultimate frisbee, or run in my city.'
-        },
-        'sportsBtn': {
-          'zh': '查看更多体育时刻',
-          'en': 'View More Sports Moments'
-        },
-        // 桌游爱好
-        'boardgameTitle': {
-          'zh': '桌游爱好',
-          'en': 'Board Game Hobby'
-        },
-        'boardgameSubtitle1': {
-          'zh': '桌游之夜',
-          'en': 'Board Game Nights'
-        },
-        'boardgameDesc1': {
-          'zh': '我长期组织/参与定期的桌游之夜，偏爱欧洲策略类桌游。这是我的桌游页面链接，欢迎访问！',
-          'en': 'I\'ve been organizing/attending regular board game nights for years, with a preference for European strategy games. Here\'s the link to my board game collection!'
-        },
-        'boardgameBtn1': {
-          'zh': '查看桌游收藏',
-          'en': 'View Board Game Collection'
-        },
-        'boardgameSubtitle2': {
-          'zh': '桌游展会',
-          'en': 'Board Game Conventions'
-        },
-        'boardgameDesc2': {
-          'zh': '我参加过2023年北京国际桌游展会，在那交流桌游设计、测试游戏、参加锦标赛，玩得超嗨，桌游迷别错过！',
-          'en': 'I attended the 2023 Beijing International Board Game Convention, where I discussed game design, playtested new games, and competed in tournaments. A must - visit for board game enthusiasts!'
-        },
-        'boardgameBtn2': {
-          'zh': '下一次展会',
-          'en': 'Next Convention'
-        },
-        'boardgameSubtitle3': {
-          'zh': '疫情期间的系列讨论',
-          'en': 'Pandemic Discussion Series'
-        },
-        'boardgameDesc3': {
-          'zh': '疫情期间，我做了一个5部分的系列讨论，讲桌游设计和桌游社群里的常见陷阱。讨论系列在YouTube，配套博客文章在我的个人博客。',
-          'en': 'During the pandemic, I hosted a 5 - part discussion series about common pitfalls in board game design and communities. The series is on YouTube, with companion blog posts on my website.'
-        },
-        'boardgameTopic1': {
-          'zh': '桌游设计基础',
-          'en': 'Board Game Design Basics'
-        },
-        'boardgameTopic2': {
-          'zh': '社群建设挑战',
-          'en': 'Community Building Challenges'
-        },
-        'boardgameTopic3': {
-          'zh': '平衡与乐趣',
-          'en': 'Balance and Fun'
-        },
-        'boardgameTopic4': {
-          'zh': '玩家体验设计',
-          'en': 'Player Experience Design'
-        },
-        'boardgameTopic5': {
-          'zh': '未来趋势展望',
-          'en': 'Future Trends'
-        },
-        // 弹珠台
-        'pinballTitle': {
-          'zh': '弹珠台',
-          'en': 'Pinball'
-        },
-        'pinballSubtitle1': {
-          'zh': '我的启蒙',
-          'en': 'My Introduction'
-        },
-        'pinballDesc1': {
-          'zh': '2019年在微软实习时，我的经理李明教了我弹珠台策略，我瞬间入迷。现在常去弹珠台博物馆（无限畅玩太香了）或弹珠台主题酒吧。',
-          'en': 'During my internship at Microsoft in 2019, my manager Li Ming taught me pinball strategies, and I was instantly hooked. Now I frequent pinball museums (unlimited play is amazing) and pinball - themed bars.'
-        },
-        'pinballSubtitle2': {
-          'zh': '热门地点',
-          'en': 'Popular Spots'
-        },
-        'pinballDesc2': {
-          'zh': '可通过Pinball Map查找附近的弹珠台场所。我最爱的（也是最擅长的）机器是《星际迷航》和《亚当斯一家》。',
-          'en': 'Find local pinball locations via Pinball Map. My favorite (and best - played) machines are Star Trek and The Addams Family.'
-        },
-        'pinballBtn': {
-          'zh': '查找弹珠台',
-          'en': 'Find Pinball Locations'
-        },
-        'pinballSubtitle3': {
-          'zh': '我的技能',
-          'en': 'My Skills'
-        },
-        'pinballDesc3': {
-          'zh': '经过多年练习，我已经掌握了多种弹珠台技巧，包括精准弹射、连击策略和多球控制。最高纪录是在《怪物弹珠》中获得250万分。',
-          'en': 'After years of practice, I\'ve mastered various pinball techniques, including precision shots, combo strategies, and multi - ball control. My highest score is 2.5 million points on Monster Pinball.'
-        },
-        // 黑客松经历
-        'hackathonTitle': {
-          'zh': '黑客松经历',
-          'en': 'Hackathon Experiences'
-        },
-        'hackathonProject1': {
-          'zh': 'AI体育数据分析平台',
-          'en': 'AI Sports Data Analysis Platform'
-        },
-        'hackathonDesc1': {
-          'zh': '基于计算机视觉和机器学习的体育数据分析平台，可实时分析运动员动作和比赛数据。',
-          'en': 'A sports data analysis platform using computer vision and machine learning to analyze athlete movements and game statistics in real - time.'
-        },
-        'hackathonRank1': {
-          'zh': '一等奖',
-          'en': 'First Prize'
-        },
-        'hackathonDate1': {
-          'zh': '2024年 北京',
-          'en': '2024, Beijing'
-        },
-        'hackathonProject2': {
-          'zh': '桌游设计辅助工具',
-          'en': 'Board Game Design Assistant'
-        },
-        'hackathonDesc2': {
-          'zh': '使用AI技术辅助桌游设计师创建平衡且有趣的游戏机制和规则。',
-          'en': 'An AI - powered tool to assist board game designers in creating balanced and engaging game mechanics and rules.'
-        },
-        'hackathonRank2': {
-          'zh': '最佳创新奖',
-          'en': 'Best Innovation Award'
-        },
-        'hackathonDate2': {
-          'zh': '2023年 上海',
-          'en': '2023, Shanghai'
-        },
-        'hackathonProject3': {
-          'zh': '弹珠台模拟器',
-          'en': 'Pinball Simulator'
-        },
-        'hackathonDesc3': {
-          'zh': '基于物理引擎的弹珠台模拟器，支持自定义台面设计和游戏规则。',
-          'en': 'A physics - based pinball simulator supporting custom table designs and game rules.'
-        },
-        'hackathonRank3': {
-          'zh': '最佳技术应用奖',
-          'en': 'Best Technical Application'
-        },
-        'hackathonDate3': {
-          'zh': '2022年 深圳',
-          'en': '2022, Shenzhen'
-        },
-        'hackathonBtn': {
-          'zh': '详情',
-          'en': 'Details'
-        },
-        // 观点/评分
-        'opinionTitle': {
-          'zh': '观点/评分',
-          'en': 'Opinions/Ratings'
-        },
-        'opinionSubtitle1': {
-          'zh': '热辣观点',
-          'en': 'Hot Takes'
-        },
-        'opinionTopic1': {
-          'zh': '关于桌游设计',
-          'en': 'On Board Game Design'
-        },
-        'opinionDesc1': {
-          'zh': '现代桌游设计过于注重复杂机制，而忽视了核心玩家体验。简单而深刻的游戏往往更能持久。',
-          'en': 'Modern board game design often focuses too much on complex mechanics at the expense of core player experience. Simple yet profound games tend to be more enduring.'
-        },
-        'opinionTopic2': {
-          'zh': '关于体育数据分析',
-          'en': 'On Sports Data Analysis'
-        },
-        'opinionDesc2': {
-          'zh': 'AI在体育中的应用应该更注重增强教练和运动员的决策能力，而不是取代他们的判断。',
-          'en': 'AI applications in sports should focus on augmenting coaches\' and athletes\' decision - making abilities rather than replacing their judgment.'
-        },
-        'opinionTopic3': {
-          'zh': '关于弹珠台',
-          'en': 'On Pinball'
-        },
-        'opinionDesc3': {
-          'zh': '现代弹珠台过于依赖电子屏幕和复杂规则，怀念经典机械弹珠台的纯粹乐趣。',
-          'en': 'Modern pinball machines rely too heavily on electronic screens and complex rules. I miss the pure fun of classic mechanical pinball.'
-        },
-        'opinionSubtitle2': {
-          'zh': '评分推荐',
-          'en': 'Recommendations'
-        },
-        'recommendGame1': {
-          'zh': '《铁路环游》',
-          'en': 'Ticket to Ride'
-        },
-        'recommendDesc1': {
-          'zh': '经典欧洲策略桌游，简单易上手但充满策略深度，适合2-5人。',
-          'en': 'A classic European strategy game, easy to learn but deep in strategy, suitable for 2 - 5 players.'
-        },
-        'recommendPinball1': {
-          'zh': '《星际迷航》弹珠台',
-          'en': 'Star Trek Pinball'
-        },
-        'recommendDesc2': {
-          'zh': '经典主题，流畅的游戏体验，多球模式和星际迷航元素的完美结合。',
-          'en': 'A classic theme with smooth gameplay, perfect combination of multi - ball modes and Star Trek elements.'
-        },
-        'recommendSports1': {
-          'zh': '《最后一投》纪录片',
-          'en': 'The Last Dance Documentary'
-        },
-        'recommendDesc3': {
-          'zh': '关于公牛王朝和乔丹的纪录片，深入了解体育精神和团队合作的典范。',
-          'en': 'A documentary about the Bulls dynasty and Michael Jordan, offering insights into sportsmanship and teamwork.'
-        },
-        // 联系我
-        'contactTitle': {
-          'zh': '联系我',
-          'en': 'Contact Me'
-        },
-        'contactSubtitle': {
-          'zh': '联系方式',
-          'en': 'Contact Information'
-        },
-        'contactEmailTitle': {
-          'zh': '邮箱',
-          'en': 'Email'
-        },
-        'contactPhoneTitle': {
-          'zh': '电话',
-          'en': 'Phone'
-        },
-        'contactLocationTitle': {
-          'zh': '位置',
-          'en': 'Location'
-        },
-        'contactSocialTitle': {
-          'zh': '社交媒体',
-          'en': 'Social Media'
-        },
-        'contactFormTitle': {
-          'zh': '发送消息',
-          'en': 'Send a Message'
-        },
-        'contactName': {
-          'zh': '姓名',
-          'en': 'Name'
-        },
-        'contactEmail': {
-          'zh': '邮箱',
-          'en': 'Email'
-        },
-        'contactSubject': {
-          'zh': '主题',
-          'en': 'Subject'
-        },
-        'contactMessage': {
-          'zh': '消息',
-          'zh': '消息',
-          'en': 'Message'
-        },
-        'contactSend': {
-          'zh': '发送消息',
-          'en': 'Send Message'
-        },
-        // 页脚
-        'footerDesc': {
-          'zh': '探索我的多元世界：体育、桌游、弹珠台与编程的奇妙旅程。',
-          'en': 'Explore my diverse world: a fascinating journey through sports, board games, pinball, and programming.'
-        },
-        'footerQuickLinks': {
-          'zh': '快速链接',
-          'en': 'Quick Links'
-        },
-        'footerLink1': {
-          'zh': '关于我',
-          'en': 'About Me'
-        },
-        'footerLink2': {
-          'zh': '体育热爱',
-          'en': 'Sports Passion'
-        },
-        'footerLink3': {
-          'zh': '桌游爱好',
-          'en': 'Board Games'
-        },
-        'footerLink4': {
-          'zh': '弹珠台',
-          'en': 'Pinball'
-        },
-        'footerLink5': {
-          'zh': '黑客松',
-          'en': 'Hackathons'
-        },
-        'footerResources': {
-          'zh': '资源',
-          'en': 'Resources'
-        },
-        'footerResource1': {
-          'zh': '我的博客',
-          'en': 'My Blog'
-        },
-        'footerResource2': {
-          'zh': '项目展示',
-          'en': 'Projects'
-        },
-        'footerResource3': {
-          'zh': '桌游设计',
-          'en': 'Board Game Design'
-        },
-        'footerResource4': {
-          'zh': '体育分析',
-          'en': 'Sports Analysis'
-        },
-        'footerResource5': {
-          'zh': '弹珠台攻略',
-          'en': 'Pinball Guides'
-        },
-        'footerSubscribe': {
-          'zh': '订阅更新',
-          'en': 'Subscribe'
-        },
-        'footerSubscribeDesc': {
-          'zh': '订阅我的新闻通讯，获取最新的项目更新和活动信息。',
-          'en': 'Subscribe to my newsletter for the latest project updates and event information.'
-        },
-        'footerCopyright': {
-          'zh': '&copy; 2025 张明. 保留所有权利.',
-          'en': '&copy; 2025 Zhang Ming. All rights reserved.'
-        },
-        'footerPrivacy': {
-          'zh': '隐私政策',
-          'en': 'Privacy Policy'
-        },
-        'footerTerms': {
-          'zh': '使用条款',
-          'en': 'Terms of Service'
-        },
-        'footerCookies': {
-          'zh': 'Cookie政策',
-          'en': 'Cookie Policy'
-        }
-      };
-      
-      // 语言切换功能
-      langToggle.addEventListener('click', function() {
-        isChinese = !isChinese;
-        
-        // 更新所有可翻译元素
-        Object.keys(translations).forEach(key => {
-          const element = document.getElementById(key);
-          if (element) {
-            element.textContent = translations[key][isChinese ? 'zh' : 'en'];
-          }
-        });
-        
-        // 更新当前语言显示
-        currentLang.textContent = isChinese ? '中文' : 'English';
-        
-        // 如果移动菜单是打开的，关闭它
-        if (!mobileMenu.classList.contains('hidden')) {
-          mobileMenu.classList.add('hidden');
-        }
-      });
-    });
-  </script>
+    </script>
 </body>
 </html>
