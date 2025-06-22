@@ -26,7 +26,7 @@
         
         /* 左侧导航栏 */
         .sidebar {
-            width: 280px;
+            width: 220px;
             background-color: #1a56db;
             color: white;
             position: fixed;
@@ -37,29 +37,31 @@
         }
         
         .sidebar.collapsed {
-            width: 70px;
+            width: 140px;/*打印首页用140px,后面页用0px*/
         }
         
         .profile-header {
-            padding: 2rem 1.5rem;
+            padding: 1rem 0.5rem;
             text-align: center;
             border-bottom: 1px solid #3b82f6;
         }
         
         /* 修改后的个人照片样式 */
         .profile-picture {
-            width: 165px;  /* 增加宽度 */
-            height: 240px; /* 保持高度不变，形成4:3的长方形 */
+            width: 128px;  /* 增加宽度 */
+            height: 185px; /* 保持高度不变，形成4:3的长方形 */
             margin-bottom: 1rem;
+            margin-left: -0.5rem;
             object-fit: cover;  /* 保持图片比例，裁剪超出部分 */
-            border: 4px solid #3b82f6;
+            border: 3px solid #3b82f6;
             border-radius: 8px;  /* 圆角矩形 */
         }
         
         .profile-name {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 0.5rem;
+            margin-left: -1rem;
         }
         
         .profile-title {
@@ -108,9 +110,9 @@
         }
         
         .nav-item i {
-            width: 24px;
+            width: 28px;
             text-align: center;
-            margin-right: 1rem;
+            margin-right: 0.5rem;
             font-size: 1.2rem;
         }
         
@@ -121,38 +123,47 @@
         /* 主内容区 */
         .main-content {
             flex: 1;
-            margin-left: 280px;
-            padding: 2rem 3rem;
-            transition: margin 0.3s;
+            margin-left: 230px;
+            padding: 0.1rem 0.5rem 0.1rem 0.6rem; /* 上、右、下、左的内边距 */
+            transition: margin 1s;
         }
         
         .main-content.collapsed {
-            margin-left: 70px;
+            margin-left: 140px;/*打印首页用140px,后面页用0px*/
         }
         
         .section {
             background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            padding: 2rem;
-            margin-bottom: 2rem;
+            border-radius: 3px;
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
+            padding: 0.1rem 0.5rem 0.1rem 1.2rem; /* 上、右、下、左的内边距 */
+            margin-bottom: 0.2rem; /* 减小底部外边距 */
+            margin-top: 0.2rem; /* 减小顶部外边距 */
         }
         
         .section-title {
-            font-size: 1.8rem;
+            font-size: 1.2rem;
             color: #1a56db;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 1rem;
+            padding-bottom: 0.2rem;
+            border-bottom: 1px solid #e5e7eb;
         }
         
         /* 个人信息 */
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 0.1fr));
+            column-gap: 1rem;
+            row-gap: 0.5rem;
+            margin-top: 0.5rem;
         }
-        
+        .info-grids {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 0.1fr));
+            column-gap: 1rem;
+            row-gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
         .info-item {
             display: flex;
             align-items: flex-start;
@@ -161,43 +172,57 @@
         .info-label {
             font-weight: 600;
             color: #4b5563;
-            min-width: 100px;
+            min-width:40px;
+        }
+        .info-labels {
+            font-weight: 600;
+            color: #4b5563;
+            min-width:60px;
         }
         
         .info-value {
             color: #6b7280;
         }
         /* 教育背景 */
-        .education-item {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
+        .education-container {
+            display: grid;
+            grid-template-columns: repeat(3, 0.6fr); /* 三列布局 */
+            gap: 0.5rem; /* 列间距 */
+            margin-top: 0.2rem;
         }
 
-        .education-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
+        .education-item {
+            margin-bottom: 0; /* 移除原底部间距 */
+            padding: 0.8rem; /* 添加内边距 */
+            border: 1px solid #e5e7eb; /* 添加边框 */
+            border-radius: 4px; /* 圆角 */
+            transition: transform 0.3s; /* 悬停效果 */
+        }
+
+        .education-item:hover {
+            transform: translateY(-3px);
         }
 
         .education-title {
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
             font-weight: 600;
-            color: #1a56db;
-            margin-bottom: 0.5rem;
+            color: #4b5563;
         }
 
         .education-period {
-            font-size: 0.9rem;
-            color: #6b7280;
-            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            margin-bottom: 0.3rem;
         }
 
         .education-description {
-            color: #4b5563;
+            font-size: 0.85rem;
         }
 
         /* 研究方向 */
         .research-directions {
-            margin-bottom: 1.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
         }
 
         .research-direction {
@@ -242,7 +267,8 @@
         
         /* 项目经历 */
         .project {
-            margin-bottom: 1.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
         }
         
         .project-title {
@@ -288,12 +314,12 @@
         .skills-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 0.8rem;
+            gap: 0.2rem;
         }
         
         .skill-item {
             background-color: #f3f4f6;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem;
             border-radius: 4px;
             font-weight: 500;
         }
@@ -313,19 +339,19 @@
             }
             
             .profile-name {
-                font-size: 1.2rem;
+                font-size: 0.2rem;
             }
             
-            .profile-title, .nav-item span {
-                display: none;
-            }
+            /*.profile-title, .nav-item span {*/
+            /*    display: none;*/
+            /*}*/
             
             .main-content {
                 padding: 1.5rem 1.5rem;
             }
             
             .section-title {
-                font-size: 1.5rem;
+                font-size: 1.2rem;
             }
         }
         
@@ -390,10 +416,10 @@
                     <i class="fas fa-graduation-cap"></i>
                     <span>学术服务</span>
                 </div>
-                <div class="nav-item" data-target="self">
-                    <i class="fas fa-user-check"></i>
-                    <span>万花筒</span>
-                </div>
+<!--                <div class="nav-item" data-target="self">-->
+<!--                    <i class="fas fa-user-check"></i>-->
+<!--                    <span>万花筒</span>-->
+<!--                </div>-->
             </div>
             
             <button class="nav-toggle" id="navToggle">
@@ -421,7 +447,7 @@
                     </div>
                     <div class="info-item">
                         <div class="info-label">政治面貌：</div>
-                        <div class="info-value">积极分子</div>
+                        <div class="info-value">团员</div>
                     </div>
                     <div class="info-item">
                         <div class="info-label">民族：</div>
@@ -431,20 +457,22 @@
                         <div class="info-label">学历：</div>
                         <div class="info-value">博士</div>
                     </div>
+                </div>
+                <div class="info-grids">
                     <div class="info-item">
-                        <div class="info-label">联系方式：</div>
+                        <div class="info-labels">联系方式：</div>
                         <div class="info-value">18434361032</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">邮箱：</div>
+                        <div class="info-labels">邮箱：</div>
                         <div class="info-value">hxr@seu.edu.cn</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">会员：</div>
+                        <div class="info-labels">会员：</div>
                         <div class="info-value">IEEE 学生会员， IES 会员</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-label">籍贯：</div>
+                        <div class="info-labels">籍贯：</div>
                         <div class="info-value">山西省晋中市榆次区</div>
                     </div>
                 </div>
@@ -453,22 +481,23 @@
             <section id="education" class="section">
                 <h2 class="section-title">教育背景</h2>
 
-                <div class="education-item">
-                    <div class="education-title">东南大学 - 电子信息</div>
-                    <div class="education-period">2021年9月 - 至今 | 博士研究生</div>
+                <div class="education-container">
+                    <div class="education-item">
+                        <div class="education-title">东南大学 - 电子信息</div>
+                        <div class="education-period">2021.9-至今 | 博士研究生</div>
+                    </div>
 
-                    <div class="education-title">太原理工大学 - 数据科学与技术</div>
-                    <div class="education-period"> 2018年9月- 2021年7月 | 硕士研究生</div>
+                    <div class="education-item">
+                        <div class="education-title">太原理工大学 - 数据科学与技术</div>
+                        <div class="education-period">2018.9-2021.7|硕士研究生</div>
+                    </div>
 
-                    <div class="education-title">中北大学 - 物联网工程</div>
-                    <div class="education-period">2014年6月 - 2018年6月 | 本科</div>
-
-<!--                    <div class="education-description">-->
-<!--                        <p>研究方向：动态网络链接预测</p>-->
-<!--                        <p>主要课程：机器学习、深度学习、数据挖掘、高等统计学、图神经网络等</p>-->
-<!--                        <p>学术成果：已发表3篇SCI/EI收录论文，参与2项国家级科研项目</p>-->
-<!--                    </div>-->
+                    <div class="education-item">
+                        <div class="education-title">中北大学 - 物联网工程</div>
+                        <div class="education-period">2014.6-2018.6 | 本科</div>
+                    </div>
                 </div>
+            </section>
 
 <!--                <div class="education-item">-->
 <!--                    <div class="education-title">太原理工大学 - 数据科学与技术</div>-->
@@ -496,10 +525,11 @@
                 <h2 class="section-title">研究方向</h2>
 
                 <div class="research-directions">
-                    <div class="research-direction">
-                        <h3>网络异常行为分析、图形异常检测、入侵检测以及人工智能在网络防御中的应用</h3>
+                    <h4>网络异常行为分析、图形异常检测、入侵检测、人工智能在网络防御中的应用</h4>
+<!--                    <div class="research-direction">-->
+
 <!--                        <p>研究动态网络环境下的链接预测问题，提出基于节点表征演化和局部结构特征的预测模型，解决传统方法难以捕捉网络动态变化的问题。</p>-->
-                    </div>
+<!--                    </div>-->
 
 <!--                    <div class="research-direction">-->
 <!--                        <h3>图神经网络及其应用</h3>-->
@@ -520,15 +550,26 @@
             <!-- 科研成果部分 -->
             <section id="research" class="section">
                 <h2 class="section-title">科研成果</h2>
-                <p><strong>学术论文</strong></p>
+                <p style="border-left: 3px solid #1a56db; padding-left: 0.5em; margin: 0.8em 0;"> <strong>学术论文</strong></p>
                 <p>[1] <strong>Xiaorong Hao</strong>, Bo Liu, Xiangguo Sun, Jiuxin Cao, Ding Zhou, Xinwen Fu. "Using Graph with Inter-connection Intervals Embedding to Discover Potential Threats in the Network"[J], IEEE Transactions on Industrial Informatics. 已录用. <strong> SCI，一作，JCR：Q1， Top, CCF C, IF = 9.9 </strong></p>
                 <p>[2] <strong>Xiaorong Hao</strong>, Bo Liu, Xinyan Yang, Xiangguo Sun, Qing Meng, Jiuxin Cao. "Multi-stage dynamic disinformation detection with graph entropy guidance"[J], World Wide Web Journal. 2024，27(8) . <strong> SCI，一作，JCR：Q2，CCF B, IF = 3.4 </strong></p>
+<!--                <p> -  </p>-->
+<!--                <p> - </p>-->
+<!--                <p> - </p>-->
+<!--                <p> - </p>-->
+<!--                <p> - </p>-->
+<!--                <p> - </p>-->
+<!--                <p> - </p>-->
+<!--                <p> - </p>-->
+<!--                <p> - </p>-->
+<!--                <p> - </p>-->
+<!--                <p> - </p>-->
                 <p>[3] <strong>Xiaorong Hao</strong>, Tao Lian, Li Wang. "Dynamic Link Prediction by Integrating Node Vector Evolution and Local Neighborhood Representation"[C], SIGIR '20: Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval. <strong> 一作，CCF A, short paper </strong></p>
-                <p>[3] <strong>Xiaorong Hao</strong>, ..., first round revision</p>
+<!--                <p>[3] <strong>Xiaorong Hao</strong>, ..., first round revision</p>-->
                 <p>[4] <strong>郝宵荣</strong>, 刘波, 周鼎, 曹玖新, 张进. "面向未知网络威胁的网络要地自适应防御模型"[J]. 通信学报,2025,46(3):45-61. <strong> EI, 一作，CCF推荐中文T1类，IF：2.39 </strong></p>
                 <p>[5] <strong>郝宵荣</strong>, 王莉, 廉涛. "基于节点表示和子图结构的动态网络链接预测"[J]. 模式识别与人工智能,2021,34(2):117-126. <strong> EI, 一作，CCF推荐中文T2类，IF：1.30 </strong></p>
                 <p>[6] <strong>郝宵荣</strong>, 王莉. "动态网络链接预测研究"[J]. 太原理工大学学报,2020,51(4):502-507.<strong> 北大核心, 一作，IF：1.19 </strong> </p>
-                <p><strong>专利</strong></p>
+                <p style="border-left: 3px solid #1a56db; padding-left: 0.5em; margin: 0.8em 0;"><strong>专利</strong></p>
                 <p>[1] 周鼎, <strong>郝宵荣</strong>, 韩晓鹏, 曹植纲, 贺磊, 刘波, 鄢昕, 张盛翔. 横向移动检测方法、存储介质及电子设备:CN202311778789.9[P]. 2024-02-27.</p>
                 <p>[2] 刘波, 杨欣妍, <strong>郝宵荣</strong>, 曹玖新. 基于动态信息传播演化模式的虚假信息检测方法及系统:CN202210601021.3[P]. 2023-03-28.</p>
                 <p>[3] 周鼎, 贺磊, 韩晓鹏, 曹植纲, 刘波, 曹玖新, <strong>郝宵荣</strong>, 仇智寅. 系统安全性评估方法、装置、设备、存储介质和程序产品:CN202310933342.8[P]. 2023-10-10.</p>
@@ -648,7 +689,7 @@
                     <!-- 研究生阶段 -->
                     <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
                         <div class="flex items-center mb-3">
-                            <i class="fas fa-graduation-cap text-blue-600 text-xl mr-2"></i>
+<!--                            <i class="fas fa-graduation-cap text-blue-600 text-xl mr-2"></i>-->
                             <h3 class="font-semibold text-lg text-blue-800">研究生期间</h3>
                         </div>
                         <ul class="space-y-2">
@@ -682,7 +723,7 @@
                     <!-- 本科阶段 -->
                     <div class="bg-green-50 border border-green-200 rounded-lg p-4">
                         <div class="flex items-center mb-3">
-                            <i class="fas fa-university text-green-600 text-xl mr-2"></i>
+<!--                            <i class="fas fa-university text-green-600 text-xl mr-2"></i>-->
                             <h3 class="font-semibold text-lg text-green-800">本科期间</h3>
                         </div>
                         <ul class="space-y-2">
@@ -756,22 +797,22 @@
                         <i class="fas fa-database mr-2"></i> 数据库：MySQL, MongoDB
                     </div>
                     <div class="skill-item">
-                        <i class="fas fa-chart-line mr-2"></i> 人工智能模型及算法：机器学习（SVM、RF、GBDT...），深度学习（GNN、RNN、GAN...)，强化学习（DQN，Double/Dueling DQN。。。），
-                    </div>
-                    <div class="skill-item">
                         <i class="fas fa-project-diagram mr-2"></i> 数据处理：Pandas, NumPy, Matplotlib，Gephi
                     </div>
                     <div class="skill-item">
                         <i class="fas fa-cloud mr-2"></i> 网络与云计算：Docker, mininet,ONOS,NFV
                     </div>
                     <div class="skill-item">
-                        <i class="fas fa-mobile-alt mr-2"></i> 移动开发：Android, Flutter
+                        <i class="fas fa-mobile-alt mr-2"></i> 移动开发：Android,
                     </div>
                     <div class="skill-item">
                         <i class="fas fa-users mr-2"></i> 英语能力：CET-6，口试 B
                     </div>
                     <div class="skill-item">
                         <i class="fas fa-file-alt mr-2"></i> 写作能力：发表多篇学术论文，参与撰写多个项目
+                    </div>
+                    <div class="skill-item">
+                        <i class="fas fa-chart-line mr-2"></i> 人工智能模型及算法：SVM,RF,GBDT,GNN,RNN,GAN,DQN...
                     </div>
                 </div>
             </section>
@@ -791,62 +832,19 @@
             </section>
             <!-- 部分成果展示 -->
             <!-- 万花筒部分 -->
-            <section id="self" class="section">
-                <h2 class="section-title">万花筒</h2>
-                <!-- 图片画廊 -->
-                <div class="mb-8">
-                    <h3 class="text-xl font-semibold mb-4 text-gray-800">我的相册</h3>
-                    <div class="grid grid-cols-3 gap-4">
-                        <!-- 使用 max-h-[自定义值] 或标准高度类 -->
-                        <img src="./images/内生安全大会.png" alt="照片1" style="width:25%; height:30%; object-fit:cover; border-radius:0.5rem;">
-                        <img src="./images/旱地冰壶.png" alt="照片3" style="width:25%; height:30%; object-fit:cover; border-radius:0.5rem;">
-                        <img src="./images/吹笛子.png" alt="照片2" style="width:9%; height:1%; object-fit:cover; border-radius:0.5rem;">
-                    </div>
-<!--                        <div class="gallery-item overflow-hidden rounded-lg shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-lg">-->
-<!--                            <img src="https://picsum.photos/seed/photo2/400/300" alt="照片2" class="w-full h-48 object-cover">-->
-<!--                            <div class="p-3 bg-white">-->
-<!--                                <p class="text-sm font-medium">实验室工作</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="gallery-item overflow-hidden rounded-lg shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-lg">-->
-<!--                            <img src="https://picsum.photos/seed/photo3/400/300" alt="照片3" class="w-full h-48 object-cover">-->
-<!--                            <div class="p-3 bg-white">-->
-<!--                                <p class="text-sm font-medium">校园生活</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="gallery-item overflow-hidden rounded-lg shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-lg">-->
-<!--                            <img src="https://picsum.photos/seed/photo4/400/300" alt="照片4" class="w-full h-48 object-cover">-->
-<!--                            <div class="p-3 bg-white">-->
-<!--                                <p class="text-sm font-medium">户外调研</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="gallery-item overflow-hidden rounded-lg shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-lg">-->
-<!--                            <img src="https://picsum.photos/seed/photo5/400/300" alt="照片5" class="w-full h-48 object-cover">-->
-<!--                            <div class="p-3 bg-white">-->
-<!--                                <p class="text-sm font-medium">团队活动</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="gallery-item overflow-hidden rounded-lg shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-lg">-->
-<!--                            <img src="https://picsum.photos/seed/photo6/400/300" alt="照片6" class="w-full h-48 object-cover">-->
-<!--                            <div class="p-3 bg-white">-->
-<!--                                <p class="text-sm font-medium">学术讲座</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="gallery-item overflow-hidden rounded-lg shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-lg">-->
-<!--                            <img src="https://picsum.photos/seed/photo7/400/300" alt="照片7" class="w-full h-48 object-cover">-->
-<!--                            <div class="p-3 bg-white">-->
-<!--                                <p class="text-sm font-medium">项目展示</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        <div class="gallery-item overflow-hidden rounded-lg shadow-md cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-lg">-->
-<!--                            <img src="https://picsum.photos/seed/photo8/400/300" alt="照片8" class="w-full h-48 object-cover">-->
-<!--                            <div class="p-3 bg-white">-->
-<!--                                <p class="text-sm font-medium">城市采风</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-                    </div>
-                </div>
-
+<!--            <section id="self" class="section">-->
+<!--                <h2 class="section-title">万花筒</h2>-->
+<!--                &lt;!&ndash; 图片画廊 &ndash;&gt;-->
+<!--                <div class="mb-8">-->
+<!--                    <h3 class="text-xl font-semibold mb-4 text-gray-800">我的相册</h3>-->
+<!--                    <div class="grid grid-cols-3 gap-4">-->
+<!--                        &lt;!&ndash; 使用 max-h-[自定义值] 或标准高度类 &ndash;&gt;-->
+<!--                        <img src="./images/内生安全大会.png" alt="照片1" style="width:25%; height:30%; object-fit:cover; border-radius:0.5rem;">-->
+<!--                        <img src="./images/旱地冰壶.png" alt="照片3" style="width:25%; height:30%; object-fit:cover; border-radius:0.5rem;">-->
+<!--                        <img src="./images/吹笛子.png" alt="照片2" style="width:9%; height:1%; object-fit:cover; border-radius:0.5rem;">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                </section>-->
                 <!-- 视频展示 -->
 <!--                <div>-->
 <!--                    <h3 class="text-xl font-semibold mb-4 text-gray-800">视频分享</h3>-->
@@ -885,7 +883,7 @@
 <!--                        </div>-->
 <!--                    </div>-->
 <!--                </div>-->
-            </section>
+
             <!-- 自我评价部分 -->
 <!--            <section id="self" class="section">-->
 <!--                <h2 class="section-title">自我评价</h2>-->
@@ -919,9 +917,9 @@
                     this.classList.add('active');
                     
                     // 隐藏所有部分
-                    sections.forEach(section => {
-                        section.style.display = 'none';
-                    });
+                    // sections.forEach(section => {
+                    //     section.style.display = 'none';
+                    // });
                     
                     // 显示对应部分
                     const target = this.getAttribute('data-target');
@@ -937,7 +935,7 @@
                 sidebar.classList.toggle('collapsed');
                 mainContent.classList.toggle('collapsed');
             });
-            
+
             // 平滑滚动
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
