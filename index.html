@@ -242,27 +242,24 @@
             margin-bottom: 0.5rem;
         }
         /* 科研成果 */
-        .publication {
-            margin-bottom: 1.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
+        .publication-list {
+            counter-reset: pub-counter;
+            padding-left: 2em; /* 缩进两个字符 */
         }
-        
-        .publication:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
+
+        .publication-list li {
+            list-style: none;
+            counter-increment: pub-counter;
+            position: relative;
+            margin-bottom: 10px;
+            text-indent: -2em; /* 让标号靠左，对齐正文 */
+            padding-left: 2em;  /* 为正文腾出位置 */
         }
-        
-        .publication-title {
-            font-weight: 600;
-            color: #1a56db;
-            margin-bottom: 0.5rem;
-        }
-        
-        .publication-venue {
-            font-style: italic;
-            color: #6b7280;
-            margin-bottom: 0.3rem;
+
+        .publication-list li::before {
+            content: "[" counter(pub-counter) "] ";
+            position: absolute;
+            left: 0;
         }
         
         /* 项目经历 */
@@ -551,75 +548,71 @@
             <section id="research" class="section">
                 <h2 class="section-title">科研成果</h2>
                 <p style="border-left: 3px solid #1a56db; padding-left: 0.5em; margin: 0.8em 0;"> <strong>学术论文</strong></p>
-                <p>[1] <strong>Xiaorong Hao</strong>, Bo Liu, Xiangguo Sun, Jiuxin Cao, Ding Zhou, Xinwen Fu. "Using Graph with Inter-connection Intervals Embedding to Discover Potential Threats in the Network"[J], IEEE Transactions on Industrial Informatics. 已录用. <strong> SCI，一作，JCR：Q1， Top, CCF C, IF = 9.9 </strong></p>
-                <p>[2] <strong>Xiaorong Hao</strong>, Bo Liu, Xinyan Yang, Xiangguo Sun, Qing Meng, Jiuxin Cao. "Multi-stage dynamic disinformation detection with graph entropy guidance"[J], World Wide Web Journal. 2024，27(8) . <strong> SCI，一作，JCR：Q2，CCF B, IF = 3.4 </strong></p>
-<!--                <p> -  </p>-->
-<!--                <p> - </p>-->
-<!--                <p> - </p>-->
-<!--                <p> - </p>-->
-<!--                <p> - </p>-->
-<!--                <p> - </p>-->
-<!--                <p> - </p>-->
-<!--                <p> - </p>-->
-<!--                <p> - </p>-->
-<!--                <p> - </p>-->
-<!--                <p> - </p>-->
-                <p>[3] <strong>Xiaorong Hao</strong>, Tao Lian, Li Wang. "Dynamic Link Prediction by Integrating Node Vector Evolution and Local Neighborhood Representation"[C], SIGIR '20: Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval. <strong> 一作，CCF A, short paper </strong></p>
-<!--                <p>[3] <strong>Xiaorong Hao</strong>, ..., first round revision</p>-->
-                <p>[4] <strong>郝宵荣</strong>, 刘波, 周鼎, 曹玖新, 张进. "面向未知网络威胁的网络要地自适应防御模型"[J]. 通信学报,2025,46(3):45-61. <strong> EI, 一作，CCF推荐中文T1类，IF：2.39 </strong></p>
-                <p>[5] <strong>郝宵荣</strong>, 王莉, 廉涛. "基于节点表示和子图结构的动态网络链接预测"[J]. 模式识别与人工智能,2021,34(2):117-126. <strong> EI, 一作，CCF推荐中文T2类，IF：1.30 </strong></p>
-                <p>[6] <strong>郝宵荣</strong>, 王莉. "动态网络链接预测研究"[J]. 太原理工大学学报,2020,51(4):502-507.<strong> 北大核心, 一作，IF：1.19 </strong> </p>
-                <p style="border-left: 3px solid #1a56db; padding-left: 0.5em; margin: 0.8em 0;"><strong>专利</strong></p>
-                <p>[1] 周鼎, <strong>郝宵荣</strong>, 韩晓鹏, 曹植纲, 贺磊, 刘波, 鄢昕, 张盛翔. 横向移动检测方法、存储介质及电子设备:CN202311778789.9[P]. 2024-02-27.</p>
-                <p>[2] 刘波, 杨欣妍, <strong>郝宵荣</strong>, 曹玖新. 基于动态信息传播演化模式的虚假信息检测方法及系统:CN202210601021.3[P]. 2023-03-28.</p>
-                <p>[3] 周鼎, 贺磊, 韩晓鹏, 曹植纲, 刘波, 曹玖新, <strong>郝宵荣</strong>, 仇智寅. 系统安全性评估方法、装置、设备、存储介质和程序产品:CN202310933342.8[P]. 2023-10-10.</p>
-                <p>[4] ZHOU, Ding周鼎 HE, Lei贺磊 HAN, Xiaopeng韩晓鹏 CAO, Zhigang曹植纲 LIU, Bo刘波 CAO, Jiuxin曹玖新 HAO, <strong>Xiaorong郝宵荣</strong> QIU, Zhiyin仇智寅. SYSTEM SECURITY ASSESSMENT METHOD AND APPARATUS, AND DEVICE, STORAGE MEDIUM AND PROGRAM PRODUCT:CNCN2024/100427[P]. 2025-01-30.</p>
-                <p>[5] 曹玖新, 仇智寅, 刘波, <strong>郝宵荣</strong>. 一种基于置信度与异构度的执行体调度方法:CN202211359120.1[P]. 2023-01-31.</p>
-                <p>[6] 曹玖新, 仇智寅, 刘波, 周鼎, 贺磊, <strong>郝宵荣</strong>. 流量数据的风险检测方法、装置及电子设备:CN202311106996.X[P]. 2023-12-08.</p>
-                <p>[7] 韩晓鹏, 贺磊, 周鼎, 曹植纲, 高冬展, <strong>郝宵荣</strong>. 一种网络威胁检测系统、方法、设备及存储介质:CN202310723891.2[P]. 2023-08-22.</p>
-                <p>[8] 贺磊, 韩晓鹏, 周鼎, 曹植纲, 高冬展, <strong>郝宵荣</strong>. 新型电力系统态势的安全风险评估方法、装置及存储介质:CN202311850564.X[P]. 2024-03-29.</p>
-                <!--                <div class="publication">-->
-<!--                    <div class="publication-title">Using Graph with Inter-connection Intervals Embedding to Discover Potential Threats in the Network</div>-->
-<!--                    <div class="publication-venue"></div>-->
-<!--                    <div class="publication-author">第一作者</div>-->
-<!--                </div>-->
+                    <ul class="publication-list">
+                        <li><strong>Xiaorong Hao</strong>, Bo Liu, Xiangguo Sun, Jiuxin Cao, Ding Zhou, Xinwen Fu.
+                            "Using Graph with Inter-connection Intervals Embedding to Discover Potential Threats in the Network" [J],
+                            <em>IEEE Transactions on Industrial Informatics</em>. 已录用.
+                            <strong>SCI，一作，JCR：Q1，Top, CCF C, IF = 9.9</strong>
+                        </li>
+                        <li><strong>Xiaorong Hao</strong>, Bo Liu, Shan Wang, Jiuxin Cao, Ding Zhou, Xinwen Fu.
+                            "EarlyDLM: Early Detecting Lateral Movements Through Graph and Loopback Sequence Embedding" [J],
+                            <em> IEEE Transactions on Network Science and Engineering</em>. 已录用.
+                            <strong>SCI，一作，JCR：Q1， IF = 7.9</strong>
+                        </li>
+                        <li><strong>Xiaorong Hao</strong>, Bo Liu, Xinyan Yang, Xiangguo Sun, Qing Meng, Jiuxin Cao.
+                            "Multi-stage dynamic disinformation detection with graph entropy guidance" [J],
+                            <em>World Wide Web Journal</em>, 2024, 27(8).
+                            <strong>SCI，一作，JCR：Q2，CCF B, IF = 3.4</strong>
+                        </li>
+                        <li><strong>Xiaorong Hao</strong>, Tao Lian, Li Wang.
+                            "Dynamic Link Prediction by Integrating Node Vector Evolution and Local Neighborhood Representation" [C],
+                            <em>SIGIR '20: Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval</em>.
+                            <strong>一作，CCF A, short paper</strong>
+                        </li>
+                        <li><strong>郝宵荣</strong>, 刘波, 周鼎, 曹玖新, 张进.
+                            "面向未知网络威胁的网络要地自适应防御模型" [J].
+                            <em>通信学报</em>, 2025, 46(3):45-61.
+                            <strong>EI，一作，CCF推荐中文T1类，IF：2.39</strong>
+                        </li>
+                        <li><strong>郝宵荣</strong>, 王莉, 廉涛.
+                            "基于节点表示和子图结构的动态网络链接预测" [J].
+                            <em>模式识别与人工智能</em>, 2021, 34(2):117-126.
+                            <strong>EI，一作，CCF推荐中文T2类，IF：1.30</strong>
+                        </li>
+                        <li><strong>郝宵荣</strong>, 王莉.
+                            "动态网络链接预测研究" [J].
+                            <em>太原理工大学学报</em>, 2020, 51(4):502-507.
+                            <strong>北大核心，一作，IF：1.19</strong>
+                        </li>
+                    </ul>
 
-<!--                <div class="publication">-->
-<!--                    <div class="publication-title">Dynamic Link Prediction by Integrating Node Vector Evolution and Local Neighborhood Representation</div>-->
-<!--                    <div class="publication-venue">国际顶会SIGIR2020短文收录</div>-->
-<!--                    <div class="publication-author">第一作者</div>-->
-<!--                </div>-->
-<!--                -->
-
-<!--                <div class="publication">-->
-<!--                    <div class="publication-title">动态网络链接预测：基于节点表征和链接子图结构</div>-->
-<!--                    <div class="publication-venue">全国信息检索会议CCIR2020论文收录，推荐到《模式识别与人工智能》期刊</div>-->
-<!--                    <div class="publication-author">第一作者</div>-->
-<!--                </div>-->
-<!--                <div class="publication">-->
-<!--                    <div class="publication-title">动态网络链接预测研究</div>-->
-<!--                    <div class="publication-venue">《太原理工大学学报》</div>-->
-<!--                    <div class="publication-author">第一作者</div>-->
-<!--                </div>-->
-<!--                -->
-<!--                &lt;!&ndash; 新增的科研成果 &ndash;&gt;-->
-<!--                <div class="publication">-->
-<!--                    <div class="publication-title">一种基于深度学习的动态网络链接预测方法</div>-->
-<!--                    <div class="publication-venue">《计算机研究与发展》</div>-->
-<!--                    <div class="publication-author">第一作者</div>-->
-<!--                </div>-->
-<!--                -->
-<!--                <div class="publication">-->
-<!--                    <div class="publication-title">基于时间序列分析的社交网络链接预测模型</div>-->
-<!--                    <div class="publication-venue">全国人工智能学术会议</div>-->
-<!--                    <div class="publication-author">第二作者</div>-->
-<!--                </div>-->
-<!--                -->
-<!--                <div class="publication">-->
-<!--                    <div class="publication-title">基于节点嵌入和图神经网络的动态网络建模方法</div>-->
-<!--                    <div class="publication-venue">国际数据挖掘会议</div>-->
-<!--                    <div class="publication-author">通讯作者</div>-->
-<!--                </div>-->
+                <p style="border-left: 3px solid #1a56db; padding-left: 0.5em; margin: 0.8em 0;"> <strong>专利</strong></p>
+                    <ul class="publication-list">
+                        <li>
+                            周鼎, <strong>郝宵荣</strong>, 韩晓鹏, 曹植纲, 贺磊, 刘波, 鄢昕, 张盛翔. 横向移动检测方法、存储介质及电子设备:CN202311778789.9[P]. 2024-02-27.</p>
+                        </li>
+                        <li>
+                            刘波, 杨欣妍, <strong>郝宵荣</strong>, 曹玖新. 基于动态信息传播演化模式的虚假信息检测方法及系统:CN202210601021.3[P]. 2023-03-28.</p>
+                        </li>
+                        <li>
+                            周鼎, 贺磊, 韩晓鹏, 曹植纲, 刘波, 曹玖新, <strong>郝宵荣</strong>, 仇智寅. 系统安全性评估方法、装置、设备、存储介质和程序产品:CN202310933342.8[P]. 2023-10-10.</p>
+                        </li>
+                        <li>
+                            ZHOU, Ding周鼎 HE, Lei贺磊 HAN, Xiaopeng韩晓鹏 CAO, Zhigang曹植纲 LIU, Bo刘波 CAO, Jiuxin曹玖新 HAO, <strong>Xiaorong郝宵荣</strong> QIU, Zhiyin仇智寅. SYSTEM SECURITY ASSESSMENT METHOD AND APPARATUS, AND DEVICE, STORAGE MEDIUM AND PROGRAM PRODUCT:CNCN2024/100427[P]. 2025-01-30.</p>
+                        </li>
+                        <li>
+                            曹玖新, 仇智寅, 刘波, <strong>郝宵荣</strong>. 一种基于置信度与异构度的执行体调度方法:CN202211359120.1[P]. 2023-01-31.</p>
+                        </li>
+                        <li>
+                            曹玖新, 仇智寅, 刘波, 周鼎, 贺磊, <strong>郝宵荣</strong>. 流量数据的风险检测方法、装置及电子设备:CN202311106996.X[P]. 2023-12-08.</p>
+                        </li>
+                        <li>
+                            韩晓鹏, 贺磊, 周鼎, 曹植纲, 高冬展, <strong>郝宵荣</strong>. 一种网络威胁检测系统、方法、设备及存储介质:CN202310723891.2[P]. 2023-08-22.</p>
+                        </li>
+                        <li>
+                            贺磊, 韩晓鹏, 周鼎, 曹植纲, 高冬展, <strong>郝宵荣</strong>. 新型电力系统态势的安全风险评估方法、装置及存储介质:CN202311850564.X[P]. 2024-03-29.</p>
+                        </li>
+                    </ul>
             </section>
             
             <!-- 项目经历部分 -->
@@ -903,51 +896,51 @@
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.getElementById('mainContent');
             const navToggle = document.getElementById('navToggle');
-            
-            // 导航栏切换
+
+            // 初始化：隐藏所有区块，只显示第一个
+            function initSections() {
+                sections.forEach((section, index) => {
+                    if(index === 0 ||  index === 2 || index === 3) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            }
+
+            // 导航点击处理
             navItems.forEach(item => {
                 item.addEventListener('click', function() {
                     // 移除所有活动状态
                     navItems.forEach(i => i.classList.remove('active'));
                     // 添加当前活动状态
                     this.classList.add('active');
-                    
-                    // 隐藏所有部分
-                    // sections.forEach(section => {
-                    //     section.style.display = 'none';
-                    // });
-                    
-                    // 显示对应部分
+
+                    // 隐藏所有区块
+                    sections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+
+                    // 显示对应区块
                     const target = this.getAttribute('data-target');
                     const targetSection = document.getElementById(target);
-                    if (targetSection) {
+                    if(targetSection) {
                         targetSection.style.display = 'block';
+
+                        // 平滑滚动到该区块
+                        targetSection.scrollIntoView({ behavior: 'smooth' });
                     }
                 });
             });
-            
+
             // 侧边栏折叠/展开
             navToggle.addEventListener('click', function() {
                 sidebar.classList.toggle('collapsed');
                 mainContent.classList.toggle('collapsed');
             });
 
-            // 平滑滚动
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 20,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
+            // 初始化页面
+            initSections();
         });
     </script>
 </body>
