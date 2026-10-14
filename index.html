@@ -4,80 +4,217 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>郝宵荣 - 个人主页</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* 基础样式 */
+        /* ==================== 设计令牌 ==================== */
+        :root {
+            --primary: #1a56db;
+            --primary-dark: #1e3a8a;
+            --primary-light: #3b82f6;
+            --primary-soft: #eff6ff;
+            --primary-softer: #f5f8ff;
+            --accent: #06b6d4;
+            --text-main: #1f2937;
+            --text-body: #374151;
+            --text-muted: #6b7280;
+            --text-light: #9ca3af;
+            --bg-page: #f5f7fa;
+            --bg-card: #ffffff;
+            --border: #e5e7eb;
+            --border-light: #f0f2f5;
+            --gold: #f59e0b;
+            --success: #10b981;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+            --shadow-lg: 0 12px 28px rgba(15, 23, 42, 0.10);
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --sidebar-width: 240px;
+            --sidebar-collapsed: 160px;
+        }
+
+        /* ==================== 基础重置 ==================== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Microsoft YaHei', Arial, sans-serif;
         }
-        
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background-color: #f8f9fa;
-            color: #333;
-            line-height: 1.6;
+            font-family: 'Microsoft YaHei', 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-body);
+            line-height: 1.7;
+            font-size: 15px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        
-        .container {
-            display: flex;
-            min-height: 100vh;
-        }
-        
-        /* 左侧导航栏 */
-        .sidebar {
-            width: 220px;
-            background-color: #1a56db;
-            color: white;
+
+        a { color: var(--primary); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* ==================== 中英文切换规则 ==================== */
+        html:not([lang="en"]) .en { display: none !important; }
+        html[lang="en"] .zh { display: none !important; }
+
+        /* ==================== 语言切换按钮 ==================== */
+        .lang-toggle {
             position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: #fff;
+            border: none;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 14px rgba(26, 86, 219, 0.3);
+            transition: var(--transition);
+        }
+
+        .lang-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 86, 219, 0.4);
+        }
+
+        .lang-toggle:active {
+            transform: translateY(0);
+        }
+
+        /* ==================== 侧边栏 ==================== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, #1e3a8a 0%, #1a56db 100%);
+            color: #fff;
+            position: fixed;
+            top: 0;
+            left: 0;
             height: 100vh;
             overflow-y: auto;
-            transition: width 0.3s;
-            z-index: 100;
+            overflow-x: hidden;
+            transition: width var(--transition);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
         }
-        
+
+        .sidebar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+        }
+
         .sidebar.collapsed {
-            width: 140px;/*打印首页用140px,后面页用0px*/
+            width: var(--sidebar-collapsed);
         }
-        
+
+        /* 个人资料区 */
         .profile-header {
-            padding: 1rem 0.5rem;
+            padding: 2rem 1rem 1.5rem;
             text-align: center;
-            border-bottom: 1px solid #3b82f6;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            position: relative;
         }
-        
-        /* 修改后的个人照片样式 */
+
         .profile-picture {
-            width: 128px;  /* 增加宽度 */
-            height: 185px; /* 保持高度不变，形成4:3的长方形 */
+            width: 120px;
+            height: 160px;
+            object-fit: cover;
+            border-radius: var(--radius-md);
+            border: 3px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+            transition: transform var(--transition);
             margin-bottom: 1rem;
-            margin-left: -0.5rem;
-            object-fit: cover;  /* 保持图片比例，裁剪超出部分 */
-            border: 3px solid #3b82f6;
-            border-radius: 8px;  /* 圆角矩形 */
         }
-        
+
+        .profile-picture:hover {
+            transform: scale(1.04);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
         .profile-name {
-            font-size: 1.5rem;
+            font-size: 1.35rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
-            margin-left: -1rem;
+            letter-spacing: 1px;
+            margin-bottom: 0.35rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        
-        .profile-title {
-            font-size: 1rem;
-            color: #bfdbfe;
-            margin-bottom: 1rem;
+
+        /* 导航菜单 */
+        .nav-menu {
+            padding: 1rem 0;
+            flex: 1;
         }
-        
-        .nav-toggle {
+
+        .nav-item {
+            padding: 0.85rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.95rem;
+            position: relative;
+            user-select: none;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+
+        .nav-item.active {
+            background: rgba(255, 255, 255, 0.14);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .nav-item.active::before {
+            content: '';
             position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #3b82f6;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: #60a5fa;
+        }
+
+        .nav-item i {
+            width: 24px;
+            text-align: center;
+            margin-right: 0.85rem;
+            font-size: 1.05rem;
+            flex-shrink: 0;
+        }
+
+        .nav-item span {
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        /* 折叠按钮 */
+        .nav-toggle {
+            margin: 1rem auto 1.5rem;
+            background: rgba(255, 255, 255, 0.12);
             border: none;
-            color: white;
+            color: #fff;
             width: 40px;
             height: 40px;
             border-radius: 50%;
@@ -85,836 +222,813 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            transition: background-color 0.3s;
+            font-size: 1rem;
+            transition: var(--transition);
+            flex-shrink: 0;
         }
-        
+
         .nav-toggle:hover {
-            background-color: #2563eb;
+            background: rgba(255, 255, 255, 0.25);
+            transform: rotate(90deg);
         }
-        
-        .nav-menu {
-            padding: 1rem 0;
-        }
-        
-        .nav-item {
-            padding: 0.8rem 1.5rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            transition: background-color 0.3s;
-        }
-        
-        .nav-item:hover, .nav-item.active {
-            background-color: #3b82f6;
-        }
-        
-        .nav-item i {
-            width: 28px;
-            text-align: center;
-            margin-right: 0.5rem;
-            font-size: 1.2rem;
-        }
-        
-        .nav-item span {
-            white-space: nowrap;
-        }
-        
-        /* 主内容区 */
+
+        /* ==================== 主内容区 ==================== */
         .main-content {
             flex: 1;
-            margin-left: 230px;
-            padding: 0.1rem 0.5rem 0.1rem 0.6rem; /* 上、右、下、左的内边距 */
-            transition: margin 1s;
+            margin-left: var(--sidebar-width);
+            padding: 2rem 2.5rem 3rem;
+            transition: margin-left var(--transition);
+            max-width: 1200px;
         }
-        
+
         .main-content.collapsed {
-            margin-left: 140px;/*打印首页用140px,后面页用0px*/
+            margin-left: var(--sidebar-collapsed);
         }
-        
+
+        /* 区块卡片 */
         .section {
-            background-color: white;
-            border-radius: 3px;
-            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.05);
-            padding: 0.1rem 0.5rem 0.1rem 1.2rem; /* 上、右、下、左的内边距 */
-            margin-bottom: 0.2rem; /* 减小底部外边距 */
-            margin-top: 0.2rem; /* 减小顶部外边距 */
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            padding: 2rem 2.25rem;
+            margin-bottom: 1.25rem;
+            animation: fadeIn 0.4s ease-out forwards;
+            opacity: 0;
+            border: 1px solid var(--border-light);
         }
-        
+
         .section-title {
-            font-size: 1.2rem;
-            color: #1a56db;
-            margin-bottom: 1rem;
-            padding-bottom: 0.2rem;
-            border-bottom: 1px solid #e5e7eb;
+            font-size: 1.3rem;
+            color: var(--text-main);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--primary-soft);
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            position: relative;
         }
-        
-        /* 个人信息 */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 0.1fr));
-            column-gap: 1rem;
-            row-gap: 0.5rem;
-            margin-top: 0.5rem;
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 48px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 2px;
         }
+
+        /* ==================== 两端对齐 ==================== */
+        .section p,
+        .publication-list li,
+        .project p,
+        .info-item > span,
+        .award-line span,
+        .service-list li {
+            text-align: justify;
+            text-justify: inter-ideograph;
+            word-break: break-word;
+        }
+
+        /* ==================== 个人信息 ==================== */
         .info-grids {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 0.1fr));
-            column-gap: 1rem;
-            row-gap: 0.5rem;
-            margin-top: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem 2.5rem;
+            margin-bottom: 1.25rem;
+            padding: 1rem 1.25rem;
+            background: var(--primary-softer);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--primary);
         }
+
         .info-item {
             display: flex;
-            align-items: flex-start;
+            align-items: baseline;
+            white-space: nowrap;
         }
-        
-        .info-label {
-            font-weight: 600;
-            color: #4b5563;
-            min-width:40px;
-        }
+
         .info-labels {
             font-weight: 600;
-            color: #4b5563;
-            min-width:60px;
+            color: var(--text-main);
+            margin-right: 0.5rem;
         }
-        
+
         .info-value {
-            color: #6b7280;
-        }
-        /* 教育背景 */
-        .education-container {
-            display: grid;
-            grid-template-columns: repeat(3, 0.6fr); /* 三列布局 */
-            gap: 0.5rem; /* 列间距 */
-            margin-top: 0.2rem;
+            color: var(--text-muted);
         }
 
-        .education-item {
-            margin-bottom: 0; /* 移除原底部间距 */
-            padding: 0.8rem; /* 添加内边距 */
-            border: 1px solid #e5e7eb; /* 添加边框 */
-            border-radius: 4px; /* 圆角 */
-            transition: transform 0.3s; /* 悬停效果 */
+        .bio-text {
+            color: var(--text-body);
+            font-size: 0.95rem;
+            line-height: 1.85;
         }
 
-        .education-item:hover {
-            transform: translateY(-3px);
-        }
-
-        .education-title {
+        /* ==================== 研究方向 ==================== */
+        .research-directions h4 {
+            color: var(--text-body);
+            font-weight: 500;
             font-size: 1rem;
-            margin-bottom: 0.3rem;
-            font-weight: 600;
-            color: #4b5563;
+            line-height: 1.8;
+            padding: 1rem 1.25rem;
+            background: var(--primary-softer);
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--primary);
         }
 
-        .education-period {
-            font-size: 0.8rem;
-            margin-bottom: 0.3rem;
+        /* ==================== 科研成果 ==================== */
+        .subsection-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-size: 1.05rem;
+            margin: 1.5rem 0 1rem;
+            padding: 0.35rem 1rem 0.35rem 0.75rem;
+            background: linear-gradient(90deg, var(--primary-soft) 0%, transparent 100%);
+            border-radius: var(--radius-sm);
         }
 
-        .education-description {
-            font-size: 0.85rem;
+        .subsection-label i {
+            color: var(--primary);
+            font-size: 0.95rem;
         }
 
-        /* 研究方向 */
-        .research-directions {
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .research-direction {
-            margin-bottom: 1rem;
-            padding: 1rem;
-            background-color: #f9fafb;
-            border-radius: 4px;
-            transition: transform 0.3s;
-        }
-
-        .research-direction:hover {
-            transform: translateY(-3px);
-        }
-
-        .research-direction h3 {
-            color: #1a56db;
-            margin-bottom: 0.5rem;
-        }
-        /* 科研成果 */
         .publication-list {
             counter-reset: pub-counter;
-            padding-left: 2em; /* 缩进两个字符 */
+            padding-left: 2.2em;
+            list-style: none;
         }
 
         .publication-list li {
-            list-style: none;
             counter-increment: pub-counter;
             position: relative;
-            margin-bottom: 10px;
-            text-indent: -2em; /* 让标号靠左，对齐正文 */
-            padding-left: 2em;  /* 为正文腾出位置 */
+            margin-bottom: 1rem;
+            padding: 0.85rem 1rem 0.85rem 2.5em;
+            background: #fafbfc;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-light);
+            font-size: 0.92rem;
+            line-height: 1.7;
+            text-indent: -2em;
+            padding-left: 3em;
+            transition: var(--transition);
+        }
+
+        .publication-list li:hover {
+            background: var(--primary-softer);
+            border-color: var(--primary-soft);
+            transform: translateX(3px);
         }
 
         .publication-list li::before {
-            content: "[" counter(pub-counter) "] ";
+            content: "[" counter(pub-counter) "]";
             position: absolute;
-            left: 0;
+            left: 1em;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 0.85rem;
         }
-        
-        /* 项目经历 */
-        .project {
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
+
+        .publication-list em {
+            color: var(--text-muted);
+            font-style: italic;
         }
-        
-        .project-title {
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
+
+        .publication-list strong {
+            color: var(--text-main);
         }
-        
-        .project-title i {
-            color: #1a56db;
-            margin-right: 0.5rem;
-        }
-        
-        .project-period {
-            font-size: 0.9rem;
-            color: #6b7280;
-            margin-bottom: 0.5rem;
-        }
-        
-        .project-description {
-            margin-left: 1.5rem;
-            color: #4b5563;
-        }
-        
-        /* 奖励荣誉 */
-        .award {
-            display: flex;
-            margin-bottom: 1rem;
-        }
-        
-        .award-year {
-            min-width: 80px;
-            color: #6b7280;
-        }
-        
-        .award-name {
-            color: #1f2937;
-        }
-        
-        /* 技能列表 */
-        .skills-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 0.2rem;
-        }
-        
-        .skill-item {
-            background-color: #f3f4f6;
-            padding: 0.5rem;
-            border-radius: 4px;
+
+        /* 期刊标签配色（可选微调） */
+        .publication-list em {
+            font-style: italic;
+            color: var(--primary-dark);
             font-weight: 500;
         }
-        
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .sidebar {
-                width: 70px;
-            }
-            
-            .main-content {
-                margin-left: 70px;
-            }
-            
-            .profile-header {
-                padding: 1.5rem 0.5rem;
-            }
-            
-            .profile-name {
-                font-size: 0.2rem;
-            }
-            
-            /*.profile-title, .nav-item span {*/
-            /*    display: none;*/
-            /*}*/
-            
-            .main-content {
-                padding: 1.5rem 1.5rem;
-            }
-            
-            .section-title {
-                font-size: 1.2rem;
-            }
+
+        /* ==================== 项目经历 ==================== */
+        .project {
+            margin-top: 0.5rem;
         }
-        
-        /* 动画效果 */
+
+        .project-item {
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.75rem;
+            background: #fafbfc;
+            border-radius: var(--radius-md);
+            border-left: 3px solid var(--primary-light);
+            transition: var(--transition);
+        }
+
+        .project-item:hover {
+            background: var(--primary-softer);
+            box-shadow: var(--shadow-sm);
+            transform: translateX(4px);
+        }
+
+        .project-item p {
+            font-size: 0.92rem;
+            line-height: 1.75;
+            color: var(--text-body);
+        }
+
+        /* ==================== 奖励荣誉 ==================== */
+        .award-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .award-card {
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            transition: var(--transition);
+        }
+
+        .award-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .award-card.green {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-color: #bbf7d0;
+        }
+
+        .award-card.blue {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-color: #bfdbfe;
+        }
+
+        .award-card-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 0.85rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
+        }
+
+        .award-line {
+            display: flex;
+            align-items: flex-start;
+            line-height: 1.55;
+            margin-bottom: 0.7rem;
+            font-size: 0.92rem;
+        }
+
+        .award-line:last-child { margin-bottom: 0; }
+
+        .award-line i {
+            margin-top: 0.25rem;
+            margin-right: 0.6rem;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+        }
+
+        .award-line span {
+            flex: 1;
+            color: var(--text-body);
+        }
+
+        /* ==================== 学术服务 ==================== */
+        .service-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .service-list li {
+            position: relative;
+            padding: 0.75rem 0.75rem 0.75rem 2rem;
+            margin-bottom: 0.6rem;
+            background: #fafbfc;
+            border-radius: var(--radius-sm);
+            font-size: 0.93rem;
+            line-height: 1.7;
+            transition: var(--transition);
+        }
+
+        .service-list li:hover {
+            background: var(--primary-softer);
+        }
+
+        .service-list li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            left: 0.6rem;
+            top: 0.85rem;
+            color: var(--primary);
+            font-size: 0.75rem;
+        }
+
+        /* ==================== 回到顶部 ==================== */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            box-shadow: 0 6px 18px rgba(26, 86, 219, 0.35);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: var(--transition);
+            z-index: 400;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        /* ==================== 动画 ==================== */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(12px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        .section {
-            animation: fadeIn 0.5s ease-out forwards;
+
+        .section.visible {
+            animation-play-state: running;
         }
-        
-        .section:nth-child(1) { animation-delay: 0.1s; }
-        .section:nth-child(2) { animation-delay: 0.2s; }
-        .section:nth-child(3) { animation-delay: 0.3s; }
-        .section:nth-child(4) { animation-delay: 0.4s; }
-        .section:nth-child(5) { animation-delay: 0.5s; }
+
+        /* ==================== 响应式设计 ==================== */
+        @media (max-width: 900px) {
+            :root {
+                --sidebar-width: 76px;
+                --sidebar-collapsed: 76px;
+            }
+
+            .sidebar { width: 76px; }
+            .sidebar .nav-item span { display: none; }
+            .sidebar .nav-item { justify-content: center; padding: 1rem 0; }
+            .sidebar .nav-item i { margin-right: 0; font-size: 1.15rem; }
+            .sidebar .profile-name { font-size: 0.65rem; }
+
+            .profile-picture {
+                width: 48px;
+                height: 60px;
+                border-width: 2px;
+            }
+
+            .profile-header { padding: 1.25rem 0.5rem 1rem; }
+
+            .main-content {
+                margin-left: 76px;
+                padding: 4.5rem 1.25rem 2rem;
+            }
+
+            .main-content.collapsed { margin-left: 76px; }
+
+            .section {
+                padding: 1.5rem 1.25rem;
+                border-radius: var(--radius-md);
+            }
+
+            .section-title { font-size: 1.1rem; }
+
+            .info-grids { flex-direction: column; gap: 0.5rem; }
+            .info-item { white-space: normal; }
+
+            .award-grid { grid-template-columns: 1fr; }
+
+            .lang-toggle {
+                top: 12px;
+                right: 12px;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.78rem;
+            }
+
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .nav-toggle { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .main-content { padding: 4rem 0.9rem 2rem; }
+            .section { padding: 1.25rem 1rem; }
+            .publication-list li { font-size: 0.88rem; }
+        }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
+    <!-- 中英文切换按钮 -->
+    <button class="lang-toggle" id="langToggle" aria-label="Switch to English" title="中英文切换 / Switch language">
+        <i class="fas fa-language"></i>
+        <span id="langLabel">EN</span>
+    </button>
+
     <div class="container">
         <!-- 左侧导航栏 -->
-        <div class="sidebar" id="sidebar">
+        <aside class="sidebar" id="sidebar">
             <div class="profile-header">
                 <img src="./images/hxr.jpg" alt="个人照片" class="profile-picture">
-                <h1 class="profile-name">郝宵荣</h1>
-<!--                <p class="profile-title"></p>-->
+                <h1 class="profile-name">
+                    <span class="zh">郝宵荣</span>
+                    <span class="en">Xiaorong Hao</span>
+                </h1>
             </div>
-            
-            <div class="nav-menu">
+
+            <nav class="nav-menu">
                 <div class="nav-item active" data-target="about">
                     <i class="fas fa-user"></i>
-                    <span>个人信息</span>
+                    <span class="zh">个人信息</span>
+                    <span class="en">Profile</span>
                 </div>
-<!--                <div class="nav-item" data-target="education">-->
-<!--                    <i class="fas fa-graduation-cap"></i>-->
-<!--                    <span>教育背景</span>-->
-<!--                </div>-->
                 <div class="nav-item" data-target="direction">
                     <i class="fas fa-flag"></i>
-                    <span>研究方向</span>
+                    <span class="zh">研究方向</span>
+                    <span class="en">Research</span>
                 </div>
                 <div class="nav-item" data-target="research">
                     <i class="fas fa-flask"></i>
-                    <span>科研成果</span>
+                    <span class="zh">科研成果</span>
+                    <span class="en">Publications</span>
                 </div>
                 <div class="nav-item" data-target="projects">
                     <i class="fas fa-briefcase"></i>
-                    <span>项目经历</span>
+                    <span class="zh">项目经历</span>
+                    <span class="en">Projects</span>
                 </div>
                 <div class="nav-item" data-target="awards">
                     <i class="fas fa-trophy"></i>
-                    <span>奖励荣誉</span>
+                    <span class="zh">奖励荣誉</span>
+                    <span class="en">Awards</span>
                 </div>
-<!--                <div class="nav-item" data-target="skills">-->
-<!--                    <i class="fas fa-chart-line"></i>-->
-<!--                    <span>专业技能</span>-->
-<!--                </div>-->
                 <div class="nav-item" data-target="phd">
                     <i class="fas fa-graduation-cap"></i>
-                    <span>学术服务</span>
+                    <span class="zh">学术服务</span>
+                    <span class="en">Service</span>
                 </div>
-<!--                <div class="nav-item" data-target="self">-->
-<!--                    <i class="fas fa-user-check"></i>-->
-<!--                    <span>万花筒</span>-->
-<!--                </div>-->
-            </div>
-            
-            <button class="nav-toggle" id="navToggle">
+            </nav>
+
+            <button class="nav-toggle" id="navToggle" title="折叠/展开侧栏">
                 <i class="fas fa-bars"></i>
             </button>
-        </div>
-        
+        </aside>
+
         <!-- 主内容区 -->
-        <div class="main-content" id="mainContent">
+        <main class="main-content" id="mainContent">
             <!-- 个人信息部分 -->
-            <section id="about" class="section">
-                <h2 class="section-title">个人信息</h2>
-<!--                <div class="info-grid">-->
-<!--                    <div class="info-item">-->
-<!--                        <div class="info-label">姓名：</div>-->
-<!--                        <div class="info-value">郝宵荣</div>-->
-<!--                    </div>-->
-<!--                    <div class="info-item">-->
-<!--                        <div class="info-label">性别：</div>-->
-<!--                        <div class="info-value">女</div>-->
-<!--                    </div>-->
-<!--                    <div class="info-item">-->
-<!--                        <div class="info-label">出生年月：</div>-->
-<!--                        <div class="info-value">1995.6</div>-->
-<!--                    </div>-->
-<!--                    <div class="info-item">-->
-<!--                        <div class="info-label">政治面貌：</div>-->
-<!--                        <div class="info-value">团员</div>-->
-<!--                    </div>-->
-<!--                    <div class="info-item">-->
-<!--                        <div class="info-label">民族：</div>-->
-<!--                        <div class="info-value">汉族</div>-->
-<!--                    </div>-->
-<!--                    <div class="info-item">-->
-<!--                        <div class="info-label">学历：</div>-->
-<!--                        <div class="info-value">博士</div>-->
-<!--                    </div>-->
-<!--                </div>-->
+            <section id="about" class="section visible">
+                <h2 class="section-title">
+                    <span class="zh">个人信息</span>
+                    <span class="en">Profile</span>
+                </h2>
+
                 <div class="info-grids">
-<!--                    <div class="info-item">-->
-<!--                        <div class="info-labels">联系方式：</div>-->
-<!--                        <div class="info-value">18434361032</div>-->
-<!--                    </div>-->
                     <div class="info-item">
-                        <div class="info-labels">邮箱：</div>
+                        <div class="info-labels zh">邮箱：</div>
+                        <div class="info-labels en">Email:</div>
                         <div class="info-value">haoxiaorong@tyut.edu.cn</div>
                     </div>
                     <div class="info-item">
-                        <div class="info-labels">会员：</div>
-                        <div class="info-value">IEEE 会员， IES 会员，CAAI会员</div>
+                        <div class="info-labels zh">会员：</div>
+                        <div class="info-labels en">Member:</div>
+                        <div class="info-value zh">IEEE，IES</div>
+                        <div class="info-value en">IEEE, IES</div>
                     </div>
-<!--                    <div class="info-item">-->
-<!--                        <div class="info-labels">籍贯：</div>-->
-<!--                        <div class="info-value">山西省晋中市榆次区</div>-->
-<!--                    </div>-->
                 </div>
-                <div class="info-item">
-                    现任职于太原理工大学，担任讲师。2026 年3月在东南大学获得博士学位，师从刘波教授，期间曾与紫金山实验室开展项目合作研究。2021 年在太原理工大学获得硕士学位，师从王莉教授。主要从事时空图数据挖掘研究及其在动态网络链接预测、网络异常行为分析、未知网络威胁检测与防御等领域的应用。曾参与国家重点研发计划项目和多项国家自然科学基金项目，在国内和国际著名学术期刊和会议上发表论文近10篇，曾受多个CCF-A类期刊和中科院1区期刊邀请担任匿名稿件评阅人。
-            </div>
-            </section>
 
-            <!-- 教育背景部分 -->
-<!--            <section id="education" class="section">-->
-<!--                <h2 class="section-title">教育背景</h2>-->
-
-<!--                <div class="education-container">-->
-<!--                    <div class="education-item">-->
-<!--                        <div class="education-title">东南大学 - 电子信息</div>-->
-<!--                        <div class="education-period">2021.9-2026.3 | 博士研究生 导师：刘波</div>-->
-<!--                    </div>-->
-
-<!--                    <div class="education-item">-->
-<!--                        <div class="education-title">太原理工大学 - 数据科学与技术</div>-->
-<!--                        <div class="education-period">2018.9-2021.7|硕士研究生 导师：</div>-->
-<!--                    </div>-->
-
-<!--                    <div class="education-item">-->
-<!--                        <div class="education-title">中北大学 - 物联网工程</div>-->
-<!--                        <div class="education-period">2014.6-2018.6 | 本科</div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </section>-->
-
-<!--                <div class="education-item">-->
-<!--                    <div class="education-title">太原理工大学 - 数据科学与技术</div>-->
-<!--                    <div class="education-period"> 2018年9月- 2021年7月 | 硕士研究生</div>-->
-<!--                    <div class="education-description">-->
-<!--                        <p>研究方向：动态网络链接预测</p>-->
-<!--                        <p>主要课程：机器学习、深度学习、数据挖掘、高等统计学、图神经网络等</p>-->
-<!--                        <p>学术成果：已发表3篇SCI/EI收录论文，参与2项国家级科研项目</p>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                <div class="education-item">-->
-<!--                    <div class="education-title">中北大学 - 物联网工程</div>-->
-<!--                    <div class="education-period">2014年6月 - 2018年6月 | 本科</div>-->
-<!--                    <div class="education-description">-->
-<!--                        <p>专业GPA：3.88/5.0，专业排名：1/120</p>-->
-<!--                        <p>主要课程：计算机网络、嵌入式系统、传感器技术、云计算与大数据等</p>-->
-<!--                        <p>学术成果：获得国家奖学金1次，省级优秀毕业生，发表学术论文1篇</p>-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div class="bio-text">
+                    <span class="zh">
+                        现任职于太原理工大学，担任讲师。2026 年 3 月在东南大学获得博士学位，师从刘波教授，期间曾与紫金山实验室开展项目合作研究。2021 年在太原理工大学获得硕士学位，师从王莉教授。主要从事时空图数据挖掘研究及其在动态网络链接预测、网络异常行为分析、未知网络威胁检测与防御等领域的应用。曾参与国家重点研发计划项目和多项国家自然科学基金项目，在国内和国际著名学术期刊和会议上发表论文近 10 篇，曾受多个 CCF-A 类期刊和中科院 1 区期刊邀请担任匿名稿件评阅人。
+                    </span>
+                    <span class="en">
+                        Xiaorong Hao is currently a Lecturer at Taiyuan University of Technology. She received her Ph.D. degree from Southeast University in March 2026, under the supervision of Prof. Bo Liu, during which she collaborated on research projects with Purple Mountain Laboratories. She obtained her M.S. degree from Taiyuan University of Technology in 2021, advised by Prof. Li Wang. Her research mainly focuses on spatio-temporal graph data mining and its applications in dynamic network link prediction, network abnormal behavior analysis, unknown network threat detection and defense. She has participated in National Key R&amp;D Program projects and multiple National Natural Science Foundation of China projects. She has published nearly 10 papers in prestigious domestic and international academic journals and conferences, and has been invited to serve as an anonymous reviewer for several CCF-A journals and CAS Tier 1 journals.
+                    </span>
+                </div>
             </section>
 
             <!-- 研究方向部分 -->
             <section id="direction" class="section">
-                <h2 class="section-title">研究方向</h2>
+                <h2 class="section-title">
+                    <span class="zh">研究方向</span>
+                    <span class="en">Research Interests</span>
+                </h2>
 
                 <div class="research-directions">
-                    <h4>时空图数据挖掘研究及其在动态网络链接预测、网络异常行为分析、未知网络威胁检测与防御等领域的应用等</h4>
-<!--                    <div class="research-direction">-->
-
-<!--                        <p>研究动态网络环境下的链接预测问题，提出基于节点表征演化和局部结构特征的预测模型，解决传统方法难以捕捉网络动态变化的问题。</p>-->
-<!--                    </div>-->
-
-<!--                    <div class="research-direction">-->
-<!--                        <h3>图神经网络及其应用</h3>-->
-<!--                        <p>研究图神经网络在社交网络分析、生物信息学、推荐系统等领域的应用，开发高效的图嵌入算法和图表示学习方法。</p>-->
-<!--                    </div>-->
-
-<!--                    <div class="research-direction">-->
-<!--                        <h3>时序数据建模与预测</h3>-->
-<!--                        <p>研究基于深度学习的时序数据建模方法，结合注意力机制和记忆网络，提高对时间序列数据的预测准确性和解释性。</p>-->
-<!--                    </div>-->
-
-<!--                    <div class="research-direction">-->
-<!--                        <h3>数据科学与社会计算</h3>-->
-<!--                        <p>研究如何利用数据科学方法解决社会问题，如人才流动分析、公共卫生事件预测、舆情分析等，探索数据驱动的社会治理模式。</p>-->
-<!--                    </div>-->
+                    <h4 class="zh">时空图数据挖掘研究及其在动态网络链接预测、网络异常行为分析、未知网络威胁检测与防御等领域的应用等</h4>
+                    <h4 class="en">Spatio-temporal graph data mining and its applications in dynamic network link prediction, network abnormal behavior analysis, unknown network threat detection and defense, etc.</h4>
                 </div>
             </section>
+
             <!-- 科研成果部分 -->
             <section id="research" class="section">
-                <h2 class="section-title">科研成果</h2>
-                <p style="border-left: 3px solid #1a56db; padding-left: 0.5em; margin: 0.8em 0;"> <strong>学术论文</strong></p>
-                    <ul class="publication-list">
-                        <li><strong>Xiaorong Hao</strong>, Tao Lian, Li Wang.
-                            Dynamic Link Prediction by Integrating Node Vector Evolution and Local Neighborhood Representation[C].
-                            <em>SIGIR '20: Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval</em>.
-                            <strong>一作，CCF A</strong>
-                        </li>
-                        <li><strong>Xiaorong Hao</strong>, Bo Liu, Xiangguo Sun, Jiuxin Cao, Ding Zhou, Xinwen Fu.
-                            Using Graph with Inter-connection Intervals Embedding to Discover Potential Threats in the Network[J].
-                            <em>IEEE Transactions on Industrial Informatics</em>, 2025, 21(11):8419-8429.
-                            <strong>JCR：Q1，Top, CCF C</strong>
-                        </li>
-                        <li><strong>Xiaorong Hao</strong>, Bo Liu, Shan Wang, Jiuxin Cao, Ding Zhou, Xinwen Fu.
-                            EarlyDLM: Early Detecting Lateral Movements Through Graph and Loopback Sequence Embedding[J].
-                            <em> IEEE Transactions on Network Science and Engineering</em>, 2025, 13:454-468.
-                            <strong>JCR：Q1</strong>
-                        </li>
-                        <li><strong>Xiaorong Hao</strong>, Bo Liu, Xinyan Yang, Xiangguo Sun, Qing Meng, Jiuxin Cao.
-                            Multi-stage dynamic disinformation detection with graph entropy guidance[J].
-                            <em>World Wide Web Journal</em>, 2024, 27(2).
-                            <strong>JCR：Q2，CCF B</strong>
-                        </li>
+                <h2 class="section-title">
+                    <span class="zh">科研成果</span>
+                    <span class="en">Publications</span>
+                </h2>
 
-                        <li> Ruwen Zhang, Bo Liu, <strong>Xiaorong Hao</strong>, Xinhui Huang, Jiuxin Cao.
-                            Type dynamics theory-driven personality detection with LLM-enhanced social profiling[J].
-                            <em>Applied Intelligence</em>, 2026, 56(3), 80.
-                            <strong>JCR：Q2，CCF B</strong>
-                        </li>
+                <div class="subsection-label">
+                    <i class="fas fa-book-open"></i>
+                    <span class="zh">学术论文</span>
+                    <span class="en">Journal &amp; Conference Papers</span>
+                </div>
 
-                        <li><strong>郝宵荣</strong>, 刘波, 周鼎, 曹玖新, 张进.
-                            面向未知网络威胁的网络要地自适应防御模型[J].
-                            <em>通信学报</em>, 2025, 46(3):45-61.
-                            <strong>EI，CCF推荐中文T1类</strong>
-                        </li>
-                        <li><strong>郝宵荣</strong>, 王莉, 廉涛.
-                            基于节点表示和子图结构的动态网络链接预测[J].
-                            <em>模式识别与人工智能</em>, 2021, 34(2):117-126.
-                            <strong>EI，CCF推荐中文T2类</strong>
-                        </li>
-                        <li><strong>郝宵荣</strong>, 王莉.
-                            动态网络链接预测研究 [J].
-                            <em>太原理工大学学报</em>, 2020, 51(4):502-507.
-                            <strong>北大核心</strong>
-                        </li>
-                    </ul>
+                <ul class="publication-list">
+                    <li>
+                        <span class="zh"><strong>Xiaorong Hao</strong>, Tao Lian, Li Wang. Dynamic Link Prediction by Integrating Node Vector Evolution and Local Neighborhood Representation[C]. <em>SIGIR '20: Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval</em>. <strong>一作，CCF A</strong></span>
+                        <span class="en"><strong>Xiaorong Hao</strong>, Tao Lian, Li Wang. Dynamic Link Prediction by Integrating Node Vector Evolution and Local Neighborhood Representation[C]. <em>SIGIR '20: Proceedings of the 43rd International ACM SIGIR Conference on Research and Development in Information Retrieval</em>. <strong>First author, CCF A</strong></span>
+                    </li>
+                    <li>
+                        <span class="zh"><strong>Xiaorong Hao</strong>, Bo Liu, Xiangguo Sun, Jiuxin Cao, Ding Zhou, Xinwen Fu. Using Graph with Inter-connection Intervals Embedding to Discover Potential Threats in the Network[J]. <em>IEEE Transactions on Industrial Informatics</em>, 2025, 21(11):8419-8429. <strong>JCR：Q1，Top, CCF C</strong></span>
+                        <span class="en"><strong>Xiaorong Hao</strong>, Bo Liu, Xiangguo Sun, Jiuxin Cao, Ding Zhou, Xinwen Fu. Using Graph with Inter-connection Intervals Embedding to Discover Potential Threats in the Network[J]. <em>IEEE Transactions on Industrial Informatics</em>, 2025, 21(11):8419-8429. <strong>JCR: Q1, Top, CCF C</strong></span>
+                    </li>
+                    <li>
+                        <span class="zh"><strong>Xiaorong Hao</strong>, Bo Liu, Shan Wang, Jiuxin Cao, Ding Zhou, Xinwen Fu. EarlyDLM: Early Detecting Lateral Movements Through Graph and Loopback Sequence Embedding[J]. <em>IEEE Transactions on Network Science and Engineering</em>, 2025, 13:454-468. <strong>JCR：Q1</strong></span>
+                        <span class="en"><strong>Xiaorong Hao</strong>, Bo Liu, Shan Wang, Jiuxin Cao, Ding Zhou, Xinwen Fu. EarlyDLM: Early Detecting Lateral Movements Through Graph and Loopback Sequence Embedding[J]. <em>IEEE Transactions on Network Science and Engineering</em>, 2025, 13:454-468. <strong>JCR: Q1</strong></span>
+                    </li>
+                    <li>
+                        <span class="zh"><strong>Xiaorong Hao</strong>, Bo Liu, Xinyan Yang, Xiangguo Sun, Qing Meng, Jiuxin Cao. Multi-stage dynamic disinformation detection with graph entropy guidance[J]. <em>World Wide Web Journal</em>, 2024, 27(2). <strong>JCR：Q2，CCF B</strong></span>
+                        <span class="en"><strong>Xiaorong Hao</strong>, Bo Liu, Xinyan Yang, Xiangguo Sun, Qing Meng, Jiuxin Cao. Multi-stage dynamic disinformation detection with graph entropy guidance[J]. <em>World Wide Web Journal</em>, 2024, 27(2). <strong>JCR: Q2, CCF B</strong></span>
+                    </li>
+                    <li>
+                        <span class="zh">Ruwen Zhang, Bo Liu, <strong>Xiaorong Hao</strong>, Xinhui Huang, Jiuxin Cao. Type dynamics theory-driven personality detection with LLM-enhanced social profiling[J]. <em>Applied Intelligence</em>, 2026, 56(3), 80. <strong>JCR：Q2，CCF B</strong></span>
+                        <span class="en">Ruwen Zhang, Bo Liu, <strong>Xiaorong Hao</strong>, Xinhui Huang, Jiuxin Cao. Type dynamics theory-driven personality detection with LLM-enhanced social profiling[J]. <em>Applied Intelligence</em>, 2026, 56(3), 80. <strong>JCR: Q2, CCF B</strong></span>
+                    </li>
+                    <li>
+                        <span class="zh"><strong>郝宵荣</strong>, 刘波, 周鼎, 曹玖新, 张进. 面向未知网络威胁的网络要地自适应防御模型[J]. <em>通信学报</em>, 2025, 46(3):45-61. <strong>EI，CCF推荐中文T1类</strong></span>
+                        <span class="en"><strong>Xiaorong Hao</strong>, Bo Liu, Ding Zhou, Jiuxin Cao, Jin Zhang. Adaptive Defense Model for Critical Network Assets Against Unknown Network Threats[J]. <em>Journal on Communications</em>, 2025, 46(3):45-61. <strong>EI, CCF-Recommended Chinese Tier-1</strong></span>
+                    </li>
+                    <li>
+                        <span class="zh"><strong>郝宵荣</strong>, 王莉, 廉涛. 基于节点表示和子图结构的动态网络链接预测[J]. <em>模式识别与人工智能</em>, 2021, 34(2):117-126. <strong>EI，CCF推荐中文T2类</strong></span>
+                        <span class="en"><strong>Xiaorong Hao</strong>, Li Wang, Tao Lian. Dynamic Network Link Prediction Based on Node Representation and Subgraph Structure[J]. <em>Pattern Recognition and Artificial Intelligence</em>, 2021, 34(2):117-126. <strong>EI, CCF-Recommended Chinese Tier-2</strong></span>
+                    </li>
+                    <li>
+                        <span class="zh"><strong>郝宵荣</strong>, 王莉. 动态网络链接预测研究[J]. <em>太原理工大学学报</em>, 2020, 51(4):502-507. <strong>北大核心</strong></span>
+                        <span class="en"><strong>Xiaorong Hao</strong>, Li Wang. A Survey of Dynamic Network Link Prediction[J]. <em>Journal of Taiyuan University of Technology</em>, 2020, 51(4):502-507. <strong>Peking University Core Journal</strong></span>
+                    </li>
+                </ul>
 
-                <p style="border-left: 3px solid #1a56db; padding-left: 0.5em; margin: 0.8em 0;"> <strong>专利</strong></p>
-                    <ul class="publication-list">
-                        <li>
-                            周鼎, <strong>郝宵荣</strong>, 韩晓鹏, 曹植纲, 贺磊, 刘波, 鄢昕, 张盛翔. 横向移动检测方法、存储介质及电子设备:CN202311778789.9[P]. 2024-02-27.</p>
-                        </li>
-                        <li>
-                            刘波, 杨欣妍, <strong>郝宵荣</strong>, 曹玖新. 基于动态信息传播演化模式的虚假信息检测方法及系统:CN202210601021.3[P]. 2023-03-28.</p>
-                        </li>
-                        <li>
-                            周鼎, 贺磊, 韩晓鹏, 曹植纲, 刘波, 曹玖新, <strong>郝宵荣</strong>, 仇智寅. 系统安全性评估方法、装置、设备、存储介质和程序产品:CN202310933342.8[P]. 2023-10-10.</p>
-                        </li>
-                        <li>
-                            ZHOU, Ding周鼎 HE, Lei贺磊 HAN, Xiaopeng韩晓鹏 CAO, Zhigang曹植纲 LIU, Bo刘波 CAO, Jiuxin曹玖新 HAO, <strong>Xiaorong郝宵荣</strong> QIU, Zhiyin仇智寅. SYSTEM SECURITY ASSESSMENT METHOD AND APPARATUS, AND DEVICE, STORAGE MEDIUM AND PROGRAM PRODUCT:CNCN2024/100427[P]. 2025-01-30.</p>
-                        </li>
-                        <li>
-                            曹玖新, 仇智寅, 刘波, <strong>郝宵荣</strong>. 一种基于置信度与异构度的执行体调度方法:CN202211359120.1[P]. 2023-01-31.</p>
-                        </li>
-                        <li>
-                            曹玖新, 仇智寅, 刘波, 周鼎, 贺磊, <strong>郝宵荣</strong>. 流量数据的风险检测方法、装置及电子设备:CN202311106996.X[P]. 2023-12-08.</p>
-                        </li>
-                        <li>
-                            韩晓鹏, 贺磊, 周鼎, 曹植纲, 高冬展, <strong>郝宵荣</strong>. 一种网络威胁检测系统、方法、设备及存储介质:CN202310723891.2[P]. 2023-08-22.</p>
-                        </li>
-                        <li>
-                            贺磊, 韩晓鹏, 周鼎, 曹植纲, 高冬展, <strong>郝宵荣</strong>. 新型电力系统态势的安全风险评估方法、装置及存储介质:CN202311850564.X[P]. 2024-03-29.</p>
-                        </li>
-                    </ul>
+                <div class="subsection-label">
+                    <i class="fas fa-certificate"></i>
+                    <span class="zh">专利</span>
+                    <span class="en">Patents</span>
+                </div>
+
+                <ul class="publication-list">
+                    <li>
+                        <span class="zh">周鼎, <strong>郝宵荣</strong>, 韩晓鹏, 曹植纲, 贺磊, 刘波, 鄢昕, 张盛翔. 横向移动检测方法、存储介质及电子设备:CN202311778789.9[P]. 2024-02-27.</span>
+                        <span class="en">Ding Zhou, <strong>Xiaorong Hao</strong>, Xiaopeng Han, Zhigang Cao, Lei He, Bo Liu, Xin Yan, Shengxiang Zhang. Lateral Movement Detection Method, Storage Medium and Electronic Device: CN202311778789.9[P]. 2024-02-27.</span>
+                    </li>
+                    <li>
+                        <span class="zh">刘波, 杨欣妍, <strong>郝宵荣</strong>, 曹玖新. 基于动态信息传播演化模式的虚假信息检测方法及系统:CN202210601021.3[P]. 2023-03-28.</span>
+                        <span class="en">Bo Liu, Xinyan Yang, <strong>Xiaorong Hao</strong>, Jiuxin Cao. Disinformation Detection Method and System Based on Dynamic Information Propagation Evolution Patterns: CN202210601021.3[P]. 2023-03-28.</span>
+                    </li>
+                    <li>
+                        <span class="zh">周鼎, 贺磊, 韩晓鹏, 曹植纲, 刘波, 曹玖新, <strong>郝宵荣</strong>, 仇智寅. 系统安全性评估方法、装置、设备、存储介质和程序产品:CN202310933342.8[P]. 2023-10-10.</span>
+                        <span class="en">Ding Zhou, Lei He, Xiaopeng Han, Zhigang Cao, Bo Liu, Jiuxin Cao, <strong>Xiaorong Hao</strong>, Zhiyin Qiu. System Security Assessment Method and Apparatus, Device, Storage Medium and Program Product: CN202310933342.8[P]. 2023-10-10.</span>
+                    </li>
+                    <li>
+                        <span class="zh">ZHOU, Ding 周鼎, HE, Lei 贺磊, HAN, Xiaopeng 韩晓鹏, CAO, Zhigang 曹植纲, LIU, Bo 刘波, CAO, Jiuxin 曹玖新, HAO, <strong>Xiaorong 郝宵荣</strong>, QIU, Zhiyin 仇智寅. SYSTEM SECURITY ASSESSMENT METHOD AND APPARATUS, AND DEVICE, STORAGE MEDIUM AND PROGRAM PRODUCT:CNCN2024/100427[P]. 2025-01-30.</span>
+                        <span class="en">ZHOU, Ding; HE, Lei; HAN, Xiaopeng; CAO, Zhigang; LIU, Bo; CAO, Jiuxin; HAO, <strong>Xiaorong</strong>; QIU, Zhiyin. SYSTEM SECURITY ASSESSMENT METHOD AND APPARATUS, AND DEVICE, STORAGE MEDIUM AND PROGRAM PRODUCT: CNCN2024/100427[P]. 2025-01-30.</span>
+                    </li>
+                    <li>
+                        <span class="zh">曹玖新, 仇智寅, 刘波, <strong>郝宵荣</strong>. 一种基于置信度与异构度的执行体调度方法:CN202211359120.1[P]. 2023-01-31.</span>
+                        <span class="en">Jiuxin Cao, Zhiyin Qiu, Bo Liu, <strong>Xiaorong Hao</strong>. An Executor Scheduling Method Based on Confidence and Heterogeneity: CN202211359120.1[P]. 2023-01-31.</span>
+                    </li>
+                    <li>
+                        <span class="zh">曹玖新, 仇智寅, 刘波, 周鼎, 贺磊, <strong>郝宵荣</strong>. 流量数据的风险检测方法、装置及电子设备:CN202311106996.X[P]. 2023-12-08.</span>
+                        <span class="en">Jiuxin Cao, Zhiyin Qiu, Bo Liu, Ding Zhou, Lei He, <strong>Xiaorong Hao</strong>. Risk Detection Method and Apparatus for Traffic Data, and Electronic Device: CN202311106996.X[P]. 2023-12-08.</span>
+                    </li>
+                    <li>
+                        <span class="zh">韩晓鹏, 贺磊, 周鼎, 曹植纲, 高冬展, <strong>郝宵荣</strong>. 一种网络威胁检测系统、方法、设备及存储介质:CN202310723891.2[P]. 2023-08-22.</span>
+                        <span class="en">Xiaopeng Han, Lei He, Ding Zhou, Zhigang Cao, Dongzhan Gao, <strong>Xiaorong Hao</strong>. Network Threat Detection System, Method, Device and Storage Medium: CN202310723891.2[P]. 2023-08-22.</span>
+                    </li>
+                    <li>
+                        <span class="zh">贺磊, 韩晓鹏, 周鼎, 曹植纲, 高冬展, <strong>郝宵荣</strong>. 新型电力系统态势的安全风险评估方法、装置及存储介质:CN202311850564.X[P]. 2024-03-29.</span>
+                        <span class="en">Lei He, Xiaopeng Han, Ding Zhou, Zhigang Cao, Dongzhan Gao, <strong>Xiaorong Hao</strong>. Security Risk Assessment Method, Apparatus and Storage Medium for New Power System Situations: CN202311850564.X[P]. 2024-03-29.</span>
+                    </li>
+                </ul>
             </section>
-            
+
             <!-- 项目经历部分 -->
             <section id="projects" class="section">
-                <h2 class="section-title">项目经历</h2>
-                
+                <h2 class="section-title">
+                    <span class="zh">项目经历</span>
+                    <span class="en">Research Projects</span>
+                </h2>
+
                 <div class="project">
-                    <div class="project-title"><i class="fas fa-graduation-cap"></i> 博士研究生期间项目</div>
-                        <div class="project">
-                            <p>国家重点研发计划项目，云边协同的工业智能控制器安全防护技术，项目批准号：2022YFB3104301，2022 年 11 月 ~ 2025 年 10 月，主要参与人</p>
-                            <p>国家自然科学基金项目，网络舆论演化趋势感知的多角色Agent柔性引导机制研究， 项目批准号：62472092， 2025 年 1 月 ~ 2028 年 12 月，主要参与人</p>
-                            <p>国家自然科学基金项目，基于多维画像的社交媒体异常行为分析与检测，项目批准号：61972087，2020 年 1 月 ∼ 2023 年 12 月，主要参与人</p>
-                            <p>横向课题，智能广义鲁棒控制基础理论， 2021 年 1 月 2023 年 12 月，主要参与人</p>
-                            <p>横向课题，内生安全基础理论与工具链研究, 2024 年 1 月 2026 年 12 月，主要参与人</p>
-<!--                            <p>山西省研究生教育创新项目，动力学未知的多智能体系统的最优编队控制，项目批准号：2019BY034，主要参与人</p>-->
-                        </div>
-<!--                    <div class="project">-->
-<!--                        <h3 class="project-title">智慧校园管理系统</h3>-->
-<!--                        <div class="project-period">项目时间：202X年-X月至202X年-X月</div>-->
-<!--                        <div class="project-description">-->
-<!--                            该系统主要实现了两项内容，一是校园活动管理，二是校园事务处理。负责软件编程设计的整个流程，熟悉了软件编程的完整流程，提升了编程能力。-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    -->
-<!--                    <div class="project">-->
-<!--                        <h3 class="project-title">就业数据信息挖掘</h3>-->
-<!--                        <div class="project-period">项目时间：202X年-X月至202X年-X月</div>-->
-<!--                        <div class="project-description">-->
-<!--                            完成就业数据信息的挖掘，提供数据挖掘信息给指导学生工作的老师。负责数据的处理、统计、建模，分析山西省理工类学生人才外流的影响因素，提升了分析数据、处理数据等能力。-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                -->
-<!--                <div class="project">-->
-<!--                    <div class="project-title"><i class="fas fa-graduation-cap"></i> 本科期间项目</div>-->
-<!--                    -->
-<!--                    <div class="project">-->
-<!--                        <h3 class="project-title">基于VTK的医学影像处理及三维重建系统开发</h3>-->
-<!--                        <div class="project-period">项目时间：202X年-X月至202X年-X月</div>-->
-<!--                        <div class="project-description">-->
-<!--                            主要研究医学图像处理及三维重建系统开发的实现，负责整个系统的编程设计。-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    -->
-<!--                    <div class="project">-->
-<!--                        <h3 class="project-title">智能家庭监控系统</h3>-->
-<!--                        <div class="project-period">项目时间：202X年-X月至202X年-X月</div>-->
-<!--                        <div class="project-description">-->
-<!--                            主要完成了一个智能家庭监控系统，实现物联网实验箱中传感器的响应状态，负责实现APP端。-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    -->
-<!--                    <div class="project">-->
-<!--                        <h3 class="project-title">学生备忘录App</h3>-->
-<!--                        <div class="project-period">项目时间：202X年-X月至202X年-X月</div>-->
-<!--                        <div class="project-description">-->
-<!--                            设计并实现了一个学生专用的备忘录应用，支持课程提醒、作业管理和考试安排等功能。负责前端界面设计与后端数据存储模块的开发，熟悉了移动应用开发的完整流程。-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <div class="project-item">
+                        <p class="zh">太原理工大学基于大语言模型的创新与实践教育项目，2026 年 4 月 ~ 现在，主要负责人</p>
+                        <p class="en">TYUT Innovation and Practical Education Project Based on LLMs, 2026.04 – Present, Principal Investigator</p>
+                    </div>
+                    <div class="project-item">
+                        <p class="zh">国家重点研发计划项目，云边协同的工业智能控制器安全防护技术，项目批准号：2022YFB3104301，2022 年 11 月 ~ 2025 年 10 月，主要参与人</p>
+                        <p class="en">National Key R&amp;D Program of China, Security Protection Technology for Cloud-Edge Collaborative Industrial Intelligent Controllers, Grant No. 2022YFB3104301, Nov. 2022 – Oct. 2025, main participant</p>
+                    </div>
+                    <div class="project-item">
+                        <p class="zh">国家自然科学基金项目，网络舆论演化趋势感知的多角色 Agent 柔性引导机制研究，项目批准号：62472092，2025 年 1 月 ~ 2028 年 12 月，主要参与人</p>
+                        <p class="en">National Natural Science Foundation of China, Multi-role Agent Flexible Guidance Mechanism for Perceiving Online Public Opinion Evolution Trends, Grant No. 62472092, Jan. 2025 – Dec. 2028, main participant</p>
+                    </div>
+                    <div class="project-item">
+                        <p class="zh">国家自然科学基金项目，基于多维画像的社交媒体异常行为分析与检测，项目批准号：61972087，2020 年 1 月 ~ 2023 年 12 月，主要参与人</p>
+                        <p class="en">National Natural Science Foundation of China, Analysis and Detection of Abnormal Behaviors in Social Media Based on Multi-dimensional Profiling, Grant No. 61972087, Jan. 2020 – Dec. 2023, main participant</p>
+                    </div>
+                    <div class="project-item">
+                        <p class="zh">横向课题，智能广义鲁棒控制基础理论，2021 年 1 月 ~ 2023 年 12 月，主要参与人</p>
+                        <p class="en">Industry-Funded Project, Fundamental Theory of Intelligent Generalized Robust Control, Jan. 2021 – Dec. 2023, main participant</p>
+                    </div>
+                    <div class="project-item">
+                        <p class="zh">横向课题，内生安全基础理论与工具链研究，2024 年 1 月 ~ 2026 年 12 月，主要参与人</p>
+                        <p class="en">Industry-Funded Project, Fundamental Theory and Toolchain for Endogenous Security, Jan. 2024 – Dec. 2026, main participant</p>
+                    </div>
                 </div>
             </section>
 
             <!-- 奖励荣誉部分 -->
             <section id="awards" class="section">
-                <h2 class="section-title">奖励荣誉</h2>
+                <h2 class="section-title">
+                    <span class="zh">奖励荣誉</span>
+                    <span class="en">Honors &amp; Awards</span>
+                </h2>
 
-
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="award-grid">
                     <!-- 本科阶段 -->
-                    <div class="bg-green-50 border border-green-200 rounded-lg p-4">
-<!--                        <div class="flex items-center mb-3">-->
-<!--&lt;!&ndash;                            <i class="fas fa-university text-green-600 text-xl mr-2"></i>&ndash;&gt;-->
-<!--                            <h3 class="font-semibold text-lg text-green-800">本科期间</h3>-->
-<!--                        </div>-->
-                        <div>
-                            <i class="fas fa-trophy text-yellow-500 mt-1 mr-2"></i>
-                            <span><strong>2024中国网络空间安全协会开源安全奖励计划</strong>三等奖</span>
-                        </div>
-                        <div>
-                            <i class="fas fa-award text-yellow-600 mt-1 mr-2"></i>
-                            <span><strong>第16届全国计算机支持的协同工作与社会计算学术会议ChineseCSCW杯数据竞赛</strong>三等奖</span>
-                        </div>
-                        <div>
-                            <i class="fas fa-award text-yellow-600 mt-1 mr-2"></i>
-                            <span>第十九届研究生电子设计竞赛东南大学校级选拔赛第三等奖</span>
-                        </div>
+                    <div class="award-card green">
+                        <div class="award-card-title zh">本科阶段</div>
+                        <div class="award-card-title en">Undergraduate</div>
 
-                        <div>
-                            <i class="fas fa-trophy text-yellow-500 mt-1 mr-2"></i>
-                            <span>蓝桥杯程序设计竞赛（C/C++）省赛二等奖</span>
+                        <div class="award-line">
+                            <i class="fas fa-trophy" style="color:#eab308;"></i>
+                            <span class="zh"><strong>2024 中国网络空间安全协会开源安全奖励计划</strong> 三等奖</span>
+                            <span class="en">Third Prize, <strong>2024 Open-Source Security Reward Program, Cyberspace Security Association of China</strong></span>
                         </div>
-                        <div>
-                            <i class="fas fa-award text-yellow-600 mt-1 mr-2"></i>
-                            <span>蓝桥杯程序设计竞赛（Java）省赛三等奖</span>
+                        <div class="award-line">
+                            <i class="fas fa-award" style="color:#ca8a04;"></i>
+                            <span class="zh"><strong>第 16 届全国计算机支持的协同工作与社会计算学术会议 ChineseCSCW 杯数据竞赛</strong> 三等奖</span>
+                            <span class="en">Third Prize, <strong>ChineseCSCW Cup Data Competition, the 16th National Conference on Computer Supported Cooperative Work and Social Computing</strong></span>
                         </div>
-                        <div>
-                            <i class="fas fa-award text-yellow-600 mt-1 mr-2"></i>
-                            <span>山西省程序设计大赛排名 64/932 女生组排名第 6</span>
+                        <div class="award-line">
+                            <i class="fas fa-award" style="color:#ca8a04;"></i>
+                            <span class="zh">第十九届研究生电子设计竞赛东南大学校级选拔赛第三等奖</span>
+                            <span class="en">Third Prize, Southeast University Campus Selection, the 19th Graduate Electronic Design Competition</span>
                         </div>
-                        <div>
-                            <i class="fas fa-award text-yellow-600 mt-1 mr-2"></i>
-                            <span>“小码哥杯”全国 Java 程序设计比赛校赛二等奖</span>
+                        <div class="award-line">
+                            <i class="fas fa-trophy" style="color:#eab308;"></i>
+                            <span class="zh">蓝桥杯程序设计竞赛（C/C++）省赛二等奖</span>
+                            <span class="en">Second Prize (Provincial Level), Lanqiao Cup Programming Contest (C/C++)</span>
                         </div>
-                        <div>
-                            <i class="fas fa-award text-yellow-600 mt-1 mr-2"></i>
-                            <span>校国防知识竞赛二等奖</span>
+                        <div class="award-line">
+                            <i class="fas fa-award" style="color:#ca8a04;"></i>
+                            <span class="zh">蓝桥杯程序设计竞赛（Java）省赛三等奖</span>
+                            <span class="en">Third Prize (Provincial Level), Lanqiao Cup Programming Contest (Java)</span>
                         </div>
-
+                        <div class="award-line">
+                            <i class="fas fa-award" style="color:#ca8a04;"></i>
+                            <span class="zh">山西省程序设计大赛排名 64/932，女生组排名第 6</span>
+                            <span class="en">Ranked 64/932 in the Shanxi Provincial Programming Contest, 6th in the Female Group</span>
+                        </div>
+                        <div class="award-line">
+                            <i class="fas fa-award" style="color:#ca8a04;"></i>
+                            <span class="zh">“小码哥杯”全国 Java 程序设计比赛校赛二等奖</span>
+                            <span class="en">Second Prize (Campus Level), "Xiaomage Cup" National Java Programming Contest</span>
+                        </div>
+                        <div class="award-line">
+                            <i class="fas fa-award" style="color:#ca8a04;"></i>
+                            <span class="zh">校国防知识竞赛二等奖</span>
+                            <span class="en">Second Prize, University National Defense Knowledge Competition</span>
+                        </div>
                     </div>
 
                     <!-- 研究生阶段 -->
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4">
-<!--                        <div class="flex items-center mb-3">-->
-<!--&lt;!&ndash;                            <i class="fas fa-graduation-cap text-blue-600 text-xl mr-2"></i>&ndash;&gt;-->
-<!--                            <h3 class="font-semibold text-lg text-blue-800">研究生期间</h3>-->
-<!--                        </div>-->
-                        <div>
-                            <i class="fas fa-star text-yellow-400 mt-1 mr-2"></i>
-                            <span><strong>国家励志奖学金</strong>两次，综合素质一等奖学金，综合素质二等奖学金</span>
+                    <div class="award-card blue">
+                        <div class="award-card-title zh">研究生阶段</div>
+                        <div class="award-card-title en">Graduate</div>
+
+                        <div class="award-line">
+                            <i class="fas fa-star" style="color:#facc15;"></i>
+                            <span class="zh"><strong>国家励志奖学金</strong>两次，综合素质一等奖学金，综合素质二等奖学金</span>
+                            <span class="en"><strong>National Encouragement Scholarship</strong> (twice), First-Class Comprehensive Quality Scholarship, Second-Class Comprehensive Quality Scholarship</span>
                         </div>
-                        <div>
-                            <i class="fas fa-trophy text-yellow-500 mt-1 mr-2"></i>
-                            <span>东南大学2021-2022三好研究生</span>
+                        <div class="award-line">
+                            <i class="fas fa-trophy" style="color:#eab308;"></i>
+                            <span class="zh">东南大学 2021-2022 三好研究生</span>
+                            <span class="en">Outstanding Graduate Student, Southeast University, 2021–2022</span>
                         </div>
-                        <div>
-                            <i class="fas fa-medal text-gray-600 mt-1 mr-2"></i>
-                            <span>研究生学业奖学金二等奖学金</span>
+                        <div class="award-line">
+                            <i class="fas fa-medal" style="color:#6b7280;"></i>
+                            <span class="zh">研究生学业奖学金二等奖学金</span>
+                            <span class="en">Second-Class Graduate Academic Scholarship</span>
                         </div>
-                        <div>
-                            <i class="fas fa-medal text-gray-600 mt-1 mr-2"></i>
-                            <span>太原理工大学新生入学奖学金</span>
+                        <div class="award-line">
+                            <i class="fas fa-medal" style="color:#6b7280;"></i>
+                            <span class="zh">太原理工大学新生入学奖学金</span>
+                            <span class="en">Freshman Enrollment Scholarship, Taiyuan University of Technology</span>
                         </div>
-                        <div>
-                            <i class="fas fa-star text-yellow-400 mt-1 mr-2"></i>
-                            <span>中北大学计算机与控制工程学院校友奖学金，中北大学校友学业优秀奖学金，单项奖学金</span>
+                        <div class="award-line">
+                            <i class="fas fa-star" style="color:#facc15;"></i>
+                            <span class="zh">中北大学计算机与控制工程学院校友奖学金，中北大学校友学业优秀奖学金，单项奖学金</span>
+                            <span class="en">Alumni Scholarship of the School of Computer and Control Engineering, NUC; Alumni Academic Excellence Scholarship, NUC; Special Merit Scholarship</span>
                         </div>
-                        <div>
-                            <i class="fas fa-users text-blue-500 mt-1 mr-2"></i>
-                            <span>中北大学院级优秀团员，中北大学校级优秀团员</span>
+                        <div class="award-line">
+                            <i class="fas fa-users" style="color:#3b82f6;"></i>
+                            <span class="zh">中北大学院级优秀团员，中北大学校级优秀团员</span>
+                            <span class="en">Outstanding League Member (School Level and University Level), North University of China</span>
                         </div>
                     </div>
                 </div>
             </section>
-                
-<!--                <div class="award">-->
-<!--                    <div class="award-year">2022年</div>-->
-<!--                    <div class="award-name">优秀研究生标兵</div>-->
-<!--                </div>-->
-<!--                -->
-<!--                <div class="award">-->
-<!--                    <div class="award-year">2021年</div>-->
-<!--                    <div class="award-name">山西省优秀毕业生</div>-->
-<!--                </div>-->
-<!--                -->
-<!--                <div class="award">-->
-<!--                    <div class="award-year">2020年</div>-->
-<!--                    <div class="award-name">全国大学生数学建模竞赛二等奖</div>-->
-<!--                </div>-->
-<!--                -->
-<!--                <div class="award">-->
-<!--                    <div class="award-year">2019年</div>-->
-<!--                    <div class="award-name">校级优秀学生干部</div>-->
-<!--                </div>-->
-<!--            </section>-->
-            
-            <!-- 专业技能部分 -->
-<!--            <section id="skills" class="section">-->
-<!--                <h2 class="section-title">专业技能</h2>-->
-<!--                -->
-<!--                <div class="skills-list">-->
-<!--                    <div class="skill-item">-->
-<!--                        <i class="fas fa-code mr-2"></i> 编程语言：Python, Java, C++, C, SQL-->
-<!--                    </div>-->
-<!--                    <div class="skill-item">-->
-<!--                        <i class="fas fa-database mr-2"></i> 数据库：MySQL, MongoDB-->
-<!--                    </div>-->
-<!--                    <div class="skill-item">-->
-<!--                        <i class="fas fa-project-diagram mr-2"></i> 数据处理：Pandas, NumPy, Matplotlib，Gephi-->
-<!--                    </div>-->
-<!--                    <div class="skill-item">-->
-<!--                        <i class="fas fa-cloud mr-2"></i> 网络与云计算：Docker, mininet,ONOS,NFV-->
-<!--                    </div>-->
-<!--                    <div class="skill-item">-->
-<!--                        <i class="fas fa-mobile-alt mr-2"></i> 移动开发：Android,-->
-<!--                    </div>-->
-<!--                    <div class="skill-item">-->
-<!--                        <i class="fas fa-users mr-2"></i> 英语能力：CET-6，口试 B-->
-<!--                    </div>-->
-<!--                    <div class="skill-item">-->
-<!--                        <i class="fas fa-file-alt mr-2"></i> 写作能力：发表多篇学术论文，参与撰写多个项目-->
-<!--                    </div>-->
-<!--                    <div class="skill-item">-->
-<!--                        <i class="fas fa-chart-line mr-2"></i> 人工智能模型及算法：SVM,RF,GBDT,GNN,RNN,GAN,DQN...-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </section>-->
-            
+
             <!-- 学术服务部分 -->
             <section id="phd" class="section">
-                <h2 class="section-title">学术服务</h2>
-                
-                <ul class="list-disc pl-5 my-3">
-                    <li>参与多个知名期刊（例如CCF-A类期刊 （TDSC）和一区期刊IOTs、KBS）的稿件评阅工作</li>
-                    <li>曾担任第三/四届网络空间内生安全发展大会分论坛会务统筹员；</li>
-                    <li>曾担任第五/六届"强网"拟态防御国际精英挑战赛裁判和运维人员。</li>
+                <h2 class="section-title">
+                    <span class="zh">学术服务</span>
+                    <span class="en">Academic Service</span>
+                </h2>
+
+                <ul class="service-list">
+                    <li>
+                        <span class="zh">参与多个知名期刊（例如 CCF-A 类期刊 TDSC 和一区期刊 IoTs、KBS）的稿件评阅工作</span>
+                        <span class="en">Serves as a reviewer for several well-known journals, including the CCF-A journal TDSC and CAS Tier-1 journals IoTs and KBS</span>
+                    </li>
+                    <li>
+                        <span class="zh">曾担任第三/四届网络空间内生安全发展大会分论坛会务统筹员</span>
+                        <span class="en">Served as a session coordinator for the 3rd/4th Cyberspace Endogenous Security Development Conference</span>
+                    </li>
+                    <li>
+                        <span class="zh">曾担任第五/六届“强网”拟态防御国际精英挑战赛裁判和运维人员</span>
+                        <span class="en">Served as a judge and operations staff member for the 5th/6th "Qiangwang" Mimic Defense International Elite Challenge</span>
+                    </li>
                 </ul>
-                
-<!--                <p>我希望能够在导师的指导下，深入研究这些领域的前沿问题，开发创新的算法和模型，为解决实际应用中的复杂问题做出贡献。我相信我的学术背景和研究经验使我具备了攻读博士学位的能力和潜力。</p>-->
             </section>
-            <!-- 部分成果展示 -->
-            <!-- 万花筒部分 -->
-<!--            <section id="self" class="section">-->
-<!--                <h2 class="section-title">万花筒</h2>-->
-<!--                &lt;!&ndash; 图片画廊 &ndash;&gt;-->
-<!--                <div class="mb-8">-->
-<!--                    <h3 class="text-xl font-semibold mb-4 text-gray-800">我的相册</h3>-->
-<!--                    <div class="grid grid-cols-3 gap-4">-->
-<!--                        &lt;!&ndash; 使用 max-h-[自定义值] 或标准高度类 &ndash;&gt;-->
-<!--                        <img src="./images/内生安全大会.png" alt="照片1" style="width:25%; height:30%; object-fit:cover; border-radius:0.5rem;">-->
-<!--                        <img src="./images/旱地冰壶.png" alt="照片3" style="width:25%; height:30%; object-fit:cover; border-radius:0.5rem;">-->
-<!--                        <img src="./images/吹笛子.png" alt="照片2" style="width:9%; height:1%; object-fit:cover; border-radius:0.5rem;">-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                </section>-->
-                <!-- 视频展示 -->
-<!--                <div>-->
-<!--                    <h3 class="text-xl font-semibold mb-4 text-gray-800">视频分享</h3>-->
-
-<!--                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">-->
-<!--                        &lt;!&ndash; 视频1 &ndash;&gt;-->
-<!--                        <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-xl">-->
-<!--                            <div class="relative aspect-video">-->
-<!--                                <img src="https://picsum.photos/seed/video1/800/450" alt="视频封面1" class="w-full h-full object-cover">-->
-<!--                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">-->
-<!--                                    <button class="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white shadow-lg transform transition duration-300 hover:bg-blue-700 hover:scale-110">-->
-<!--                                        <i class="fas fa-play text-xl"></i>-->
-<!--                                    </button>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="p-4">-->
-<!--                                <h4 class="font-medium text-gray-900 mb-1">科研项目演示</h4>-->
-<!--                                <p class="text-sm text-gray-600">动态网络链接预测模型演示</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-
-<!--                        &lt;!&ndash; 视频2 &ndash;&gt;-->
-<!--                        <div class="bg-white rounded-lg shadow-md overflow-hidden transition duration-300 hover:shadow-xl">-->
-<!--                            <div class="relative aspect-video">-->
-<!--                                <img src="https://picsum.photos/seed/video2/800/450" alt="视频封面2" class="w-full h-full object-cover">-->
-<!--                                <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">-->
-<!--                                    <button class="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white shadow-lg transform transition duration-300 hover:bg-blue-700 hover:scale-110">-->
-<!--                                        <i class="fas fa-play text-xl"></i>-->
-<!--                                    </button>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="p-4">-->
-<!--                                <h4 class="font-medium text-gray-900 mb-1">学术会议报告</h4>-->
-<!--                                <p class="text-sm text-gray-600">基于深度学习的社交网络分析</p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-
-            <!-- 自我评价部分 -->
-<!--            <section id="self" class="section">-->
-<!--                <h2 class="section-title">自我评价</h2>-->
-<!--                -->
-<!--                <p>在学术研究方面，我具备扎实的数据科学基础和丰富的研究经验，尤其在动态网络链接预测领域取得了一定的成果。我善于独立思考，具备良好的问题解决能力和创新思维。在多个科研项目中，我负责了从问题分析、算法设计到实验验证的全过程，积累了系统的科研方法和实践经验。</p>-->
-<!--                -->
-<!--                <p>在专业技能方面，我熟练掌握多种编程语言和工具，能够独立完成数据处理、模型构建和实验分析等工作。我注重技术的学习和更新，不断探索新的研究方法和技术手段，以适应快速发展的学术和产业需求。</p>-->
-<!--                -->
-<!--                <p>在团队协作方面，我具有良好的沟通能力和团队合作精神，能够与不同背景的研究人员有效合作。在科研项目中，我与导师和同学保持密切沟通，积极参与讨论和交流，共同推动项目的进展。</p>-->
-<!--                -->
-<!--                <p>未来，我将继续保持对科研的热情和好奇心，不断挑战自我，努力在数据科学领域取得更深入的研究成果。</p>-->
-<!--            </section>-->
-        </div>
+        </main>
     </div>
-    
+
+    <!-- 回到顶部按钮 -->
+    <button class="back-to-top" id="backToTop" aria-label="回到顶部">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script>
-        // 导航栏切换功能
         document.addEventListener('DOMContentLoaded', function() {
             const navItems = document.querySelectorAll('.nav-item');
             const sections = document.querySelectorAll('.section');
             const sidebar = document.getElementById('sidebar');
             const mainContent = document.getElementById('mainContent');
             const navToggle = document.getElementById('navToggle');
+            const langToggle = document.getElementById('langToggle');
+            const langLabel = document.getElementById('langLabel');
+            const backToTop = document.getElementById('backToTop');
 
-            // 初始化：隐藏所有区块，只显示第一个
+            /* ================= 中英文切换 ================= */
+            function setLanguage(lang) {
+                const isEn = (lang === 'en');
+                document.documentElement.setAttribute('lang', isEn ? 'en' : 'zh-CN');
+                document.title = isEn ? 'Xiaorong Hao - Homepage' : '郝宵荣 - 个人主页';
+                langLabel.textContent = isEn ? '中文' : 'EN';
+                langToggle.setAttribute('aria-label', isEn ? '切换到中文' : 'Switch to English');
+                try {
+                    localStorage.setItem('preferred-lang', isEn ? 'en' : 'zh');
+                } catch (e) { /* 忽略隐私模式下的存储异常 */ }
+            }
+
+            langToggle.addEventListener('click', function() {
+                const nextLang = document.documentElement.getAttribute('lang') === 'en' ? 'zh' : 'en';
+                setLanguage(nextLang);
+            });
+
+            let savedLang = 'zh';
+            try {
+                savedLang = localStorage.getItem('preferred-lang') || 'zh';
+            } catch (e) { /* ignore */ }
+            setLanguage(savedLang);
+
+            /* ================= 页面区块切换 ================= */
+            // 初始只显示：个人信息、科研成果、项目经历
             function initSections() {
                 sections.forEach((section, index) => {
-                    if(index === 0 ||  index === 2 || index === 3) {
+                    if (index === 0 || index === 2 || index === 3) {
                         section.style.display = 'block';
                     } else {
                         section.style.display = 'none';
@@ -922,39 +1036,71 @@
                 });
             }
 
-            // 导航点击处理
+            function activateSection(target, scrollTo = true) {
+                // 更新导航激活状态
+                navItems.forEach(i => {
+                    i.classList.toggle('active', i.getAttribute('data-target') === target);
+                });
+
+                // 显示目标区块
+                sections.forEach(section => {
+                    if (section.id === target) {
+                        section.style.display = 'block';
+                        // 重播动画
+                        section.style.animation = 'none';
+                        void section.offsetWidth;
+                        section.style.animation = 'fadeIn 0.4s ease-out forwards';
+
+                        if (scrollTo) {
+                            setTimeout(() => {
+                                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }, 50);
+                        }
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+
+                // 更新 URL hash（不跳动）
+                if (history.replaceState) {
+                    history.replaceState(null, '', '#' + target);
+                }
+            }
+
             navItems.forEach(item => {
                 item.addEventListener('click', function() {
-                    // 移除所有活动状态
-                    navItems.forEach(i => i.classList.remove('active'));
-                    // 添加当前活动状态
-                    this.classList.add('active');
-
-                    // 隐藏所有区块
-                    sections.forEach(section => {
-                        section.style.display = 'none';
-                    });
-
-                    // 显示对应区块
                     const target = this.getAttribute('data-target');
-                    const targetSection = document.getElementById(target);
-                    if(targetSection) {
-                        targetSection.style.display = 'block';
-
-                        // 平滑滚动到该区块
-                        targetSection.scrollIntoView({ behavior: 'smooth' });
-                    }
+                    activateSection(target);
                 });
             });
 
-            // 侧边栏折叠/展开
+            // 支持 URL hash 直达
+            const hash = window.location.hash.replace('#', '');
+            if (hash && document.getElementById(hash) && ['about', 'direction', 'research', 'projects', 'awards', 'phd'].includes(hash)) {
+                initSections();
+                activateSection(hash, false);
+            } else {
+                initSections();
+            }
+
+            /* ================= 侧边栏折叠 ================= */
             navToggle.addEventListener('click', function() {
                 sidebar.classList.toggle('collapsed');
                 mainContent.classList.toggle('collapsed');
             });
 
-            // 初始化页面
-            initSections();
+            /* ================= 回到顶部按钮 ================= */
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) {
+                    backToTop.classList.add('visible');
+                } else {
+                    backToTop.classList.remove('visible');
+                }
+            });
+
+            backToTop.addEventListener('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
         });
     </script>
 </body>
